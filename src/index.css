@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  border-width: 0;
+  box-sizing: border-box;
+}
+
+.lotion [contenteditable='true']:focus-visible,
+.lotion [contenteditable='true']:focus {
+  outline: none;
+}
+
+.lotion [contenteditable]:empty:after {
+  content: attr(data-ph);
+  color: rgba(0, 0, 0, 0.2);
+  cursor: text;
+}
+
+.lotion p,
+pre.lotion-md {
+  margin: 0;
+}
+
+pre.lotion-md {
+  font-family: theme('fontFamily.mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace);
+  font-size: 1em;
+}
+
+.lotion-ghost {
+  opacity: 1;
+  background: #F5F5F5;
+}
+
+.lotion .ProseMirror:focus p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #adb5bd;
+  pointer-events: none;
+  height: 0;
+}
