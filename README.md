@@ -1,4 +1,4 @@
-<h1 align="center"><b>🧴 Lotion</b></h1>
+<h1 align="center"><b>🤖 simulai</b></h1>
 <p align="center">
   simulai is a Notion-inspired open-source chatbot builder.
 </p>
