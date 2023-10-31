@@ -2,6 +2,7 @@ import TextBlock from '@/components/blocks/TextBlock.vue'
 import DividerBlock from '@/components/blocks/DividerBlock.vue'
 import HeadingBlock from '@/components/blocks/HeadingBlock.vue'
 import QuoteBlock from '@/components/blocks/QuoteBlock.vue'
+import OptionsBlock from '@/components/blocks/OptionsBlock.vue'
 
 
 export interface Block {
@@ -16,7 +17,8 @@ export enum BlockType {
   H2 = 'H2',
   H3 = 'H3',
   Divider = 'DIVIDER',
-  Quote = 'QUOTE'
+  Quote = 'QUOTE',
+  Options = 'OPTIONS'
 }
 
 export interface Details {
@@ -31,6 +33,7 @@ export const BlockComponents = {
   [BlockType.H3]: HeadingBlock,
   [BlockType.Divider]: DividerBlock,
   [BlockType.Quote]: QuoteBlock,
+  [BlockType.Options]: OptionsBlock,
 }
 
 export const textBlockMap = [BlockType.Text, BlockType.Quote]
@@ -76,5 +79,12 @@ export const availableBlockTypes = [
     label: 'Quote',
     blockType: BlockType.Quote,
     canSplit: true,
+  },
+  {
+    type: 'Turn into',
+    icon: 'md-checkbox-outlined',
+    label: 'Options',
+    blockType: BlockType.Options,
+    canSplit: false,
   },
 ] as { type:string, icon:string, label:string, blockType:BlockType|string, canSplit:boolean }[]

@@ -1,31 +1,33 @@
-import { createApp } from 'vue'
-import { OhVueIcon, addIcons } from "oh-vue-icons"
+import {createApp} from 'vue'
+import {OhVueIcon, addIcons} from "oh-vue-icons"
 import {
-  MdDragindicator,
-  HiTrash,
-  HiPlus,
-  HiSolidSearch,
-  BiTextLeft,
-  BiTypeH1,
-  BiTypeH2,
-  BiTypeH3,
-  BiHr,
-  BiQuote
+    MdDragindicator,
+    HiTrash,
+    HiPlus,
+    HiSolidSearch,
+    BiTextLeft,
+    BiTypeH1,
+    BiTypeH2,
+    BiTypeH3,
+    BiHr,
+    BiQuote,
+    MdCheckboxOutlined
 } from "oh-vue-icons/icons"
 import App from './App.vue'
 import './index.css'
 
 addIcons(
-  MdDragindicator,
-  HiTrash,
-  HiPlus,
-  HiSolidSearch,
-  BiTextLeft,
-  BiTypeH1,
-  BiTypeH2,
-  BiTypeH3,
-  BiHr,
-  BiQuote
+    MdDragindicator,
+    HiTrash,
+    HiPlus,
+    HiSolidSearch,
+    BiTextLeft,
+    BiTypeH1,
+    BiTypeH2,
+    BiTypeH3,
+    BiHr,
+    BiQuote,
+    MdCheckboxOutlined
 )
 
 const app = createApp(App)
