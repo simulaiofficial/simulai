@@ -1,10 +1,8 @@
 <template>
-  <Editor v-if="!props.readonly"
+  <Editor
     v-model="props.block.details.value"
     class="py-1.5 border-l-3 border-black border-solid px-3"
   />
-  <div v-else v-html="markdownToHtml(props.block.details.value as string)"
-    class="py-1.5 border-l-3 border-black border-solid px-3"></div>
 </template>
 
 <script setup lang="ts">
@@ -17,10 +15,6 @@ const props = defineProps({
   block: {
     type: Object as PropType<Block>,
     required: true,
-  },
-  readonly: {
-    type: Boolean,
-    default: false,
-  },
+  }
 });
 </script>

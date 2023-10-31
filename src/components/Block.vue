@@ -7,7 +7,6 @@
     }">
     <div class="h-full pl-4 pr-2 text-center cursor-pointer transition-all duration-150 text-neutral-300 flex"
       :class="{
-        'invisible': props.readonly,
         'py-3.5': block.type === BlockType.H1,
         'py-3': block.type === BlockType.H2,
         'py-2.5': block.type === BlockType.H3,
@@ -29,7 +28,7 @@
     <div class="w-full relative" :class="{ 'px-0': block.type !== BlockType.Divider }">
       <!-- Actual content -->
       <component :is="BlockComponents[props.block.type]" ref="content"
-        :block="block" :readonly="props.readonly"
+        :block="block"
         @keydown="keyDownHandler"
         @keyup="parseMarkdown" />
     </div>
@@ -55,11 +54,7 @@ const props = defineProps({
   blockTypes: {
     type: Object as PropType<null|(string|BlockType)[]>,
     default: null,
-  },
-  readonly: {
-    type: Boolean,
-    default: false,
-  },
+  }
 })
 
 const emit = defineEmits([
@@ -153,13 +148,13 @@ function keyDownHandler (event:KeyboardEvent) {
     }
   } else if (event.key === 'Backspace' && highlightedLength() === 0) {
     const selection = window.getSelection()
-    if (!(menu.value && menu.value.open) && atFirstChar() && selection && selection.anchorOffset === 0 && !props.readonly) {
+    if (!(menu.value && menu.value.open) && atFirstChar() && selection && selection.anchorOffset === 0) {
       event.preventDefault()
       emit('merge')
     }
   } else if (event.key === 'Enter') {
     event.preventDefault()
-    if (!(menu.value && menu.value.open) && !props.readonly) {
+    if (!(menu.value && menu.value.open)) {
       emit('split')
     }
   }

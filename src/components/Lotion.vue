@@ -1,6 +1,6 @@
 <template>
   <div class="lotion w-[65ch] mx-auto my-24 font-sans text-base" v-if="props.page" ref="editor">
-    <h1 id="title" ref="title" :contenteditable="!props.readonly" spellcheck="false" data-ph="Untitled"
+    <h1 id="title" ref="title" spellcheck="false" data-ph="Untitled"
       @keydown.enter.prevent="splitTitle"
       @keydown.down="blockElements[0]?.moveToFirstLine(); scrollIntoView();"
       @blur="props.page.name=($event.target as HTMLElement).innerText.replace('\n', '')"
@@ -13,7 +13,6 @@
       <transition-group type="transition">
         <BlockComponent :block="block" v-for="block, i in props.page.blocks" :key="i" :id="'block-'+block.id"
           :blockTypes="props.blockTypes"
-          :readonly="props.readonly"
           :ref="el => blockElements[i] = (el as unknown as typeof Block)"
           @deleteBlock="deleteBlock(i)"
           @newBlock="insertBlock(i)"
@@ -46,10 +45,6 @@ const props = defineProps({
   blockTypes: {
     type: Object as PropType<null|(string|BlockType)[]>,
     default: null,
-  },
-  readonly: {
-    type: Boolean,
-    default: false,
   },
   onSetAll: {
     type: Function as PropType<(block:Block) => void>,
