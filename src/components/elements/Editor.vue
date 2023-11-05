@@ -1,13 +1,16 @@
 <!-- Adapted from https://tiptap.dev/installation/vue3 -->
 <template>
   <editor-content :editor="editor" spellcheck="false"
-    @keyup.enter.capture.prevent="() => {}"
-    @keydown.enter.capture.prevent="() => {}" />
+                  @keyup.enter.capture.prevent="() => {}"
+                  @keydown.enter.capture.prevent="() => {}"
+  />
 </template>
 
 <script setup lang="ts">
-import { computed, watch } from 'vue'
+import {computed, watch} from 'vue'
+import BulletList from '@tiptap/extension-bullet-list'
 import Document from '@tiptap/extension-document'
+import ListItem from '@tiptap/extension-list-item'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import Bold from '@tiptap/extension-bold'
@@ -15,8 +18,8 @@ import Italic from '@tiptap/extension-italic'
 import History from '@tiptap/extension-history'
 import Placeholder from '@tiptap/extension-placeholder'
 import Link from '@tiptap/extension-link'
-import { useEditor, EditorContent } from '@tiptap/vue-3'
-import { markdownToHtml, htmlToMarkdown } from '@/utils/utils'
+import {useEditor, EditorContent} from '@tiptap/vue-3'
+import {markdownToHtml, htmlToMarkdown} from '@/utils/utils'
 
 const props = defineProps({
   modelValue: {
@@ -28,7 +31,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 
 const value = computed({
-  get () {
+  get() {
     const mdValue = props.modelValue
     if (mdValue) {
       return markdownToHtml(mdValue)
@@ -36,7 +39,7 @@ const value = computed({
       return '<p></p>'
     }
   },
-  set (newValue) {
+  set(newValue) {
     emit('update:modelValue', newValue)
   },
 })
@@ -52,11 +55,13 @@ const editor = useEditor({
     Link,
     Placeholder.configure({
       placeholder: 'Type \'/\' for a menu'
-    })
+    }),
+    BulletList,
+    ListItem
   ],
-  editorProps: { 
+  editorProps: {
     // Removing default behavior for drop event
-    handleDrop : () => true,
+    handleDrop: () => true,
   },
   content: value.value,
   onUpdate: () => {

@@ -1,12 +1,12 @@
 <template>
   <div class="group flex w-full rounded"
-    :class="{
+       :class="{
       // Add top margin for headings
       'pt-12 first:pt-0': block.type === BlockType.H1,
       'pt-4 first:pt-0': block.type === BlockType.H2,
     }">
     <div class="h-full pl-4 pr-2 text-center cursor-pointer transition-all duration-150 text-neutral-300 flex"
-      :class="{
+         :class="{
         'py-3.5': block.type === BlockType.H1,
         'py-3': block.type === BlockType.H2,
         'py-2.5': block.type === BlockType.H3,
@@ -14,30 +14,30 @@
       }">
       <Tooltip value="<span class='text-neutral-400'><span class='text-white'>Click</span> to delete block</span>">
         <v-icon name="hi-trash" @click="emit('deleteBlock')"
-          class="w-6 h-6 hover:bg-neutral-100 hover:text-neutral-400 p-0.5 rounded group-hover:opacity-100 opacity-0" />
+                class="w-6 h-6 hover:bg-neutral-100 hover:text-neutral-400 p-0.5 rounded group-hover:opacity-100 opacity-0"/>
       </Tooltip>
       <Tooltip value="<span class='text-neutral-400'><span class='text-white'>Click</span> to add block below</span>">
         <v-icon name="hi-plus" @click="emit('newBlock')"
-          class="w-6 h-6 hover:bg-neutral-100 hover:text-neutral-400 p-0.5 rounded group-hover:opacity-100 opacity-0" />
+                class="w-6 h-6 hover:bg-neutral-100 hover:text-neutral-400 p-0.5 rounded group-hover:opacity-100 opacity-0"/>
       </Tooltip>
       <BlockMenu ref="menu"
-        @setBlockType="setBlockType"
-        :blockTypes="props.block.details.blockTypes || props.blockTypes"
-        />
+                 @setBlockType="setBlockType"
+                 :blockTypes="props.block.details.blockTypes || props.blockTypes"
+      />
     </div>
     <div class="w-full relative" :class="{ 'px-0': block.type !== BlockType.Divider }">
       <!-- Actual content -->
       <component :is="BlockComponents[props.block.type]" ref="content"
-        :block="block"
-        @keydown="keyDownHandler"
-        @keyup="parseMarkdown" />
+                 :block="block"
+                 @keydown="keyDownHandler"
+                 @keyup="parseMarkdown"/>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, PropType } from 'vue'
-import { Block, BlockType, BlockComponents, isTextBlock } from '@/utils/types'
+import {ref, PropType} from 'vue'
+import {Block, BlockType, BlockComponents, isTextBlock} from '@/utils/types'
 import BlockMenu from './BlockMenu.vue'
 import Tooltip from './elements/Tooltip.vue'
 
@@ -52,7 +52,7 @@ const props = defineProps({
     },
   },
   blockTypes: {
-    type: Object as PropType<null|(string|BlockType)[]>,
+    type: Object as PropType<null | (string | BlockType)[]>,
     default: null,
   }
 })
@@ -69,7 +69,7 @@ const emit = defineEmits([
   'setBlockType',
 ])
 
-function getFirstChild () {
+function getFirstChild() {
   if (isTextBlock(props.block.type)) {
     if ((content.value as any).$el.firstChild.firstChild.childNodes.length > 1) {
       return (content.value as any).$el.firstChild.firstChild.firstChild
@@ -82,7 +82,7 @@ function getFirstChild () {
   }
 }
 
-function getLastChild () {
+function getLastChild() {
   if (isTextBlock(props.block.type)) {
     if ((content.value as any).$el.firstChild.firstChild.childNodes.length > 1) {
       return (content.value as any).$el.firstChild.firstChild.lastChild
@@ -95,7 +95,7 @@ function getLastChild () {
   }
 }
 
-function getInnerContent () {
+function getInnerContent() {
   if (isTextBlock(props.block.type)) {
     return (content.value as any).$el.firstChild.firstChild.firstChild
   } else {
@@ -103,19 +103,19 @@ function getInnerContent () {
   }
 }
 
-function getTextContent () {
+function getTextContent() {
   const innerContent = getInnerContent()
   if (innerContent) return innerContent.parentElement ? innerContent.parentElement.textContent : innerContent.textContent
   else return ''
 }
 
-function getHtmlContent () {
+function getHtmlContent() {
   const innerContent = getInnerContent()
   if (innerContent) return innerContent.parentElement.innerHTML
   else return ''
 }
 
-function keyDownHandler (event:KeyboardEvent) {
+function keyDownHandler(event: KeyboardEvent) {
   if (event.key === 'ArrowUp') {
     if (menu.value?.open) {
       event.preventDefault()
@@ -160,42 +160,42 @@ function keyDownHandler (event:KeyboardEvent) {
   }
 }
 
-function isContentBlock () {
+function isContentBlock() {
   return [BlockType.Text, BlockType.Quote, BlockType.H1, BlockType.H2, BlockType.H3].includes(props.block.type)
 }
 
 const content = ref<any>(null)
-const menu = ref<typeof BlockMenu|null>(null)
+const menu = ref<typeof BlockMenu | null>(null)
 
-function atFirstChar () {
+function atFirstChar() {
   const startCoord = getStartCoordinates()
   const coord = getCaretCoordinates()
   return coord?.x === startCoord.x && coord?.y === startCoord.y
 }
 
-function atLastChar () {
+function atLastChar() {
   const endCoord = getEndCoordinates()
   const coord = getCaretCoordinates()
   return coord?.x === endCoord.x && coord?.y === endCoord.y
 }
 
-function atFirstLine () {
+function atFirstLine() {
   const startCoord = getStartCoordinates()
   const coord = getCaretCoordinates()
   return coord?.y === startCoord.y
 }
 
-function atLastLine () {
+function atLastLine() {
   const endCoord = getEndCoordinates()
   const coord = getCaretCoordinates()
   return coord?.y === endCoord.y
 }
 
-function highlightedLength () {
+function highlightedLength() {
   return window.getSelection()?.toString().length
 }
 
-function moveToStart () {
+function moveToStart() {
   if (isContentBlock()) {
     const firstChild = getFirstChild()
     if (firstChild) {
@@ -205,13 +205,13 @@ function moveToStart () {
       range.collapse(true)
       selection?.removeAllRanges()
       selection?.addRange(range)
-    } 
+    }
   } else {
     emit('moveToNextChar')
   }
 }
 
-function moveToEnd () {
+function moveToEnd() {
   if (isContentBlock()) {
     const lastChild = getLastChild()
     if (lastChild) {
@@ -221,13 +221,13 @@ function moveToEnd () {
       range.collapse()
       selection?.removeAllRanges()
       selection?.addRange(range)
-    } 
+    }
   } else {
     emit('moveToPrevChar')
   }
 }
 
-async function moveToFirstLine () {
+async function moveToFirstLine() {
   if (isContentBlock()) {
     const textContent = getTextContent()
     if (!textContent) {
@@ -235,7 +235,7 @@ async function moveToFirstLine () {
     } else {
       let prevCoord = getCaretCoordinates()
       let prevDist = 99999
-      let caretPos = 1
+      let caretPos = 0
       while (true) {
         setCaretPos(caretPos)
         const newCoord = getCaretCoordinates()
@@ -251,13 +251,13 @@ async function moveToFirstLine () {
           caretPos += 1
         }
       }
-    } 
+    }
   } else {
     emit('moveToNextLine')
   }
 }
 
-async function moveToLastLine () {
+async function moveToLastLine() {
   if (isContentBlock()) {
     const textContent = getTextContent()
     if (!textContent) {
@@ -287,7 +287,7 @@ async function moveToLastLine () {
   }
 }
 
-function getCaretCoordinates () {
+function getCaretCoordinates() {
   let x = 0, y = 0
   const selection = window.getSelection()
   if ((selection?.rangeCount as number) > 0) {
@@ -302,13 +302,13 @@ function getCaretCoordinates () {
     const rect = range?.getBoundingClientRect()
     return rect
   }
-  return { x, y }
+  return {x, y}
 }
 
-function getCaretPos () {
+function getCaretPos() {
   const selection = window.getSelection()
   if (selection) {
-  if (isTextBlock(props.block.type)) {
+    if (isTextBlock(props.block.type)) {
       let offsetNode, offset = 0, tag = null
       let selectedNode = selection.anchorNode
       if (['STRONG', 'EM'].includes(selectedNode?.parentElement?.tagName as string)) {
@@ -330,19 +330,19 @@ function getCaretPos () {
         else offset += node.textContent.length
         offsetNode = node
       }
-      return { pos: offset + selection.anchorOffset, tag }
+      return {pos: offset + selection.anchorOffset, tag}
     } else {
-      return { pos: selection.anchorOffset }
+      return {pos: selection.anchorOffset}
     }
   } else {
-    return { pos: 0 }
+    return {pos: 0}
   }
 }
 
-function getCaretPosWithoutTags () {
+function getCaretPosWithoutTags() {
   const selection = window.getSelection()
   if (selection) {
-  if (isTextBlock(props.block.type)) {
+    if (isTextBlock(props.block.type)) {
       let offsetNode, offset = 0, tag = null
       let selectedNode = selection.anchorNode
       if (['STRONG', 'EM'].includes(selectedNode?.parentElement?.tagName as string)) {
@@ -362,19 +362,19 @@ function getCaretPosWithoutTags () {
         offset += node.textContent.length
         offsetNode = node
       }
-      return { pos: offset + selection.anchorOffset, tag }
+      return {pos: offset + selection.anchorOffset, tag}
     } else {
-      return { pos: selection.anchorOffset }
+      return {pos: selection.anchorOffset}
     }
   } else {
-    return { pos: 0 }
+    return {pos: 0}
   }
 }
 
-function setCaretPos (caretPos:number) {
+function setCaretPos(caretPos: number) {
   const innerContent = getInnerContent()
   if (innerContent) {
-  if (isTextBlock(props.block.type)) {
+    if (isTextBlock(props.block.type)) {
       let offsetNode, offset = 0
       const numNodes = (content.value as any).$el.firstChild.firstChild.childNodes.length
       for (const [i, node] of (content.value as any).$el.firstChild.firstChild.childNodes.entries()) {
@@ -392,6 +392,7 @@ function setCaretPos (caretPos:number) {
       selection?.removeAllRanges()
       selection?.addRange(range)
     } else {
+      debugger;
       const selection = window.getSelection()
       const range = document.createRange()
       range.setStart(innerContent, caretPos)
@@ -402,7 +403,7 @@ function setCaretPos (caretPos:number) {
   }
 }
 
-function getStartCoordinates () {
+function getStartCoordinates() {
   let x = 0, y = 0
   const firstChild = getFirstChild()
   if (firstChild) {
@@ -413,10 +414,10 @@ function getStartCoordinates () {
     x = rect.left
     y = rect.top
   }
-  return { x, y }
+  return {x, y}
 }
 
-function getEndCoordinates () {
+function getEndCoordinates() {
   let x = 0, y = 0
   const lastChild = getLastChild()
   if (lastChild) {
@@ -427,12 +428,12 @@ function getEndCoordinates () {
     x = rect.left
     y = rect.top
   }
-  return { x, y }
+  return {x, y}
 }
 
-function parseMarkdown (event:KeyboardEvent) {
+function parseMarkdown(event: KeyboardEvent) {
   const textContent = getTextContent()
-  if(!textContent) return
+  if (!textContent) return
 
   const markdownRegexpMap = {
     [BlockType.H1]: /^#\s(.*)$/,
@@ -444,7 +445,7 @@ function parseMarkdown (event:KeyboardEvent) {
 
   const handleMarkdownContent = (blockType: keyof typeof markdownRegexpMap) => {
     const newContent = textContent.replace(markdownRegexpMap[blockType], '$1')
-    
+
     emit('setBlockType', blockType)
     setTimeout(() => {
       props.block.details.value = newContent
@@ -472,18 +473,18 @@ function parseMarkdown (event:KeyboardEvent) {
   }
 }
 
-function setBlockType (blockType: BlockType, searchTermLength: number, openedWithSlash: boolean = false) {
+function setBlockType(blockType: BlockType, searchTermLength: number, openedWithSlash: boolean = false) {
   clearSearch(searchTermLength, blockType, openedWithSlash)
-    .then(caretPos => {
-      emit('setBlockType', blockType)
-      setTimeout(() => {
-        if (searchTermLength < 1 && !openedWithSlash) moveToEnd()
-        else setCaretPos(caretPos)
+      .then(caretPos => {
+        emit('setBlockType', blockType)
+        setTimeout(() => {
+          if (searchTermLength < 1 && !openedWithSlash) moveToEnd()
+          else setCaretPos(caretPos)
+        })
       })
-    })
 }
 
-async function clearSearch (searchTermLength: number, newBlockType: BlockType, openedWithSlash: boolean = false) {
+async function clearSearch(searchTermLength: number, newBlockType: BlockType, openedWithSlash: boolean = false) {
   // If openedWithSlash, searchTermLength = 0 but we still need to clear
   const pos = getCaretPosWithoutTags().pos
   let startIdx = pos - (searchTermLength ? searchTermLength + 1 : 0)
