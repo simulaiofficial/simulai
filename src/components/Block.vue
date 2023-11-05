@@ -57,6 +57,8 @@ const props = defineProps({
   }
 })
 
+const entersPressed = ref(0)
+
 const emit = defineEmits([
   'deleteBlock',
   'newBlock',
@@ -117,6 +119,7 @@ function getHtmlContent() {
 
 function keyDownHandler(event: KeyboardEvent) {
   if (event.key === 'ArrowUp') {
+    entersPressed.value = 0
     if (menu.value?.open) {
       event.preventDefault()
     }
@@ -126,6 +129,7 @@ function keyDownHandler(event: KeyboardEvent) {
       emit('moveToPrevLine')
     }
   } else if (event.key === 'ArrowDown') {
+    entersPressed.value = 0
     if (menu.value?.open) {
       event.preventDefault()
     }
@@ -135,28 +139,39 @@ function keyDownHandler(event: KeyboardEvent) {
       emit('moveToNextLine')
     }
   } else if (event.key === 'ArrowLeft') {
+    entersPressed.value = 0
     // If at first character, move to previous block
     if (atFirstChar()) {
       event.preventDefault()
       emit('moveToPrevChar')
     }
   } else if (event.key === 'ArrowRight') {
+    entersPressed.value = 0
     // If at last character, move to next block
     if (atLastChar()) {
       event.preventDefault()
       emit('moveToNextChar')
     }
   } else if (event.key === 'Backspace' && highlightedLength() === 0) {
+    entersPressed.value = 0
     const selection = window.getSelection()
     if (!(menu.value && menu.value.open) && atFirstChar() && selection && selection.anchorOffset === 0) {
       event.preventDefault()
       emit('merge')
     }
   } else if (event.key === 'Enter') {
-    event.preventDefault()
-    if (!(menu.value && menu.value.open)) {
-      emit('split')
+    entersPressed.value += 1
+
+    if(entersPressed.value === 2) {
+      entersPressed.value = 0
+      event.preventDefault()
+      emit('newBlock')
+      // if (!(menu.value && menu.value.open)) {
+      //   emit('split')
+      // }
     }
+  } else {
+    entersPressed.value = 0
   }
 }
 

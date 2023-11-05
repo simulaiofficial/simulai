@@ -1,8 +1,6 @@
 <!-- Adapted from https://tiptap.dev/installation/vue3 -->
 <template>
   <editor-content :editor="editor" spellcheck="false"
-                  @keyup.enter.capture.prevent="() => {}"
-                  @keydown.enter.capture.prevent="() => {}"
   />
 </template>
 
@@ -12,6 +10,8 @@ import BulletList from '@tiptap/extension-bullet-list'
 import Document from '@tiptap/extension-document'
 import ListItem from '@tiptap/extension-list-item'
 import Paragraph from '@tiptap/extension-paragraph'
+import TaskItem from '@tiptap/extension-task-item'
+import TaskList from '@tiptap/extension-task-list'
 import Text from '@tiptap/extension-text'
 import Bold from '@tiptap/extension-bold'
 import Italic from '@tiptap/extension-italic'
@@ -57,7 +57,11 @@ const editor = useEditor({
       placeholder: 'Type \'/\' for a menu'
     }),
     BulletList,
-    ListItem
+    ListItem,
+    TaskList,
+    TaskItem.configure({
+      nested: true,
+    }),
   ],
   editorProps: {
     // Removing default behavior for drop event
@@ -65,11 +69,13 @@ const editor = useEditor({
   },
   content: value.value,
   onUpdate: () => {
+    debugger;
     value.value = htmlToMarkdown(editor.value?.getHTML() || '')
   },
 })
 
 watch(() => props.modelValue, value => {
+  debugger;
   const isSame = htmlToMarkdown(editor.value?.getHTML() || '') === value
   if (isSame) return
   editor.value?.commands.setContent(markdownToHtml(value), false)
