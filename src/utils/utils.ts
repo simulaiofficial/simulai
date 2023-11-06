@@ -15,8 +15,8 @@ export function markdownToHtml(mdString: string) {
     // Adapted from https://randyperkins2k.medium.com/writing-a-simple-markdown-parser-using-javascript-1f2e9449a558
     return mdString
         .replace(/\\\*/g, '\\*\\*')
-        .replace(/_p/g, '<p>')
-        .replace(/p_/g, '</p>')
+        // .replace(/_p/g, '<p>')
+        // .replace(/p_/g, '</p>')
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
         .replace(/\*(.*?)\*/g, '<em>$1</em>')
         .replaceAll('\\<em>\\</em>', '*')
@@ -28,8 +28,8 @@ export function markdownToHtml(mdString: string) {
 
 export function htmlToMarkdown(htmlString: string) {
     return htmlString
-        .replaceAll('<p>', '_p')
-        .replaceAll('</p>', 'p_')
+        // .replaceAll('<p>', '_p')
+        // .replaceAll('</p>', 'p_')
         .replaceAll('<strong>', '**')
         .replaceAll('</strong>', '**')
         .replaceAll('<em>', '*')

@@ -407,7 +407,6 @@ function setCaretPos(caretPos: number) {
       selection?.removeAllRanges()
       selection?.addRange(range)
     } else {
-      debugger;
       const selection = window.getSelection()
       const range = document.createRange()
       range.setStart(innerContent, caretPos)

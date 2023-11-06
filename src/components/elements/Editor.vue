@@ -69,13 +69,11 @@ const editor = useEditor({
   },
   content: value.value,
   onUpdate: () => {
-    debugger;
     value.value = htmlToMarkdown(editor.value?.getHTML() || '')
   },
 })
 
 watch(() => props.modelValue, value => {
-  debugger;
   const isSame = htmlToMarkdown(editor.value?.getHTML() || '') === value
   if (isSame) return
   editor.value?.commands.setContent(markdownToHtml(value), false)
