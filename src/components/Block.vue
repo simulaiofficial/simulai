@@ -157,7 +157,9 @@ function keyDownHandler(event: KeyboardEvent) {
     const selection = window.getSelection()
     if (!(menu.value && menu.value.open) && atFirstChar() && selection && selection.anchorOffset === 0) {
       event.preventDefault()
-      emit('merge')
+      if (isTextBlock(props.block.type)) {
+        emit('merge')
+      }
     }
   } else if (event.key === 'Enter') {
     entersPressed.value += 1
