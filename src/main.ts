@@ -11,7 +11,8 @@ import {
     BiTypeH3,
     BiHr,
     BiQuote,
-    MdCheckboxOutlined
+    MdCheckboxOutlined,
+    IoRadioButtonOnOutline
 } from "oh-vue-icons/icons"
 import App from './App.vue'
 import './index.css'
@@ -27,7 +28,8 @@ addIcons(
     BiTypeH3,
     BiHr,
     BiQuote,
-    MdCheckboxOutlined
+    MdCheckboxOutlined,
+    IoRadioButtonOnOutline
 )
 
 const app = createApp(App)

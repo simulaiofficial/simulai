@@ -3,7 +3,7 @@ import DividerBlock from '@/components/blocks/DividerBlock.vue'
 import HeadingBlock from '@/components/blocks/HeadingBlock.vue'
 import QuoteBlock from '@/components/blocks/QuoteBlock.vue'
 import OptionsBlock from '@/components/blocks/OptionsBlock.vue'
-
+import RadioBlock from '@/components/blocks/RadioBlock.vue'
 
 export interface Block {
   id: string,
@@ -18,7 +18,8 @@ export enum BlockType {
   H3 = 'H3',
   Divider = 'DIVIDER',
   Quote = 'QUOTE',
-  Options = 'OPTIONS'
+  Options = 'OPTIONS',
+  Radio = 'RADIO'
 }
 
 export interface Details {
@@ -34,6 +35,7 @@ export const BlockComponents = {
   [BlockType.Divider]: DividerBlock,
   [BlockType.Quote]: QuoteBlock,
   [BlockType.Options]: OptionsBlock,
+  [BlockType.Radio]: RadioBlock,
 }
 
 export const textBlockMap = [BlockType.Text, BlockType.Quote]
@@ -85,6 +87,13 @@ export const availableBlockTypes = [
     icon: 'md-checkbox-outlined',
     label: 'Options',
     blockType: BlockType.Options,
+    canSplit: false,
+  },
+  {
+    type: 'Turn into',
+    icon: 'io-radio-button-on-outline',
+    label: 'Radio',
+    blockType: BlockType.Radio,
     canSplit: false,
   },
 ] as { type:string, icon:string, label:string, blockType:BlockType|string, canSplit:boolean }[]
