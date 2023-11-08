@@ -5,7 +5,9 @@
         <input type="checkbox"
                checked="checked"><span></span>
       </label>
-      <div><p :contenteditable="true" spellcheck="false">{{ item.label }}</p></div>
+      <div><p
+          :data-index="i"
+          :contenteditable="true" spellcheck="false" @input="updateItemLabel">{{ item.label }}</p></div>
     </li>
   </ul>
 </template>
@@ -23,8 +25,6 @@ const props = defineProps({
   }
 });
 
-const content = ref<Editor>()
-
 function onSet() {
   const items: Array<OptionItem> = []
 
@@ -38,6 +38,12 @@ function onSet() {
     props.block.details.value = ''
   }
   props.block.items = items
+}
+
+function updateItemLabel(event) {
+  const index = event.target.getAttribute('data-index');
+  const newText = event.target.textContent || '';
+  props.block.items[index].label = newText;
 }
 
 defineExpose({
