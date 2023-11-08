@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
 import { ref, PropType } from 'vue'
-import { Block, BlockType } from '@/utils/types'
+import {Block, BlockHeading, BlockType} from '@/utils/types'
 
 const headingConfig = {
   [BlockType.H1]: {
@@ -35,7 +35,7 @@ const headingConfig = {
 
 const props = defineProps({
   block: {
-    type: Object as PropType<Block>,
+    type: Object as PropType<BlockHeading>,
     required: true,
   }
 })

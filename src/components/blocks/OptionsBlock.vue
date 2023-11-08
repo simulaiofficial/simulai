@@ -1,19 +1,24 @@
 <template>
-  <Editor ref="content"
-          v-model="props.block.details.value"
-          class="py-1.5 px-3"
-  />
+  <ul data-type="taskList">
+    <li v-for="item, i in props.block.items" data-checked="true">
+      <label contenteditable="false">
+        <input type="checkbox"
+               checked="checked"><span></span>
+      </label>
+      <div><p :contenteditable="true" spellcheck="false">{{ item.label }}</p></div>
+    </li>
+  </ul>
 </template>
 
 <script setup lang="ts">
 import {PropType} from "vue";
-import {Block} from "@/utils/types"
+import {Block, BlockOptions, OptionItem} from "@/utils/types"
 import Editor from "../elements/Editor.vue"
 import {ref} from 'vue'
 
 const props = defineProps({
   block: {
-    type: Object as PropType<Block>,
+    type: Object as PropType<BlockOptions>,
     required: true,
   }
 });
@@ -21,7 +26,18 @@ const props = defineProps({
 const content = ref<Editor>()
 
 function onSet() {
-  props.block.details.value = `<ul data-type=\"taskList\"><li data-checked=\"true\" data-type=\"taskItem\"><label><input type=\"checkbox\" checked=\"checked\"><span></span></label><div><p>${props.block.details.value}</p><p></p></div></li></ul>`
+  const items: Array<OptionItem> = []
+
+  if (props.block.details.value) {
+    items.push(
+        {
+          label: props.block.details.value,
+          isChecked: false
+        }
+    )
+    props.block.details.value = ''
+  }
+  props.block.items = items
 }
 
 defineExpose({
@@ -30,35 +46,35 @@ defineExpose({
 </script>
 
 <style lang="scss" scoped>
-  :deep(ul[data-type="taskList"]) {
-    list-style: none;
-    padding: 0;
+:deep(ul[data-type="taskList"]) {
+  list-style: none;
+  padding: 0;
 
-    p {
-      margin: 0;
+  p {
+    margin: 0;
+  }
+
+  li {
+    display: flex;
+
+    > label {
+      flex: 0 0 auto;
+      margin-right: 0.5rem;
+      user-select: none;
     }
 
-    li {
+    > div {
+      flex: 1 1 auto;
+    }
+
+    ul li,
+    ol li {
+      display: list-item;
+    }
+
+    ul[data-type="taskList"] > li {
       display: flex;
-
-      > label {
-        flex: 0 0 auto;
-        margin-right: 0.5rem;
-        user-select: none;
-      }
-
-      > div {
-        flex: 1 1 auto;
-      }
-
-      ul li,
-      ol li {
-        display: list-item;
-      }
-
-      ul[data-type="taskList"] > li {
-        display: flex;
-      }
     }
   }
+}
 </style>

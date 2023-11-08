@@ -5,13 +5,13 @@
 
 <script setup lang="ts">
 import { PropType } from 'vue'
-import { Block } from '@/utils/types'
+import {Block, BlockText} from '@/utils/types'
 import { markdownToHtml } from '@/utils/utils'
 import Editor from '../elements/Editor.vue'
 
 const props = defineProps({
   block: {
-    type: Object as PropType<Block>,
+    type: Object as PropType<BlockText>,
     required: true,
   }
 })

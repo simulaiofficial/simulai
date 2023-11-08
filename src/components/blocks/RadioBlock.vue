@@ -4,13 +4,13 @@
 
 <script setup lang="ts">
 import {PropType} from "vue";
-import {Block} from "@/utils/types"
+import {Block, BlockRadio} from "@/utils/types"
 import Editor from "../elements/Editor.vue"
 import {ref} from 'vue'
 
 const props = defineProps({
   block: {
-    type: Object as PropType<Block>,
+    type: Object as PropType<BlockRadio>,
     required: true,
   }
 });

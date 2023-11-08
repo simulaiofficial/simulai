@@ -5,11 +5,11 @@
 
 <script setup lang="ts">
 import { PropType } from 'vue'
-import { Block } from '@/utils/types'
+import {Block, BlockDivider} from '@/utils/types'
 
 const props = defineProps({
   block: {
-    type: Object as PropType<Block>,
+    type: Object as PropType<BlockDivider>,
     required: true,
   }
 })
