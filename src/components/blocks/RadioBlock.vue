@@ -1,9 +1,5 @@
 <template>
-  <Editor ref="content"
-          v-model="props.block.details.value"
-          @click.capture.stop="clickCheckbox"
-          class="py-1.5 px-3"
-  />
+  {{ props.block.details.value }}
 </template>
 
 <script setup lang="ts">
@@ -22,32 +18,33 @@ const props = defineProps({
 const content = ref<Editor>()
 
 function onSet() {
-  props.block.details.value = `<ul data-type=\"taskList\"><li data-checked=\"true\" data-type=\"taskItem\"><label><input type=\"checkbox\" checked=\"checked\"><span></span></label><div><p>${props.block.details.value}</p><p></p></div></li></ul>`
+  props.block.details.value = `<ul data-type=\"taskList\"><li data-type=\"taskItem\"><label><input type=\"checkbox\"><span></span></label><div><p>${props.block.details.value}</p><p></p></div></li></ul>`
 }
 
-function clickCheckbox(event) {
-  if (event.target.tagName === 'INPUT' && event.target.type === 'checkbox') {
-    // Perform your action when a checkbox is clicked
-    // Access event.target to get the clicked checkbox element
-    // Get all checkbox inputs inside the Editor component
-    const checkbox = event.target;
-    const isChecked = checkbox.checked
-
-    const editorElement = content.value.$el;
-
-    const checkboxInputs = editorElement.querySelectorAll('input[type="checkbox"]');
-
-    // Uncheck all checkboxes
-    checkboxInputs.forEach((checkbx) => {
-      checkbx.checked = false;
-      // checkbx.parentElement.parentElement.setAttribute('data-checked', false.toString());
-    });
-    if (isChecked === true) {
-      checkbox.checked = isChecked
-      // checkbox.parentElement.parentElement.setAttribute('data-checked', true.toString());
-    }
-  }
-}
+// function clickCheckbox(event) {
+//   if (event.target.tagName === 'INPUT' && event.target.type === 'checkbox') {
+//     debugger;
+//     // Perform your action when a checkbox is clicked
+//     // Access event.target to get the clicked checkbox element
+//     // Get all checkbox inputs inside the Editor component
+//     const checkbox = event.target;
+//     const isChecked = checkbox.checked
+//
+//     const editorElement = content.value.$el;
+//
+//     const checkboxInputs = editorElement.querySelectorAll('input[type="checkbox"]');
+//
+//     // Uncheck all checkboxes
+//     checkboxInputs.forEach((checkbx) => {
+//       checkbx.checked = false;
+//       // checkbx.parentElement.parentElement.setAttribute('data-checked', false.toString());
+//     });
+//     if (isChecked === true) {
+//       checkbox.checked = isChecked
+//       // checkbox.parentElement.parentElement.setAttribute('data-checked', true.toString());
+//     }
+//   }
+// }
 
 defineExpose({
   onSet,
