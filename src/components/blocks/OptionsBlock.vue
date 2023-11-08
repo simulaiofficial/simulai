@@ -7,16 +7,17 @@
       </label>
       <div><p
           :data-index="i"
-          :contenteditable="true" spellcheck="false" @input="updateItemLabel">{{ item.label }}</p></div>
+          :contenteditable="true" spellcheck="false"
+          @input="updateItemLabel"
+          @keydown="keyDownHandler"
+      >{{ item.label }}</p></div>
     </li>
   </ul>
 </template>
 
 <script setup lang="ts">
 import {PropType} from "vue";
-import {Block, BlockOptions, OptionItem} from "@/utils/types"
-import Editor from "../elements/Editor.vue"
-import {ref} from 'vue'
+import {BlockOptions, isTextBlock, OptionItem} from "@/utils/types"
 
 const props = defineProps({
   block: {
@@ -40,10 +41,41 @@ function onSet() {
   props.block.items = items
 }
 
+function keyDownHandler(event: KeyboardEvent) {
+  const cursorIsAtEnd = isCursorAtEnd(event.target)
+  if (cursorIsAtEnd && event.key === 'Enter') {
+    debugger;
+    props.block.items.push({
+      label: "",
+      isChecked: false
+    })
+    event.stopPropagation()
+    event.preventDefault()
+  }
+}
+
 function updateItemLabel(event) {
+  debugger;
   const index = event.target.getAttribute('data-index');
-  const newText = event.target.textContent || '';
-  props.block.items[index].label = newText;
+  props.block.items[index].label = event.target.textContent || '';
+}
+
+function isCursorAtEnd(contentEditableDiv) {
+  debugger;
+  const selection = window.getSelection();
+
+  if (selection.rangeCount === 0) {
+    return false;
+  }
+
+  const range = selection.getRangeAt(0);
+  const endNode = contentEditableDiv.lastChild;
+  const endOffset = endNode.textContent.length;
+
+  return (
+    range.endContainer === endNode &&
+    range.endOffset === endOffset
+  );
 }
 
 defineExpose({
@@ -52,7 +84,7 @@ defineExpose({
 </script>
 
 <style lang="scss" scoped>
-:deep(ul[data-type="taskList"]) {
+ul[data-type="taskList"] {
   list-style: none;
   padding: 0;
 
