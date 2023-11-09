@@ -3,7 +3,7 @@
     <li v-for="item, i in props.block.items" ref="itemRefs" :data-index="i" :key="i" data-checked="true">
       <label contenteditable="false">
         <input type="checkbox"
-               checked="checked"><span></span>
+               v-model="item.isChecked"><span></span>
       </label>
       <div><p
           :data-index="i"
