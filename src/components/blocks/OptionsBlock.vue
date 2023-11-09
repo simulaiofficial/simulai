@@ -1,6 +1,6 @@
 <template>
   <ul data-type="taskList">
-    <li v-for="item, i in props.block.items" data-checked="true">
+    <li v-for="item, i in props.block.items" ref="itemRefs" :data-index="i" :key="i" data-checked="true">
       <label contenteditable="false">
         <input type="checkbox"
                checked="checked"><span></span>
@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import {PropType} from "vue";
+import {PropType, ref} from "vue";
 import {BlockOptions, isTextBlock, OptionItem} from "@/utils/types"
 
 const props = defineProps({
@@ -25,6 +25,8 @@ const props = defineProps({
     required: true,
   }
 });
+
+const itemRefs = ref([])
 
 function onSet() {
   const items: Array<OptionItem> = []
@@ -45,6 +47,8 @@ function keyDownHandler(event) {
   const index = parseInt(event.target.getAttribute('data-index'))
 
   if (event.key === 'Enter') {
+    debugger;
+    console.log(itemRefs.value)
     const cursorIsAtEnd = isCursorAtEnd(event.target)
     if (cursorIsAtEnd) {
       event.stopPropagation()
@@ -98,6 +102,11 @@ function isCursorAtBeginning(paragraphElement) {
   }
 
   return false;
+}
+
+function findItemRef(index) {
+  const foundRefs = itemRefs.value.filter((ref) => parseInt(ref.getAttribute('data-index')) === index)
+  return foundRefs[0]
 }
 
 defineExpose({
