@@ -41,27 +41,33 @@ function onSet() {
   props.block.items = items
 }
 
-function keyDownHandler(event: KeyboardEvent) {
-  const cursorIsAtEnd = isCursorAtEnd(event.target)
-  if (cursorIsAtEnd && event.key === 'Enter') {
-    debugger;
-    props.block.items.push({
-      label: "",
-      isChecked: false
-    })
-    event.stopPropagation()
-    event.preventDefault()
+function keyDownHandler(event) {
+  const index = parseInt(event.target.getAttribute('data-index'))
+
+  if (event.key === 'Enter') {
+    const cursorIsAtEnd = isCursorAtEnd(event.target)
+    if (cursorIsAtEnd) {
+      event.stopPropagation()
+      event.preventDefault()
+      props.block.items.splice(index+1, 0, {
+        label: "",
+        isChecked: false
+      })
+    }
+  } else if (event.key === 'Backspace') {
+    const cursorIsAtBeginning = isCursorAtBeginning(event.target)
+    if(cursorIsAtBeginning) {
+      props.block.items.splice(index, 1)
+    }
   }
 }
 
 function updateItemLabel(event) {
-  debugger;
-  const index = event.target.getAttribute('data-index');
+  const index = parseInt(event.target.getAttribute('data-index'))
   props.block.items[index].label = event.target.textContent || '';
 }
 
 function isCursorAtEnd(contentEditableDiv) {
-  debugger;
   const selection = window.getSelection();
 
   if (selection.rangeCount === 0) {
@@ -73,9 +79,25 @@ function isCursorAtEnd(contentEditableDiv) {
   const endOffset = endNode.textContent.length;
 
   return (
-    range.endContainer === endNode &&
-    range.endOffset === endOffset
+      range.endContainer === endNode &&
+      range.endOffset === endOffset
   );
+}
+
+function isCursorAtBeginning(paragraphElement) {
+  // Get the selection object
+  var selection = window.getSelection();
+
+  // Check if there is a selection and it is a Range
+  if (selection.rangeCount > 0) {
+    var range = selection.getRangeAt(0);
+
+    if (range.startOffset === 0) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 defineExpose({
