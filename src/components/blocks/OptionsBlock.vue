@@ -47,21 +47,34 @@ function keyDownHandler(event) {
   const index = parseInt(event.target.getAttribute('data-index'))
 
   if (event.key === 'Enter') {
-    debugger;
     console.log(itemRefs.value)
-    const cursorIsAtEnd = isCursorAtEnd(event.target)
+    const cursorIsAtEnd: boolean = isCursorAtEnd(event.target)
     if (cursorIsAtEnd) {
       event.stopPropagation()
       event.preventDefault()
-      props.block.items.splice(index+1, 0, {
+      props.block.items.splice(index + 1, 0, {
         label: "",
         isChecked: false
       })
+      setTimeout(() => {
+        const createdTextNode = findItemRef(index + 1);
+        setCursorAtBeginning(createdTextNode.querySelector('p'))
+      })
     }
   } else if (event.key === 'Backspace') {
-    const cursorIsAtBeginning = isCursorAtBeginning(event.target)
-    if(cursorIsAtBeginning) {
+    const cursorIsAtBeginning: boolean = isCursorAtBeginning(event.target)
+    if (cursorIsAtBeginning) {
       props.block.items.splice(index, 1)
+    }
+  } else if (event.key === 'ArrowUp') {
+    if (index > 0) {
+      const liNode = findItemRef(index-1);
+      setCursorAtBeginning(liNode.querySelector('p'))
+    }
+  } else if (event.key === 'ArrowDown') {
+    if (index < props.block.items.length) {
+      const liNode = findItemRef(index+1);
+      setCursorAtBeginning(liNode.querySelector('p'))
     }
   }
 }
@@ -71,7 +84,7 @@ function updateItemLabel(event) {
   props.block.items[index].label = event.target.textContent || '';
 }
 
-function isCursorAtEnd(contentEditableDiv) {
+function isCursorAtEnd(paragraphElement) {
   const selection = window.getSelection();
 
   if (selection.rangeCount === 0) {
@@ -79,7 +92,7 @@ function isCursorAtEnd(contentEditableDiv) {
   }
 
   const range = selection.getRangeAt(0);
-  const endNode = contentEditableDiv.lastChild;
+  const endNode = paragraphElement.lastChild;
   const endOffset = endNode.textContent.length;
 
   return (
@@ -102,6 +115,21 @@ function isCursorAtBeginning(paragraphElement) {
   }
 
   return false;
+}
+
+function setCursorAtBeginning(element) {
+  if (element) {
+    const range = document.createRange();
+    const selection = window.getSelection();
+
+    range.setStart(element, 0);
+    range.collapse(true);
+
+    selection.removeAllRanges();
+    selection.addRange(range);
+
+    element.focus();
+  }
 }
 
 function findItemRef(index) {
