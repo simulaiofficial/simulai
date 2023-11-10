@@ -26,6 +26,11 @@ const props = defineProps({
   }
 });
 
+const emit = defineEmits([
+  'moveToPrevLine',
+  'moveToNextLine',
+])
+
 const itemRefs = ref([])
 
 function onSet() {
@@ -65,16 +70,24 @@ function keyDownHandler(event) {
     const cursorIsAtBeginning: boolean = isCursorAtBeginning(event.target)
     if (cursorIsAtBeginning) {
       props.block.items.splice(index, 1)
+      if (index > 0) {
+        const liNode = findItemRef(index - 1);
+        setCursorAtBeginning(liNode.querySelector('p'))
+      }
     }
   } else if (event.key === 'ArrowUp') {
     if (index > 0) {
-      const liNode = findItemRef(index-1);
+      const liNode = findItemRef(index - 1);
       setCursorAtBeginning(liNode.querySelector('p'))
+    } else {
+      emit('moveToPrevLine')
     }
   } else if (event.key === 'ArrowDown') {
-    if (index < props.block.items.length) {
-      const liNode = findItemRef(index+1);
+    if (index < props.block.items.length-1) {
+      const liNode = findItemRef(index + 1);
       setCursorAtBeginning(liNode.querySelector('p'))
+    } else {
+      emit('moveToNextLine')
     }
   }
 }
@@ -92,11 +105,10 @@ function isCursorAtEnd(paragraphElement) {
   }
 
   const range = selection.getRangeAt(0);
-  const endNode = paragraphElement.lastChild;
-  const endOffset = endNode.textContent.length;
+  // const endNode = paragraphElement.lastChild;
+  const endOffset = paragraphElement.textContent.length;
 
   return (
-      range.endContainer === endNode &&
       range.endOffset === endOffset
   );
 }

@@ -23,7 +23,6 @@ function onSet() {
 
 // function clickCheckbox(event) {
 //   if (event.target.tagName === 'INPUT' && event.target.type === 'checkbox') {
-//     debugger;
 //     // Perform your action when a checkbox is clicked
 //     // Access event.target to get the clicked checkbox element
 //     // Get all checkbox inputs inside the Editor component

@@ -29,6 +29,8 @@
       <!-- Actual content -->
       <component :is="BlockComponents[props.block.type]" ref="content"
                  :block="block"
+                 @moveToPrevLine="emit('moveToPrevLine')"
+                 @moveToNextLine="emit('moveToNextLine')"
                  @keydown="keyDownHandler"
                  @keyup="parseMarkdown"/>
     </div>
@@ -118,6 +120,7 @@ function getHtmlContent() {
 }
 
 function keyDownHandler(event: KeyboardEvent) {
+  debugger;
   if (event.key === 'ArrowUp') {
     entersPressed.value = 0
     if (menu.value?.open) {
@@ -164,7 +167,7 @@ function keyDownHandler(event: KeyboardEvent) {
   } else if (event.key === 'Enter') {
     entersPressed.value += 1
 
-    if(entersPressed.value === 2) {
+    if (entersPressed.value === 2) {
       entersPressed.value = 0
       event.preventDefault()
       emit('newBlock')
