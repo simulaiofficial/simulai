@@ -121,7 +121,6 @@ function getHtmlContent() {
 }
 
 function keyDownHandler(event: KeyboardEvent) {
-  debugger;
   if (event.key === 'ArrowUp') {
     entersPressed.value = 0
     if (menu.value?.open) {
@@ -167,8 +166,6 @@ function keyDownHandler(event: KeyboardEvent) {
     }
   } else if (event.key === 'Enter') {
     entersPressed.value += 1
-
-    debugger;
 
     const blockTypeDetails = availableBlockTypes.find(blockType => blockType.blockType === props.block.type)
     if (!blockTypeDetails) return

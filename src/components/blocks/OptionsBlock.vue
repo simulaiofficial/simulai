@@ -135,6 +135,11 @@ function setCursorAtBeginning(element) {
     const range = document.createRange();
     const selection = window.getSelection();
 
+    if (element.innerHTML === '') {
+      // If the paragraph is empty, insert a zero-width space character
+      element.innerHTML = '&#8203;'; // Zero-width space character
+    }
+
     range.setStart(element, 0);
     range.collapse(true);
 
@@ -142,6 +147,10 @@ function setCursorAtBeginning(element) {
     selection.addRange(range);
 
     element.focus();
+
+    setTimeout(() => {
+      element.innerHTML = element.innerHTML.replace(/[\u200B-\u200D\uFEFF]/g, '');
+    })
   }
 }
 
@@ -153,7 +162,6 @@ function findItemRef(index) {
 watch(
     () => props.block.items,
     (newItems) => {
-      debugger;
       // Check if there are no items and emit an action
       if (newItems.length === 0) {
         emit('deleteBlock');
