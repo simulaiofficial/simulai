@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import {PropType, ref} from "vue";
+import {PropType, ref, watch} from "vue";
 import {BlockOptions, isTextBlock, OptionItem} from "@/utils/types"
 
 const props = defineProps({
@@ -27,6 +27,7 @@ const props = defineProps({
 });
 
 const emit = defineEmits([
+  'deleteBlock',
   'moveToPrevLine',
   'moveToNextLine',
 ])
@@ -83,7 +84,7 @@ function keyDownHandler(event) {
       emit('moveToPrevLine')
     }
   } else if (event.key === 'ArrowDown') {
-    if (index < props.block.items.length-1) {
+    if (index < props.block.items.length - 1) {
       const liNode = findItemRef(index + 1);
       setCursorAtBeginning(liNode.querySelector('p'))
     } else {
@@ -148,6 +149,18 @@ function findItemRef(index) {
   const foundRefs = itemRefs.value.filter((ref) => parseInt(ref.getAttribute('data-index')) === index)
   return foundRefs[0]
 }
+
+watch(
+    () => props.block.items,
+    (newItems) => {
+      debugger;
+      // Check if there are no items and emit an action
+      if (newItems.length === 0) {
+        emit('deleteBlock');
+      }
+    },
+    {deep: true}
+);
 
 defineExpose({
   onSet,

@@ -31,6 +31,7 @@
                  :block="block"
                  @moveToPrevLine="emit('moveToPrevLine')"
                  @moveToNextLine="emit('moveToNextLine')"
+                 @deleteBlock="emit('deleteBlock')"
                  @keydown="keyDownHandler"
                  @keyup="parseMarkdown"/>
     </div>
@@ -39,7 +40,7 @@
 
 <script setup lang="ts">
 import {ref, PropType} from 'vue'
-import {Block, BlockType, BlockComponents, isTextBlock} from '@/utils/types'
+import {Block, BlockType, BlockComponents, isTextBlock, availableBlockTypes} from '@/utils/types'
 import BlockMenu from './BlockMenu.vue'
 import Tooltip from './elements/Tooltip.vue'
 
@@ -167,13 +168,19 @@ function keyDownHandler(event: KeyboardEvent) {
   } else if (event.key === 'Enter') {
     entersPressed.value += 1
 
-    if (entersPressed.value === 2) {
+    debugger;
+
+    const blockTypeDetails = availableBlockTypes.find(blockType => blockType.blockType === props.block.type)
+    if (!blockTypeDetails) return
+    if (blockTypeDetails.canSplit) {
+      if (!(menu.value && menu.value.open)) {
+        event.preventDefault()
+        emit('split')
+      }
+    } else if (entersPressed.value >= 2) {
       entersPressed.value = 0
       event.preventDefault()
       emit('newBlock')
-      // if (!(menu.value && menu.value.open)) {
-      //   emit('split')
-      // }
     }
   } else {
     entersPressed.value = 0
