@@ -1,6 +1,8 @@
 <!-- Adapted from https://tiptap.dev/installation/vue3 -->
 <template>
   <editor-content :editor="editor" spellcheck="false"
+                  @keyup.enter.capture.prevent="() => {}"
+    @keydown.enter.capture.prevent="() => {}" 
   />
 </template>
 
