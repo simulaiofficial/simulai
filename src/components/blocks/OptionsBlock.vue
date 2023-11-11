@@ -159,6 +159,16 @@ function findItemRef(index) {
   return foundRefs[0]
 }
 
+function goIntoStart() {
+  const liNode = findItemRef(0);
+  setCursorAtBeginning(liNode.querySelector('p'))
+}
+
+function goIntoEnd() {
+  const liNode = findItemRef(itemRefs.value.length - 1);
+  setCursorAtBeginning(liNode.querySelector('p'))
+}
+
 watch(
     () => props.block.items,
     (newItems) => {
@@ -172,6 +182,8 @@ watch(
 
 defineExpose({
   onSet,
+  goIntoStart,
+  goIntoEnd
 })
 </script>
 

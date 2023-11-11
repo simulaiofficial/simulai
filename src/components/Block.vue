@@ -276,6 +276,8 @@ async function moveToFirstLine() {
         }
       }
     }
+  } else if(content.value.goIntoStart) {
+    content.value.goIntoStart()
   } else {
     emit('moveToNextLine')
   }
@@ -306,6 +308,8 @@ async function moveToLastLine() {
         }
       }
     }
+  } else if(content.value.goIntoEnd) {
+    content.value.goIntoEnd()
   } else {
     emit('moveToPrevLine')
   }
