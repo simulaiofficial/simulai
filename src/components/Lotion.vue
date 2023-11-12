@@ -1,80 +1,94 @@
 <template>
-  <div class="lotion w-[65ch] mx-auto my-24 font-sans text-base" v-if="props.page" ref="editor"   @keydown.ctrl.cmd.space.prevent="openEmojiPicker">
+  <div class="lotion w-[65ch] mx-auto my-24 font-sans text-base" v-if="props.page" ref="editor"
+       @keydown.ctrl.cmd.space.prevent="openEmojiPicker">
     <h1 id="title" ref="title" :contenteditable="true" spellcheck="false" data-ph="Untitled"
-      @keydown.enter.prevent="splitTitle"
-      @keydown.down="blockElements[0]?.moveToFirstLine(); scrollIntoView();"
-      @blur="props.page.name=($event.target as HTMLElement).innerText.replace('\n', '')"
-      class="focus:outline-none focus-visible:outline-none text-5xl font-bold mb-12"
-      :class="props.page.name ? '' : 'empty'">
+        @keydown.enter.prevent="splitTitle"
+        @keydown.down="blockElements[0]?.moveToFirstLine(); scrollIntoView();"
+        @blur="props.page.name=($event.target as HTMLElement).innerText.replace('\n', '')"
+        class="focus:outline-none focus-visible:outline-none text-5xl font-bold mb-12"
+        :class="props.page.name ? '' : 'empty'">
       {{ props.page.name || '' }}
     </h1>
-    <draggable id="blocks" tag="div" :list="props.page.blocks"  handle=".handle"
-      v-bind="dragOptions" class="-ml-24 space-y-2 pb-4">
+    <draggable id="blocks" tag="div" :list="props.page.blocks" handle=".handle"
+               v-bind="dragOptions" class="-ml-24 space-y-2 pb-4">
       <transition-group type="transition">
         <BlockComponent :block="block" v-for="block, i in props.page.blocks" :key="i" :id="'block-'+block.id"
-          :blockTypes="props.blockTypes"
-          :ref="el => blockElements[i] = (el as unknown as typeof Block)"
-          @deleteBlock="deleteBlock(i)"
-          @newBlock="insertBlock(i)"
-          @moveToPrevChar="blockElements[i-1]?.moveToEnd(); scrollIntoView();"
-          @moveToNextChar="blockElements[i+1]?.moveToStart(); scrollIntoView();"
-          @moveToPrevLine="handleMoveToPrevLine(i)"
-          @moveToNextLine="blockElements[i+1]?.moveToFirstLine(); scrollIntoView();"
-          @merge="merge(i)"
-          @split="split(i)"
-          @setBlockType="type => setBlockType(i, type)"
-          />
+                        :blockTypes="props.blockTypes"
+                        :ref="el => blockElements[i] = (el as unknown as typeof Block)"
+                        @deleteBlock="deleteBlock(i)"
+                        @newBlock="insertBlock(i)"
+                        @moveToPrevChar="blockElements[i-1]?.moveToEnd(); scrollIntoView();"
+                        @moveToNextChar="blockElements[i+1]?.moveToStart(); scrollIntoView();"
+                        @moveToPrevLine="handleMoveToPrevLine(i)"
+                        @moveToNextLine="blockElements[i+1]?.moveToFirstLine(); scrollIntoView();"
+                        @merge="merge(i)"
+                        @split="split(i)"
+                        @setBlockType="type => setBlockType(i, type)"
+        />
       </transition-group>
     </draggable>
   </div>
-  <EmojiPicker v-if="isEmojiPickerOpen" :native="true" @select="onSelectEmoji" :style="{ top: emojiPickerStyle.top + 'px', left: emojiPickerStyle.left + 'px' }" class="absolute z-50" />
+  <EmojiPicker v-if="isEmojiPickerOpen" ref="emojiPicker" :native="true" @select="onSelectEmoji"
+               :style="{ top: emojiPickerStyle.top + 'px', left: emojiPickerStyle.left + 'px' }" class="absolute z-50"/>
 </template>
 
 <script setup lang="ts">
 import {ref, onBeforeUpdate, PropType, onBeforeUnmount, onMounted} from 'vue'
-import { VueDraggableNext as draggable } from 'vue-draggable-next'
-import { v4 as uuidv4 } from 'uuid'
-import { Block, BlockType, isTextBlock, availableBlockTypes } from '@/utils/types'
-import { htmlToMarkdown } from '@/utils/utils'
+import {VueDraggableNext as draggable} from 'vue-draggable-next'
+import {v4 as uuidv4} from 'uuid'
+import {Block, BlockType, isTextBlock, availableBlockTypes} from '@/utils/types'
+import {htmlToMarkdown} from '@/utils/utils'
 import BlockComponent from './Block.vue'
 import EmojiPicker from 'vue3-emoji-picker'
 import 'vue3-emoji-picker/css'
 
 const props = defineProps({
   page: {
-    type: Object as PropType<{ name:string, blocks:Block[] }>,
+    type: Object as PropType<{ name: string, blocks: Block[] }>,
     required: true,
   },
   blockTypes: {
-    type: Object as PropType<null|(string|BlockType)[]>,
+    type: Object as PropType<null | (string | BlockType)[]>,
     default: null,
   },
   onSetAll: {
-    type: Function as PropType<(block:Block) => void>,
+    type: Function as PropType<(block: Block) => void>,
   },
   onUnsetAll: {
-    type: Function as PropType<(block:Block) => void>,
+    type: Function as PropType<(block: Block) => void>,
   },
   onCreateBlock: {
-    type: Function as PropType<(block:Block) => void>,
+    type: Function as PropType<(block: Block) => void>,
   },
   onDeleteBlock: {
-    type: Function as PropType<(block:Block) => void>,
+    type: Function as PropType<(block: Block) => void>,
   },
 })
 
-const editor = ref<HTMLDivElement|null>(null)
+const editor = ref<HTMLDivElement | null>(null)
 
+const emojiPicker = ref<HTMLDivElement | null>(null);
 const isEmojiPickerOpen = ref(false);
-const emojiPickerStyle = ref({ top: 0, left: 0 });
-const mousePosition = {x:0, y:0}
+const emojiPickerStyle = ref({top: 0, left: 0});
+const mousePosition = {x: 0, y: 0}
 
-document.addEventListener('mousemove', function(mouseMoveEvent){
+document.addEventListener('mousemove', function (mouseMoveEvent) {
   mousePosition.x = mouseMoveEvent.pageX;
   mousePosition.y = mouseMoveEvent.pageY;
 }, false);
 
-document.addEventListener('mouseup', (event:MouseEvent) => {
+document.addEventListener('click', (event) => {
+  debugger;
+  const isClickInsideEmojiPicker = emojiPicker.value.$el.contains(event.target);
+  // let isClickInsideEmojiPicker = false
+
+  if (!isClickInsideEmojiPicker) {
+    // Clicked outside EmojiPicker, close it or perform your action
+    isEmojiPickerOpen.value = false;
+  }
+});
+
+document.addEventListener('mouseup', (event: MouseEvent) => {
   // Automatically focus on nearest block on click
   const blocks = document.getElementById('blocks')
   const title = document.getElementById('title')
@@ -90,7 +104,7 @@ document.addEventListener('mouseup', (event:MouseEvent) => {
       // Check if click is on left or right side
       const rect = title?.getClientRects()[0]
       let moveToStart = true
-      if (event.x > (rect as DOMRect).right) moveToStart = false 
+      if (event.x > (rect as DOMRect).right) moveToStart = false
       const selection = window.getSelection()
       const range = document.createRange()
       range.selectNodeContents(title as Node)
@@ -126,17 +140,17 @@ document.addEventListener('mouseup', (event:MouseEvent) => {
   const lastBlockRect = blocks?.lastElementChild?.getClientRects()[0]
   if (!lastBlockRect) return
   if (event.clientX > (lastBlockRect as DOMRect).left && event.clientX < (lastBlockRect as DOMRect).right
-    && event.clientY > (lastBlockRect as DOMRect).bottom) {
-      const lastBlock = props.page.blocks[props.page.blocks.length-1]
-      const lastBlockComponent = blockElements.value[props.page.blocks.length-1]
-      if (lastBlock.type === BlockType.Text && lastBlockComponent.getTextContent() === '') {
-        // If last block is empty Text, focus on last block
-        setTimeout(lastBlockComponent.moveToEnd)
-      } else {
-        // Otherwise add new empty Text block
-        insertBlock(props.page.blocks.length-1)
-      }
+      && event.clientY > (lastBlockRect as DOMRect).bottom) {
+    const lastBlock = props.page.blocks[props.page.blocks.length - 1]
+    const lastBlockComponent = blockElements.value[props.page.blocks.length - 1]
+    if (lastBlock.type === BlockType.Text && lastBlockComponent.getTextContent() === '') {
+      // If last block is empty Text, focus on last block
+      setTimeout(lastBlockComponent.moveToEnd)
+    } else {
+      // Otherwise add new empty Text block
+      insertBlock(props.page.blocks.length - 1)
     }
+  }
 })
 
 const dragOptions = {
@@ -153,27 +167,27 @@ onBeforeUpdate(() => {
 const blockElements = ref<typeof BlockComponent[]>([])
 
 function insertTextAtCursor(textToInsert) {
-    const activeElement = document.activeElement;
+  const activeElement = document.activeElement;
 
-    if (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA') {
-        const cursorPos = activeElement.selectionStart;
-        const textBefore = activeElement.value.substring(0, cursorPos);
-        const textAfter = activeElement.value.substring(cursorPos);
-        activeElement.value = textBefore + textToInsert + textAfter;
-        activeElement.setSelectionRange(cursorPos + textToInsert.length, cursorPos + textToInsert.length);
-    } else if (window.getSelection) {
-        const selection = window.getSelection();
-        if (selection.rangeCount > 0) {
-            const range = selection.getRangeAt(0);
-            const textNode = document.createTextNode(textToInsert);
-            range.deleteContents();
-            range.insertNode(textNode);
-            range.setStartAfter(textNode);
-            range.collapse(true);
-            selection.removeAllRanges();
-            selection.addRange(range);
-        }
+  if (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA') {
+    const cursorPos = activeElement.selectionStart;
+    const textBefore = activeElement.value.substring(0, cursorPos);
+    const textAfter = activeElement.value.substring(cursorPos);
+    activeElement.value = textBefore + textToInsert + textAfter;
+    activeElement.setSelectionRange(cursorPos + textToInsert.length, cursorPos + textToInsert.length);
+  } else if (window.getSelection) {
+    const selection = window.getSelection();
+    if (selection.rangeCount > 0) {
+      const range = selection.getRangeAt(0);
+      const textNode = document.createTextNode(textToInsert);
+      range.deleteContents();
+      range.insertNode(textNode);
+      range.setStartAfter(textNode);
+      range.collapse(true);
+      selection.removeAllRanges();
+      selection.addRange(range);
     }
+  }
 }
 
 function onSelectEmoji(emoji) {
@@ -203,17 +217,21 @@ function openEmojiPicker(event) {
   }
 }
 
-function scrollIntoView () {
+function scrollIntoView() {
   const selection = window.getSelection()
   if (!selection || !selection.anchorNode) return
   if (selection?.anchorNode?.nodeType === Node.ELEMENT_NODE) {
     (selection?.anchorNode as HTMLElement).scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"})
   } else {
-    (selection?.anchorNode?.parentElement as HTMLElement).scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"})
+    (selection?.anchorNode?.parentElement as HTMLElement).scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+      inline: "nearest"
+    })
   }
 }
 
-function handleMoveToPrevLine (blockIdx:number) {
+function handleMoveToPrevLine(blockIdx: number) {
   if (blockIdx === 0) {
     setTimeout(() => {
       if (!title.value) return
@@ -229,12 +247,11 @@ function handleMoveToPrevLine (blockIdx:number) {
       selection?.removeAllRanges()
       selection?.addRange(range)
     })
-  }
-  else blockElements.value[blockIdx-1]?.moveToLastLine()
+  } else blockElements.value[blockIdx - 1]?.moveToLastLine()
   scrollIntoView()
 }
 
-function insertBlock (blockIdx: number) {
+function insertBlock(blockIdx: number) {
   const newBlock = {
     id: uuidv4(),
     type: BlockType.Text,
@@ -243,14 +260,14 @@ function insertBlock (blockIdx: number) {
     },
   }
   props.page.blocks.splice(blockIdx + 1, 0, newBlock)
-  if (props.onCreateBlock) props.onCreateBlock(props.page.blocks[blockIdx+1])
+  if (props.onCreateBlock) props.onCreateBlock(props.page.blocks[blockIdx + 1])
   setTimeout(() => {
-    blockElements.value[blockIdx+1].moveToStart()
+    blockElements.value[blockIdx + 1].moveToStart()
     scrollIntoView()
   })
 }
 
-function deleteBlock (blockIdx: number) {
+function deleteBlock(blockIdx: number) {
   if (props.onDeleteBlock) props.onDeleteBlock(props.page.blocks[blockIdx])
   props.page.blocks.splice(blockIdx, 1)
   // Always keep at least one block
@@ -259,7 +276,7 @@ function deleteBlock (blockIdx: number) {
   }
 }
 
-async function setBlockType (blockIdx: number, type: BlockType) {
+async function setBlockType(blockIdx: number, type: BlockType) {
   if (props.onUnsetAll) props.onUnsetAll(props.page.blocks[blockIdx])
   if (blockElements.value[blockIdx].content.onUnset) {
     blockElements.value[blockIdx].content.onUnset()
@@ -279,30 +296,30 @@ async function setBlockType (blockIdx: number, type: BlockType) {
   })
 }
 
-function merge (blockIdx: number) {
+function merge(blockIdx: number) {
   if (props.onDeleteBlock) props.onDeleteBlock(props.page.blocks[blockIdx])
   // When deleting the first character of non-text block
   // the block should first turn into a text block
-  if([BlockType.H1, BlockType.H2, BlockType.H3, BlockType.Quote]
-      .includes(props.page.blocks[blockIdx].type)){
-    const prevBlockContent = blockElements.value[blockIdx].getTextContent()    
+  if ([BlockType.H1, BlockType.H2, BlockType.H3, BlockType.Quote]
+      .includes(props.page.blocks[blockIdx].type)) {
+    const prevBlockContent = blockElements.value[blockIdx].getTextContent()
     setBlockType(blockIdx, BlockType.Text)
     props.page.blocks[blockIdx].details.value = prevBlockContent
-    setTimeout(()=>{
+    setTimeout(() => {
       blockElements.value[blockIdx].moveToStart()
     })
     return
   }
 
   if (blockIdx === 0) mergeTitle()
-  else mergeBlocks(blockIdx-1, blockIdx)
+  else mergeBlocks(blockIdx - 1, blockIdx)
 }
 
-function mergeBlocks (prefixBlockIdx: number, suffixBlockIdx: number) {
+function mergeBlocks(prefixBlockIdx: number, suffixBlockIdx: number) {
   if (isTextBlock(props.page.blocks[prefixBlockIdx].type)) {
     const prevBlockContentLength = blockElements.value[prefixBlockIdx].getTextContent().length
     let suffix = (props.page.blocks[suffixBlockIdx] as any).details.value
-    if ([BlockType.H1, BlockType.H2, BlockType.H3,BlockType.Quote].includes(props.page.blocks[suffixBlockIdx].type)) suffix = blockElements.value[suffixBlockIdx].getTextContent()
+    if ([BlockType.H1, BlockType.H2, BlockType.H3, BlockType.Quote].includes(props.page.blocks[suffixBlockIdx].type)) suffix = blockElements.value[suffixBlockIdx].getTextContent()
     props.page.blocks[prefixBlockIdx].details.value = (props.page.blocks[prefixBlockIdx] as any).details.value + suffix
     props.page.blocks.splice(suffixBlockIdx, 1)
     setTimeout(() => {
@@ -321,7 +338,7 @@ function mergeBlocks (prefixBlockIdx: number, suffixBlockIdx: number) {
   }
 }
 
-function mergeTitle (blockIdx:number = 0) {
+function mergeTitle(blockIdx: number = 0) {
   const titleElement = document.getElementById('title')
   if (!titleElement) return
   const title = props.page.name
@@ -337,7 +354,7 @@ function mergeTitle (blockIdx:number = 0) {
   })
 }
 
-function split (blockIdx: number) {
+function split(blockIdx: number) {
   const caretPos = blockElements.value[blockIdx].getCaretPos()
   insertBlock(blockIdx)
   const blockTypeDetails = availableBlockTypes.find(blockType => blockType.blockType === props.page.blocks[blockIdx].type)
@@ -345,14 +362,15 @@ function split (blockIdx: number) {
   if (blockTypeDetails.canSplit) {
     let htmlValue = blockElements.value[blockIdx].getHtmlContent()
     htmlValue = htmlValue.replace('<br class="ProseMirror-trailingBreak">', '')
-    props.page.blocks[blockIdx+1].details.value = htmlToMarkdown((caretPos.tag ? `<${caretPos.tag}>` : '') + (htmlValue ? htmlValue?.slice(caretPos.pos) : ''))
+    props.page.blocks[blockIdx + 1].details.value = htmlToMarkdown((caretPos.tag ? `<${caretPos.tag}>` : '') + (htmlValue ? htmlValue?.slice(caretPos.pos) : ''))
     props.page.blocks[blockIdx].details.value = htmlToMarkdown((htmlValue ? htmlValue?.slice(0, caretPos.pos) : '') + (caretPos.tag ? `</${caretPos.tag}>` : ''))
   }
-  setTimeout(() => blockElements.value[blockIdx+1].moveToStart())
+  setTimeout(() => blockElements.value[blockIdx + 1].moveToStart())
 }
 
-const title = ref<HTMLDivElement|null>(null)
-function splitTitle () {
+const title = ref<HTMLDivElement | null>(null)
+
+function splitTitle() {
   if (!title.value) return
   const selection = window.getSelection()
   if (!selection) return
