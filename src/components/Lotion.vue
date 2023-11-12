@@ -1,5 +1,5 @@
 <template>
-  <div class="lotion w-[65ch] mx-auto my-24 font-sans text-base" v-if="props.page" ref="editor">
+  <div class="lotion w-[65ch] mx-auto my-24 font-sans text-base" v-if="props.page" ref="editor"   @keydown.ctrl.cmd.space.prevent="openEmojiPicker">
     <h1 id="title" ref="title" :contenteditable="true" spellcheck="false" data-ph="Untitled"
       @keydown.enter.prevent="splitTitle"
       @keydown.down="blockElements[0]?.moveToFirstLine(); scrollIntoView();"
@@ -27,15 +27,18 @@
       </transition-group>
     </draggable>
   </div>
+  <EmojiPicker v-if="isEmojiPickerOpen" :native="true" @select="onSelectEmoji" :style="{ top: emojiPickerStyle.top + 'px', left: emojiPickerStyle.left + 'px' }" class="absolute z-50" />
 </template>
 
 <script setup lang="ts">
-import { ref, onBeforeUpdate, PropType } from 'vue'
+import {ref, onBeforeUpdate, PropType, onBeforeUnmount, onMounted} from 'vue'
 import { VueDraggableNext as draggable } from 'vue-draggable-next'
 import { v4 as uuidv4 } from 'uuid'
 import { Block, BlockType, isTextBlock, availableBlockTypes } from '@/utils/types'
 import { htmlToMarkdown } from '@/utils/utils'
 import BlockComponent from './Block.vue'
+import EmojiPicker from 'vue3-emoji-picker'
+import 'vue3-emoji-picker/css'
 
 const props = defineProps({
   page: {
@@ -61,6 +64,16 @@ const props = defineProps({
 })
 
 const editor = ref<HTMLDivElement|null>(null)
+
+const isEmojiPickerOpen = ref(false);
+const emojiPickerStyle = ref({ top: 0, left: 0 });
+const mousePosition = {x:0, y:0}
+
+document.addEventListener('mousemove', function(mouseMoveEvent){
+  mousePosition.x = mouseMoveEvent.pageX;
+  mousePosition.y = mouseMoveEvent.pageY;
+}, false);
+
 document.addEventListener('mouseup', (event:MouseEvent) => {
   // Automatically focus on nearest block on click
   const blocks = document.getElementById('blocks')
@@ -138,6 +151,58 @@ onBeforeUpdate(() => {
 })
 
 const blockElements = ref<typeof BlockComponent[]>([])
+
+function insertTextAtCursor(textToInsert) {
+    const activeElement = document.activeElement;
+
+    if (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA') {
+        const cursorPos = activeElement.selectionStart;
+        const textBefore = activeElement.value.substring(0, cursorPos);
+        const textAfter = activeElement.value.substring(cursorPos);
+        activeElement.value = textBefore + textToInsert + textAfter;
+        activeElement.setSelectionRange(cursorPos + textToInsert.length, cursorPos + textToInsert.length);
+    } else if (window.getSelection) {
+        const selection = window.getSelection();
+        if (selection.rangeCount > 0) {
+            const range = selection.getRangeAt(0);
+            const textNode = document.createTextNode(textToInsert);
+            range.deleteContents();
+            range.insertNode(textNode);
+            range.setStartAfter(textNode);
+            range.collapse(true);
+            selection.removeAllRanges();
+            selection.addRange(range);
+        }
+    }
+}
+
+function onSelectEmoji(emoji) {
+  debugger;
+  console.log(emoji)
+  isEmojiPickerOpen.value = false;
+  insertTextAtCursor(emoji.i)
+  /*
+    // result
+    {
+        i: "😚",
+        n: ["kissing face"],
+        r: "1f61a", // with skin tone
+        t: "neutral", // skin tone
+        u: "1f61a" // without tone
+    }
+    */
+}
+
+function openEmojiPicker(event) {
+  if (event.metaKey && event.ctrlKey && event.key === ' ') {
+    emojiPickerStyle.value = {
+      top: mousePosition.y,
+      left: mousePosition.x,
+    };
+    console.log(emojiPickerStyle.value.top)
+    isEmojiPickerOpen.value = true;
+  }
+}
 
 function scrollIntoView () {
   const selection = window.getSelection()

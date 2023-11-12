@@ -5,12 +5,13 @@
         <input type="checkbox"
                v-model="item.isChecked"><span></span>
       </label>
-      <div><p
-          :data-index="i"
-          :contenteditable="true" spellcheck="false"
-          @input="updateItemLabel"
-          @keydown="keyDownHandler"
-      >{{ item.label }}</p></div>
+      <div>
+        <Editor v-model="item.label" :data-index="i"
+                :contenteditable="true" spellcheck="false"
+                @input="updateItemLabel"
+                @keydown="keyDownHandler"
+                class=""/>
+      </div>
     </li>
   </ul>
 </template>
@@ -18,6 +19,7 @@
 <script setup lang="ts">
 import {PropType, ref, watch} from "vue";
 import {BlockOptions, isTextBlock, OptionItem} from "@/utils/types"
+import Editor from '../elements/Editor.vue'
 
 const props = defineProps({
   block: {
