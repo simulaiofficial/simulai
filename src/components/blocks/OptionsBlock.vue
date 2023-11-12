@@ -65,8 +65,8 @@ function keyDownHandler(event) {
         isChecked: false
       })
       setTimeout(() => {
-        const createdTextNode = findItemRef(index + 1);
-        setCursorAtBeginning(createdTextNode.querySelector('p'))
+        const liNode = findItemRef(index + 1);
+        setCursorAtBeginning(liNode.querySelector('p'))
       })
     }
   } else if (event.key === 'Backspace') {
@@ -75,20 +75,26 @@ function keyDownHandler(event) {
       props.block.items.splice(index, 1)
       if (index > 0) {
         const liNode = findItemRef(index - 1);
-        setCursorAtBeginning(liNode.querySelector('p'))
+        setTimeout(() => {
+          setCursorAtBeginning(liNode.querySelector('p'))
+        })
       }
     }
   } else if (event.key === 'ArrowUp') {
     if (index > 0) {
       const liNode = findItemRef(index - 1);
-      setCursorAtBeginning(liNode.querySelector('p'))
+      setTimeout(() => {
+        setCursorAtBeginning(liNode.querySelector('p'))
+      })
     } else {
       emit('moveToPrevLine')
     }
   } else if (event.key === 'ArrowDown') {
     if (index < props.block.items.length - 1) {
       const liNode = findItemRef(index + 1);
-      setCursorAtBeginning(liNode.querySelector('p'))
+      setTimeout(() => {
+        setCursorAtBeginning(liNode.querySelector('p'))
+      })
     } else {
       emit('moveToNextLine')
     }
@@ -137,12 +143,18 @@ function setCursorAtBeginning(element) {
     const range = document.createRange();
     const selection = window.getSelection();
 
-    if (element.innerHTML === '') {
-      // If the paragraph is empty, insert a zero-width space character
-      element.innerHTML = '&#8203;'; // Zero-width space character
-    }
+    // if (element.innerHTML === '') {
+    //   // If the paragraph is empty, insert a zero-width space character
+    //   element.innerHTML = '&#8203;'; // Zero-width space character
+    // }
+
+      // range.setStart(offsetNode.firstChild || offsetNode, caretPos - offset)
+      // range.setEnd(offsetNode.firstChild || offsetNode, caretPos - offset)
+      // selection?.removeAllRanges()
+      // selection?.addRange(range)
 
     range.setStart(element, 0);
+    range.setEnd(element, 0);
     range.collapse(true);
 
     selection.removeAllRanges();

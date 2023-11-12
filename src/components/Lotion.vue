@@ -177,7 +177,6 @@ function insertTextAtCursor(textToInsert) {
 }
 
 function onSelectEmoji(emoji) {
-  debugger;
   console.log(emoji)
   isEmojiPickerOpen.value = false;
   insertTextAtCursor(emoji.i)
