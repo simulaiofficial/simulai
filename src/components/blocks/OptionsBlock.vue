@@ -8,6 +8,7 @@
       <div>
         <Editor v-model="item.label" :data-index="i"
                 :contenteditable="true" spellcheck="false"
+                :showPlaceholder="false"
                 @input="updateItemLabel"
                 @keydown="keyDownHandler"
                 class=""/>

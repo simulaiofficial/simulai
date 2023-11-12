@@ -2,7 +2,7 @@
 <template>
   <editor-content :editor="editor" spellcheck="false"
                   @keyup.enter.capture.prevent="() => {}"
-    @keydown.enter.capture.prevent="() => {}" 
+                  @keydown.enter.capture.prevent="() => {}"
   />
 </template>
 
@@ -28,6 +28,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  showPlaceholder: {
+    type: Boolean,
+    default: true
+  }
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -46,25 +50,30 @@ const value = computed({
   },
 })
 
+const extensions = [
+  Document,
+  Paragraph,
+  Text,
+  Bold,
+  Italic,
+  History,
+  Link,
+  BulletList,
+  ListItem,
+  TaskList,
+  TaskItem.configure({
+    nested: true,
+  }),
+]
+
+if(props.showPlaceholder) {
+  extensions.push(Placeholder.configure({
+    placeholder: 'Type \'/\' for a menu'
+  }))
+}
+
 const editor = useEditor({
-  extensions: [
-    Document,
-    Paragraph,
-    Text,
-    Bold,
-    Italic,
-    History,
-    Link,
-    Placeholder.configure({
-      placeholder: 'Type \'/\' for a menu'
-    }),
-    BulletList,
-    ListItem,
-    TaskList,
-    TaskItem.configure({
-      nested: true,
-    }),
-  ],
+  extensions: extensions,
   editorProps: {
     // Removing default behavior for drop event
     handleDrop: () => true,
