@@ -28,8 +28,8 @@ export function markdownToHtml(mdString: string) {
 
 export function htmlToMarkdown(htmlString: string) {
     return htmlString
-        // .replaceAll('<p>', '_p')
-        // .replaceAll('</p>', 'p_')
+        .replaceAll('<p>', '')
+        .replaceAll('</p>', '')
         .replaceAll('<strong>', '**')
         .replaceAll('</strong>', '**')
         .replaceAll('<em>', '*')
