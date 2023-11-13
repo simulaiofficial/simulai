@@ -71,6 +71,7 @@ const editor = ref<HTMLDivElement | null>(null)
 const emojiPicker = ref<HTMLDivElement | null>(null);
 const isEmojiPickerOpen = ref(false);
 const emojiPickerStyle = ref({top: 0, left: 0});
+const savedCaretPosition = ref(null);
 const mousePosition = {x: 0, y: 0}
 
 document.addEventListener('mousemove', function (mouseMoveEvent) {
@@ -170,27 +171,12 @@ onBeforeUpdate(() => {
 const blockElements = ref<typeof BlockComponent[]>([])
 
 function insertTextAtCursor(textToInsert) {
-  const activeElement = document.activeElement;
-
-  if (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA') {
-    const cursorPos = activeElement.selectionStart;
-    const textBefore = activeElement.value.substring(0, cursorPos);
-    const textAfter = activeElement.value.substring(cursorPos);
-    activeElement.value = textBefore + textToInsert + textAfter;
-    activeElement.setSelectionRange(cursorPos + textToInsert.length, cursorPos + textToInsert.length);
-  } else if (window.getSelection) {
-    const selection = window.getSelection();
-    if (selection.rangeCount > 0) {
-      const range = selection.getRangeAt(0);
-      const textNode = document.createTextNode(textToInsert);
-      range.deleteContents();
-      range.insertNode(textNode);
-      range.setStartAfter(textNode);
-      range.collapse(true);
-      selection.removeAllRanges();
-      selection.addRange(range);
-    }
-  }
+  const range = document.createRange();
+  range.setStart(savedCaretPosition.value.startContainer, savedCaretPosition.value.startOffset);
+  range.setEnd(savedCaretPosition.value.endContainer, savedCaretPosition.value.endOffset);
+  range.deleteContents();
+  const emojiNode = document.createTextNode(textToInsert);
+  range.insertNode(emojiNode);
 }
 
 function onSelectEmoji(emoji) {
@@ -215,6 +201,7 @@ function openEmoji() {
     left: mousePosition.x - 250,
   };
   console.log(emojiPickerStyle.value.top)
+  savedCaretPosition.value = getCaretPosition();
   isEmojiPickerOpen.value = true;
 }
 
@@ -222,6 +209,20 @@ function openEmojiPicker(event) {
   if (event.metaKey && event.ctrlKey && event.key === ' ') {
     openEmoji()
   }
+}
+
+function getCaretPosition() {
+  const selection = window.getSelection();
+  if (selection.rangeCount > 0) {
+    const range = selection.getRangeAt(0);
+    return {
+      startContainer: range.startContainer,
+      startOffset: range.startOffset,
+      endContainer: range.endContainer,
+      endOffset: range.endOffset
+    };
+  }
+  return null;
 }
 
 function scrollIntoView() {
