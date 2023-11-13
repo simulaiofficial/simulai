@@ -27,6 +27,10 @@
     </div>
     <div class="w-full relative" :class="{ 'px-0': block.type !== BlockType.Divider }">
       <!-- Actual content -->
+      <Tooltip value="<span class='text-neutral-400'><span class='text-white'>Click</span> to add block below</span>">
+        <v-icon name="bi-emoji-smile" @mousedown.stop.prevent="openEmoji"
+                class="w-6 h-6 hover:bg-neutral-100 hover:text-neutral-400 p-0.5 rounded group-hover:opacity-100 opacity-0"/>
+      </Tooltip>
       <component :is="BlockComponents[props.block.type]" ref="content"
                  :block="block"
                  @moveToPrevLine="emit('moveToPrevLine')"
@@ -72,7 +76,12 @@ const emit = defineEmits([
   'merge',
   'split',
   'setBlockType',
+  'openEmoji'
 ])
+
+function openEmoji() {
+  setTimeout(() => emit('openEmoji'), 100)
+}
 
 function getFirstChild() {
   if (isTextBlock(props.block.type)) {
@@ -276,7 +285,7 @@ async function moveToFirstLine() {
         }
       }
     }
-  } else if(content.value.goIntoStart) {
+  } else if (content.value.goIntoStart) {
     content.value.goIntoStart()
   } else {
     emit('moveToNextLine')
@@ -308,7 +317,7 @@ async function moveToLastLine() {
         }
       }
     }
-  } else if(content.value.goIntoEnd) {
+  } else if (content.value.goIntoEnd) {
     content.value.goIntoEnd()
   } else {
     emit('moveToPrevLine')

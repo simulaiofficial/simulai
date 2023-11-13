@@ -24,6 +24,7 @@
                         @merge="merge(i)"
                         @split="split(i)"
                         @setBlockType="type => setBlockType(i, type)"
+                        @openEmoji="openEmoji"
         />
       </transition-group>
     </draggable>
@@ -79,12 +80,14 @@ document.addEventListener('mousemove', function (mouseMoveEvent) {
 
 document.addEventListener('click', (event) => {
   debugger;
-  const isClickInsideEmojiPicker = emojiPicker.value.$el.contains(event.target);
-  // let isClickInsideEmojiPicker = false
+  if (isEmojiPickerOpen.value === true) {
+    const isClickInsideEmojiPicker = emojiPicker.value.$el.contains(event.target);
+    // let isClickInsideEmojiPicker = false
 
-  if (!isClickInsideEmojiPicker) {
-    // Clicked outside EmojiPicker, close it or perform your action
-    isEmojiPickerOpen.value = false;
+    if (!isClickInsideEmojiPicker) {
+      // Clicked outside EmojiPicker, close it or perform your action
+      isEmojiPickerOpen.value = false;
+    }
   }
 });
 
@@ -206,14 +209,18 @@ function onSelectEmoji(emoji) {
     */
 }
 
+function openEmoji() {
+  emojiPickerStyle.value = {
+    top: mousePosition.y,
+    left: mousePosition.x,
+  };
+  console.log(emojiPickerStyle.value.top)
+  isEmojiPickerOpen.value = true;
+}
+
 function openEmojiPicker(event) {
   if (event.metaKey && event.ctrlKey && event.key === ' ') {
-    emojiPickerStyle.value = {
-      top: mousePosition.y,
-      left: mousePosition.x,
-    };
-    console.log(emojiPickerStyle.value.top)
-    isEmojiPickerOpen.value = true;
+    openEmoji()
   }
 }
 
