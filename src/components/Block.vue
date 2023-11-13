@@ -26,11 +26,13 @@
       />
     </div>
     <div class="w-full relative" :class="{ 'px-0': block.type !== BlockType.Divider }">
+      <div class="flex justify-end w-full">
+        <Tooltip :style="{maxHeight: '10px'}" value="<span class='text-neutral-400'><span class='text-white'>Click</span> to add emoji</span>">
+          <v-icon name="bi-emoji-smile" @mousedown.stop.prevent="openEmoji"
+                  class="w-5 h-5 hover:bg-neutral-100 hover:text-neutral-400 text-neutral-400 p-0.5 rounded group-hover:opacity-100 opacity-0"/>
+        </Tooltip>
+      </div>
       <!-- Actual content -->
-      <Tooltip value="<span class='text-neutral-400'><span class='text-white'>Click</span> to add block below</span>">
-        <v-icon name="bi-emoji-smile" @mousedown.stop.prevent="openEmoji"
-                class="w-6 h-6 hover:bg-neutral-100 hover:text-neutral-400 p-0.5 rounded group-hover:opacity-100 opacity-0"/>
-      </Tooltip>
       <component :is="BlockComponents[props.block.type]" ref="content"
                  :block="block"
                  @moveToPrevLine="emit('moveToPrevLine')"

@@ -212,7 +212,7 @@ function onSelectEmoji(emoji) {
 function openEmoji() {
   emojiPickerStyle.value = {
     top: mousePosition.y,
-    left: mousePosition.x,
+    left: mousePosition.x - 250,
   };
   console.log(emojiPickerStyle.value.top)
   isEmojiPickerOpen.value = true;
