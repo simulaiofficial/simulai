@@ -1,10 +1,10 @@
 <template>
-  <div class="flex">
-    <div class="sticky top-0 h-screen overflow-y-auto bg-neutral-50">
-      <Markdown :page="page" />
-    </div>
-    <div class="shrink-0 px-24 min-w-[50%] mx-auto box-border">
+  <div class="flex flex-col">
+    <div class="w-full">
       <Lotion :page="page" />
+    </div>
+    <div class="w-full overflow-y-auto bg-neutral-50">
+      <Markdown :page="page" />
     </div>
   </div>
 </template>
