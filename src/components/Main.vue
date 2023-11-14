@@ -17,7 +17,7 @@ import Lotion from './Lotion.vue'
 import { v4 as uuidv4 } from 'uuid'
 
 const page = ref({
-  name: '🧴 Lotion',
+  name: '🤖 simulai',
   blocks:[{
     id: uuidv4(),
     type: BlockType.H1,
