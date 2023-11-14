@@ -14,11 +14,11 @@
       }">
       <Tooltip value="<span class='text-neutral-400'><span class='text-white'>Click</span> to delete block</span>">
         <v-icon name="hi-trash" @click="emit('deleteBlock')"
-                class="w-6 h-6 hover:bg-neutral-100 hover:text-neutral-400 p-0.5 rounded group-hover:opacity-100 opacity-0"/>
+                class="w-6 h-6 hover:bg-slate-800 hover:text-neutral-400 p-0.5 rounded group-hover:opacity-100 opacity-0"/>
       </Tooltip>
       <Tooltip value="<span class='text-neutral-400'><span class='text-white'>Click</span> to add block below</span>">
         <v-icon name="hi-plus" @click="emit('newBlock')"
-                class="w-6 h-6 hover:bg-neutral-100 hover:text-neutral-400 p-0.5 rounded group-hover:opacity-100 opacity-0"/>
+                class="w-6 h-6 hover:bg-slate-800 hover:text-neutral-400 p-0.5 rounded group-hover:opacity-100 opacity-0"/>
       </Tooltip>
       <BlockMenu ref="menu"
                  @setBlockType="setBlockType"
@@ -29,7 +29,7 @@
       <div class="flex justify-end w-full">
         <Tooltip :style="{maxHeight: '10px'}" value="<span class='text-neutral-400'><span class='text-white'>Click</span> to add emoji</span>">
           <v-icon name="bi-emoji-smile" @mousedown.stop.prevent="openEmoji"
-                  class="w-5 h-5 hover:bg-neutral-100 hover:text-neutral-400 text-neutral-400 p-0.5 rounded group-hover:opacity-100 opacity-0"/>
+                  class="w-5 h-5 hover:bg-slate-800 hover:text-neutral-400 text-neutral-400 p-0.5 rounded group-hover:opacity-100 opacity-0"/>
         </Tooltip>
       </div>
       <!-- Actual content -->
