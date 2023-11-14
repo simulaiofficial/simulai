@@ -1,9 +1,9 @@
 <template>
-  <div class="flex flex-col">
-    <div class="w-full">
+  <div class="flex flex-col" style="color: #ffffff;">
+    <div class="w-full" style="background-color: #343541;">
       <Lotion :page="page" />
     </div>
-    <div class="w-full overflow-y-auto bg-neutral-50">
+    <div class="w-full overflow-y-auto" style="background-color: #202123;">
       <Markdown :page="page" />
     </div>
   </div>
