@@ -15,6 +15,7 @@
         <BlockComponent :block="block" v-for="block, i in props.page.blocks" :key="i" :id="'block-'+block.id"
                         :blockTypes="props.blockTypes"
                         :ref="el => blockElements[i] = (el as unknown as typeof Block)"
+                        :style="{backgroundColor: '#343541'}"
                         @deleteBlock="deleteBlock(i)"
                         @newBlock="insertBlock(i)"
                         @moveToPrevChar="blockElements[i-1]?.moveToEnd(); scrollIntoView();"
