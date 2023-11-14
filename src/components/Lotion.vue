@@ -1,5 +1,5 @@
 <template>
-  <div class="lotion w-[65ch] mx-auto my-24 font-sans text-base" v-if="props.page" ref="editor"
+  <div class="lotion max-w-screen-md mx-auto my-24 font-sans text-base p-5" v-if="props.page" ref="editor"
        @keydown.ctrl.cmd.space.prevent="openEmojiPicker">
     <h1 id="title" ref="title" :contenteditable="true" spellcheck="false" data-ph="Untitled"
         @keydown.enter.prevent="splitTitle"

@@ -25,7 +25,7 @@
                  :blockTypes="props.block.details.blockTypes || props.blockTypes"
       />
     </div>
-    <div class="w-full relative" :class="{ 'px-0': block.type !== BlockType.Divider }">
+    <div class="flex-1 relative" :class="{ 'px-0': block.type !== BlockType.Divider }">
       <div class="flex justify-end w-full">
         <Tooltip :style="{maxHeight: '10px'}" value="<span class='text-neutral-400'><span class='text-white'>Click</span> to add emoji</span>">
           <v-icon name="bi-emoji-smile" @mousedown.stop.prevent="openEmoji"
