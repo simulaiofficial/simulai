@@ -1,5 +1,5 @@
 <template>
-  <div class="lotion max-w-screen-md mx-auto my-24 font-sans text-base p-5" v-if="props.page" ref="editor"
+  <div class="lotion max-w-screen-md mx-auto my-12 font-sans text-base p-5" v-if="props.page" ref="editor"
        @keydown.ctrl.cmd.space.prevent="openEmojiPicker">
     <h1 id="title" ref="title" :contenteditable="true" spellcheck="false" data-ph="Untitled"
         @keydown.enter.prevent="splitTitle"
@@ -14,6 +14,7 @@
       <transition-group type="transition">
         <BlockComponent :block="block" v-for="block, i in props.page.blocks" :key="i" :id="'block-'+block.id"
                         :blockTypes="props.blockTypes"
+                        :blockNumber="i+1"
                         :ref="el => blockElements[i] = (el as unknown as typeof Block)"
                         :style="{backgroundColor: props.bgColor}"
                         @deleteBlock="deleteBlock(i)"

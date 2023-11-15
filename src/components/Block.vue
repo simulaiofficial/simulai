@@ -12,6 +12,7 @@
         'py-2.5': block.type === BlockType.H3,
         'py-1.5': ![BlockType.H1, BlockType.H2, BlockType.H3].includes(block.type),
       }">
+      <span class="w-6 h-6 hover:bg-slate-800 hover:text-neutral-400 p-0.5 rounded group-hover:opacity-100 opacity-0">{{props.blockNumber}}</span>
       <Tooltip value="<span class='text-neutral-400'><span class='text-white'>Click</span> to delete block</span>">
         <v-icon name="hi-trash" @click="emit('deleteBlock')"
                 class="w-6 h-6 hover:bg-slate-800 hover:text-neutral-400 p-0.5 rounded group-hover:opacity-100 opacity-0"/>
@@ -63,6 +64,10 @@ const props = defineProps({
   blockTypes: {
     type: Object as PropType<null | (string | BlockType)[]>,
     default: null,
+  },
+  blockNumber: {
+    type: Number,
+    default: null
   }
 })
 
