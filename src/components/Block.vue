@@ -262,6 +262,8 @@ function moveToEnd() {
       selection?.removeAllRanges()
       selection?.addRange(range)
     }
+  } else if (content.value.goIntoEnd) {
+    content.value.goIntoEnd()
   } else {
     emit('moveToPrevChar')
   }
@@ -529,6 +531,7 @@ function setBlockType(blockType: BlockType, searchTermLength: number, openedWith
 
 async function clearSearch(searchTermLength: number, newBlockType: BlockType, openedWithSlash: boolean = false) {
   // If openedWithSlash, searchTermLength = 0 but we still need to clear
+  debugger;
   const pos = getCaretPosWithoutTags().pos
   let startIdx = pos - (searchTermLength ? searchTermLength + 1 : 0)
   let endIdx = pos
