@@ -44,6 +44,8 @@ import {htmlToMarkdown} from '@/utils/utils'
 import BlockComponent from './Block.vue'
 import EmojiPicker from 'vue3-emoji-picker'
 import 'vue3-emoji-picker/css'
+import cloneDeep from 'lodash/cloneDeep';
+import {computed, watch} from 'vue'
 
 const props = defineProps({
   page: {
@@ -397,4 +399,82 @@ function splitTitle() {
   props.page.name = titleString.slice(0, caretPos)
   props.page.blocks[0].details.value = titleString.slice(caretPos)
 }
+
+const blocksHistory: any[] = []
+let currentHistoryIndex: number | null = null
+let isUndoNextOperation = false;
+const MAX_HISTORY_SIZE = 50
+
+// Attach the keydown event listener to the window object
+window.addEventListener('keydown', keydownHandler);
+
+function keydownHandler(event) {
+  // Check for Ctrl + Z (Windows/Linux) or Cmd + Z (Mac)
+  if ((event.ctrlKey || event.metaKey) && event.key === 'z' && !event.shiftKey) {
+    event.preventDefault(); // Prevent the browser's default undo behavior
+    if (currentHistoryIndex === null && blocksHistory.length > 1) {
+      currentHistoryIndex = blocksHistory.length - 2;
+    } else if (currentHistoryIndex !== null && blocksHistory.length > 1 && currentHistoryIndex > 0) {
+      currentHistoryIndex = currentHistoryIndex - 1;
+    }
+
+    if (currentHistoryIndex !== null) {
+      // Update the page with the historical state
+      isUndoNextOperation = true;
+
+      debugger;
+
+      const historicalState = cloneDeep(blocksHistory[currentHistoryIndex]);
+
+      // Update the page with the historical state
+      props.page.blocks = historicalState;
+
+      addStateToHistory(props.page.blocks)
+
+      // Reset the flag after the update
+      setTimeout(() => {
+        isUndoNextOperation = false;
+      }, 0);
+    }
+  } else if ((event.ctrlKey || event.metaKey) && event.key === 'z' && event.shiftKey) {
+    event.preventDefault(); // Prevent the browser's default redo behavior
+
+    if (currentHistoryIndex !== null && currentHistoryIndex < blocksHistory.length - 1) {
+      // Update the page with the next historical state
+      isUndoNextOperation = true;
+
+      currentHistoryIndex = currentHistoryIndex + 1;
+      const historicalState = cloneDeep(blocksHistory[currentHistoryIndex]);
+      props.page.blocks = historicalState;
+
+      // Reset the flag after the update
+      setTimeout(() => {
+        isUndoNextOperation = false;
+      }, 0);
+    }
+  }
+}
+
+function addStateToHistory(blocks) {
+  const currentState = cloneDeep(blocks);
+  blocksHistory.push(currentState);
+
+  // Trim the history to the maximum size
+  if (blocksHistory.length > MAX_HISTORY_SIZE) {
+    blocksHistory.shift(); // Remove the oldest element
+  }
+}
+
+watch(() => props.page.blocks, blocks => {
+  if (!isUndoNextOperation) {
+    addStateToHistory(blocks);
+    currentHistoryIndex = null
+  }
+}, {deep: true})
+
+onMounted(() => {
+  // Add the initial state to the history after mount
+  addStateToHistory(props.page.blocks);
+  currentHistoryIndex = null
+});
 </script>
