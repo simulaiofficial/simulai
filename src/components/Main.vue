@@ -91,14 +91,14 @@ const page = ref({
   },]
 })
 
-const blocksHistory: any[]  = []
+const blocksHistory: any[] = []
 let currentHistoryIndex: number | null = null
-let isUndoOperation = false;
+let isUndoNextOperation = false;
 const MAX_HISTORY_SIZE = 50
 
 function keydownHandler(event) {
   // Check for Ctrl + Z (Windows/Linux) or Cmd + Z (Mac)
-  if ((event.ctrlKey || event.metaKey) && event.key === 'z') {
+  if ((event.ctrlKey || event.metaKey) && event.key === 'z' && !event.shiftKey) {
     event.preventDefault(); // Prevent the browser's default undo behavior
     if (currentHistoryIndex === null && blocksHistory.length > 1) {
       currentHistoryIndex = blocksHistory.length - 2;
@@ -108,42 +108,60 @@ function keydownHandler(event) {
 
     if (currentHistoryIndex !== null) {
       // Update the page with the historical state
-      isUndoOperation = true;
+      isUndoNextOperation = true;
 
       const historicalState = cloneDeep(blocksHistory[currentHistoryIndex]);
 
       // Update the page with the historical state
       page.value.blocks = historicalState;
 
-       // Reset the flag after the update
+      addStateToHistory(page.value.blocks)
+
+      // Reset the flag after the update
       setTimeout(() => {
-        isUndoOperation = false;
+        isUndoNextOperation = false;
+      }, 0);
+    }
+  } else if ((event.ctrlKey || event.metaKey) && event.key === 'z' && event.shiftKey) {
+    event.preventDefault(); // Prevent the browser's default redo behavior
+
+    if (currentHistoryIndex !== null && currentHistoryIndex < blocksHistory.length - 1) {
+      // Update the page with the next historical state
+      isUndoNextOperation = true;
+
+      currentHistoryIndex = currentHistoryIndex + 1;
+      const historicalState = cloneDeep(blocksHistory[currentHistoryIndex]);
+      page.value.blocks = historicalState;
+
+      // Reset the flag after the update
+      setTimeout(() => {
+        isUndoNextOperation = false;
       }, 0);
     }
   }
 }
 
 function addStateToHistory(blocks) {
-  if (!isUndoOperation) {
-    const currentState = cloneDeep(blocks);
-    blocksHistory.push(currentState);
+  const currentState = cloneDeep(blocks);
+  blocksHistory.push(currentState);
 
-    // Trim the history to the maximum size
-    if (blocksHistory.length > MAX_HISTORY_SIZE) {
-      blocksHistory.shift(); // Remove the oldest element
-    }
-
-    currentHistoryIndex = null
+  // Trim the history to the maximum size
+  if (blocksHistory.length > MAX_HISTORY_SIZE) {
+    blocksHistory.shift(); // Remove the oldest element
   }
 }
 
 watch(() => page.value.blocks, blocks => {
-  addStateToHistory(blocks);
+  if (!isUndoNextOperation) {
+    addStateToHistory(blocks);
+    currentHistoryIndex = null
+  }
 }, {deep: true})
 
 onMounted(() => {
   // Add the initial state to the history after mount
   addStateToHistory(page.value.blocks);
+  currentHistoryIndex = null
 });
 
 
