@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col" :style="{ color: textColor }" @keydown="keydownHandler">
+  <div class="flex flex-col" :style="{ color: textColor }">
     <div class="w-full" :style="{ backgroundColor: bgColor }">
       <Lotion :bgColor="bgColor" :textColor="textColor" :page="page"/>
     </div>
@@ -96,6 +96,9 @@ let currentHistoryIndex: number | null = null
 let isUndoNextOperation = false;
 const MAX_HISTORY_SIZE = 50
 
+// Attach the keydown event listener to the window object
+window.addEventListener('keydown', keydownHandler);
+
 function keydownHandler(event) {
   // Check for Ctrl + Z (Windows/Linux) or Cmd + Z (Mac)
   if ((event.ctrlKey || event.metaKey) && event.key === 'z' && !event.shiftKey) {
@@ -109,6 +112,8 @@ function keydownHandler(event) {
     if (currentHistoryIndex !== null) {
       // Update the page with the historical state
       isUndoNextOperation = true;
+
+      debugger;
 
       const historicalState = cloneDeep(blocksHistory[currentHistoryIndex]);
 
