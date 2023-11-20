@@ -48,6 +48,13 @@ function onSet() {
         }
     )
     props.block.details.value = ''
+  } else {
+    items.push(
+        {
+          label: '',
+          isChecked: false
+        }
+    )
   }
   props.block.items = items
 }

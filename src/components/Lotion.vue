@@ -403,7 +403,7 @@ function splitTitle() {
 const blocksHistory: any[] = []
 let currentHistoryIndex: number | null = null
 let isUndoNextOperation = false;
-const MAX_HISTORY_SIZE = 50
+const MAX_HISTORY_SIZE = 100
 
 // Attach the keydown event listener to the window object
 window.addEventListener('keydown', keydownHandler);
@@ -458,17 +458,17 @@ function keydownHandler(event) {
 function addStateToHistory(blocks) {
   const currentState = cloneDeep(blocks);
   blocksHistory.push(currentState);
-
-  // Trim the history to the maximum size
-  if (blocksHistory.length > MAX_HISTORY_SIZE) {
-    blocksHistory.shift(); // Remove the oldest element
-  }
 }
 
 watch(() => props.page.blocks, blocks => {
   if (!isUndoNextOperation) {
     addStateToHistory(blocks);
     currentHistoryIndex = null
+
+    // Trim the history to the maximum size
+    if (blocksHistory.length > MAX_HISTORY_SIZE) {
+      blocksHistory.shift(); // Remove the oldest element
+    }
   }
 }, {deep: true})
 
