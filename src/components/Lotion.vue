@@ -90,7 +90,6 @@ document.addEventListener('mousemove', function (mouseMoveEvent) {
 }, false);
 
 document.addEventListener('click', (event) => {
-  debugger;
   if (isEmojiPickerOpen.value === true) {
     const isClickInsideEmojiPicker = emojiPicker.value.$el.contains(event.target);
     // let isClickInsideEmojiPicker = false

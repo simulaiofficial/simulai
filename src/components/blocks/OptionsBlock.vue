@@ -175,20 +175,24 @@ function findItemRef(index) {
 }
 
 function goIntoStart() {
-  const liNode = findItemRef(0);
-  setCursorAtBeginning(liNode.querySelector('p'))
+  if(itemRefs.value.length > 0) {
+    const liNode = findItemRef(0);
+    setCursorAtBeginning(liNode.querySelector('p'))
+  }
 }
 
 function goIntoEnd() {
-  const liNode = findItemRef(itemRefs.value.length - 1);
-  setCursorAtBeginning(liNode.querySelector('p'))
+  if(itemRefs.value.length > 0) {
+    const liNode = findItemRef(itemRefs.value.length - 1);
+    setCursorAtBeginning(liNode.querySelector('p'))
+  }
 }
 
 watch(
     () => props.block.items,
     (newItems) => {
       // Check if there are no items and emit an action
-      if (newItems.length === 0) {
+      if (newItems && newItems.length === 0) {
         emit('deleteBlock');
       }
     },

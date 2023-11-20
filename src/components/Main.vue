@@ -1,27 +1,30 @@
 <template>
-  <div class="flex flex-col" :style="{ color: textColor }">
+  <div class="flex flex-col" :style="{ color: textColor }" @keydown="keydownHandler">
     <div class="w-full" :style="{ backgroundColor: bgColor }">
-      <Lotion :bgColor="bgColor" :textColor="textColor" :page="page" />
+      <Lotion :bgColor="bgColor" :textColor="textColor" :page="page"/>
     </div>
     <div class="w-full overflow-y-auto" style="background-color: #202123;">
-      <Markdown :page="page" />
+      <Markdown :page="page"/>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { BlockType } from '@/utils/types'
+import {onMounted, ref} from 'vue'
+import {BlockType} from '@/utils/types'
 import Markdown from './Markdown.vue'
 import Lotion from './Lotion.vue'
-import { v4 as uuidv4 } from 'uuid'
+import {v4 as uuidv4} from 'uuid'
+import {computed, watch} from 'vue'
+import cloneDeep from 'lodash/cloneDeep';
+import {htmlToMarkdown, markdownToHtml} from "@/utils/utils";
 
 const bgColor = "#343541"
 const textColor = "#ffffff"
 
 const page = ref({
   name: '🤖 simulai',
-  blocks:[{
+  blocks: [{
     id: uuidv4(),
     type: BlockType.H1,
     details: {
@@ -87,4 +90,61 @@ const page = ref({
     },
   },]
 })
+
+const blocksHistory: any[]  = []
+let currentHistoryIndex: number | null = null
+let isUndoOperation = false;
+const MAX_HISTORY_SIZE = 50
+
+function keydownHandler(event) {
+  // Check for Ctrl + Z (Windows/Linux) or Cmd + Z (Mac)
+  if ((event.ctrlKey || event.metaKey) && event.key === 'z') {
+    event.preventDefault(); // Prevent the browser's default undo behavior
+    if (currentHistoryIndex === null && blocksHistory.length > 1) {
+      currentHistoryIndex = blocksHistory.length - 2;
+    } else if (currentHistoryIndex !== null && blocksHistory.length > 1 && currentHistoryIndex > 0) {
+      currentHistoryIndex = currentHistoryIndex - 1;
+    }
+
+    if (currentHistoryIndex !== null) {
+      // Update the page with the historical state
+      isUndoOperation = true;
+
+      const historicalState = cloneDeep(blocksHistory[currentHistoryIndex]);
+
+      // Update the page with the historical state
+      page.value.blocks = historicalState;
+
+       // Reset the flag after the update
+      setTimeout(() => {
+        isUndoOperation = false;
+      }, 0);
+    }
+  }
+}
+
+function addStateToHistory(blocks) {
+  if (!isUndoOperation) {
+    const currentState = cloneDeep(blocks);
+    blocksHistory.push(currentState);
+
+    // Trim the history to the maximum size
+    if (blocksHistory.length > MAX_HISTORY_SIZE) {
+      blocksHistory.shift(); // Remove the oldest element
+    }
+
+    currentHistoryIndex = null
+  }
+}
+
+watch(() => page.value.blocks, blocks => {
+  addStateToHistory(blocks);
+}, {deep: true})
+
+onMounted(() => {
+  // Add the initial state to the history after mount
+  addStateToHistory(page.value.blocks);
+});
+
+
 </script>

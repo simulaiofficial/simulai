@@ -17,7 +17,6 @@ import TaskList from '@tiptap/extension-task-list'
 import Text from '@tiptap/extension-text'
 import Bold from '@tiptap/extension-bold'
 import Italic from '@tiptap/extension-italic'
-import History from '@tiptap/extension-history'
 import Placeholder from '@tiptap/extension-placeholder'
 import Link from '@tiptap/extension-link'
 import {useEditor, EditorContent} from '@tiptap/vue-3'
@@ -56,7 +55,6 @@ const extensions = [
   Text,
   Bold,
   Italic,
-  History,
   Link,
   BulletList,
   ListItem,
@@ -76,7 +74,7 @@ const editor = useEditor({
   extensions: extensions,
   editorProps: {
     // Removing default behavior for drop event
-    handleDrop: () => true,
+    handleDrop: () => true
   },
   content: value.value,
   onUpdate: () => {
