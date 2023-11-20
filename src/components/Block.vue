@@ -5,7 +5,7 @@
       'pt-12 first:pt-0': block.type === BlockType.H1,
       'pt-4 first:pt-0': block.type === BlockType.H2,
     }">
-    <div class="h-full pl-4 pr-2 text-center cursor-pointer transition-all duration-150 text-neutral-300 flex"
+    <div  class="h-full pl-4 pr-2 text-center cursor-pointer transition-all duration-150 text-neutral-300 flex"
          :class="{
         'py-3.5': block.type === BlockType.H1,
         'py-3': block.type === BlockType.H2,
@@ -26,7 +26,7 @@
                  :blockTypes="props.block.details.blockTypes || props.blockTypes"
       />
     </div>
-    <div class="flex-1 relative" :class="{ 'px-0': block.type !== BlockType.Divider }">
+    <div :block-index="blockNumber" class="flex-1 relative" :class="{ 'px-0': block.type !== BlockType.Divider }">
       <div class="flex justify-end w-full">
         <Tooltip :style="{maxHeight: '10px'}" value="<span class='text-neutral-400'><span class='text-white'>Click</span> to add emoji</span>">
           <v-icon name="bi-emoji-smile" @mousedown.stop.prevent="openEmoji"
