@@ -1,5 +1,5 @@
 <template>
-  <div class="lotion max-w-screen-md mx-auto my-12 font-sans text-base p-5" v-if="props.page" ref="editor"
+  <div class="simulai max-w-screen-md mx-auto my-12 font-sans text-base p-5" v-if="props.page" ref="editor"
        @keydown.ctrl.cmd.space.prevent="openEmojiPicker">
     <h1 id="title" ref="title" :contenteditable="true" spellcheck="false" data-ph="Untitled"
         @keydown.enter.prevent="splitTitle"
@@ -172,7 +172,7 @@ const dragOptions = {
   animation: 150,
   group: 'blocks',
   disabled: false,
-  ghostClass: 'lotion-ghost',
+  ghostClass: 'simulai-ghost',
 }
 
 onBeforeUpdate(() => {

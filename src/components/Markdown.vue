@@ -1,5 +1,5 @@
 <template>
-  <pre class="lotion-md whitespace-pre-wrap p-10 m-0 text-base">
+  <pre class="simulai-md whitespace-pre-wrap p-10 m-0 text-base">
 {{ JSON.stringify(props.page.blocks, null, 2) }}
   </pre>
 </template>

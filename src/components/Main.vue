@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col" :style="{ color: textColor }">
     <div class="w-full" :style="{ backgroundColor: bgColor }">
-      <Lotion :bgColor="bgColor" :textColor="textColor" :page="page"/>
+      <Simulai :bgColor="bgColor" :textColor="textColor" :page="page"/>
     </div>
     <div class="w-full overflow-y-auto" style="background-color: #202123;">
       <Markdown :page="page"/>
@@ -13,7 +13,7 @@
 import {ref} from 'vue'
 import {BlockType} from '@/utils/types'
 import Markdown from './Markdown.vue'
-import Lotion from './Lotion.vue'
+import Simulai from './Simulai.vue'
 import {v4 as uuidv4} from 'uuid'
 
 const bgColor = "#343541"

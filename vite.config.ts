@@ -16,7 +16,7 @@ export default defineConfig(({ mode }) => {
       build: {
         lib: {
           entry: path.resolve(__dirname, 'src/index.ts'),
-          name: 'Lotion',
+          name: 'simulai',
         },
         outDir: 'lib',
         rollupOptions: {

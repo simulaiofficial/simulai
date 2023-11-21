@@ -1,5 +1,5 @@
 <template>
-  <Lotion :page="page" />
+  <Simulai :page="page" />
 </template>
 <script setup lang="ts">
 import { ref } from 'vue'
@@ -7,13 +7,13 @@ import CustomBlock from './CustomBlock.vue'
 import { addIcons } from "oh-vue-icons"
 import { FaPumpSoap } from "oh-vue-icons/icons"
 import { v4 as uuidv4 } from 'uuid'
-import { Lotion, registerBlock } from '../src'
+import { Simulai, registerBlock } from '../src'
 
 addIcons(FaPumpSoap)
 registerBlock('LOTION', 'Moisturize', CustomBlock, 'fa-pump-soap')
 
 const page = ref({
-  name: '🧴 Lotion',
+  name: 'Simulai',
   blocks:[{
     id: uuidv4(),
     type: 'TEXT',

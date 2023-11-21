@@ -6,36 +6,9 @@
   <a href="https://www.simulai.co" target="_blank">Try demo</a>
 </p>
 
-
 [//]: # (<p align="center">)
 
-[//]: # (  <a href="https://twitter.com/intent/follow?screen_name=dashibase">)
-
-[//]: # (    <img src="https://img.shields.io/twitter/follow/dashibase?style=social&logo=twitter" alt="follow on Twitter">)
-
-[//]: # (  </a>)
-
-[//]: # (  <a href="https://discord.gg/HjJCwm5">)
-
-[//]: # (    <img src="https://img.shields.io/discord/995844576013201449?logo=discord&logoColor=b0b7ff&color=5865f2" alt="chat on Discord">)
-
-[//]: # (  </a>)
-
-[//]: # (  <img src="https://img.shields.io/github/license/dashibase/lotion?color=green" />)
-
-[//]: # (  <a href="https://www.npmjs.com/package/@dashibase/lotion">)
-
-[//]: # (    <img src="https://img.shields.io/npm/v/@dashibase/lotion" />)
-
-[//]: # (  </a>)
-
-[//]: # (  <br />)
-
-[//]: # (</p>)
-
-[//]: # (<p align="center">)
-
-[//]: # (  <img src="https://github.com/Dashibase/lotion/blob/main/assets/simulai.png" style="border-radius: 10px;" />)
+[//]: # (  <img src="https://github.com/simulaiofficial/simulai/blob/main/assets/simulai.png" style="border-radius: 10px;" />)
 
 [//]: # (</p>)
 
