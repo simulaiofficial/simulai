@@ -1,6 +1,6 @@
 {
-  "name": "@dashibase/lotion",
-  "version": "0.1.5",
+  "name": "@simulaiofficial/simulai",
+  "version": "0.0.1",
   "type": "module",
   "main": "lib/lolo.js",
   "types": "types/src/index.d.ts",
