@@ -9,7 +9,7 @@
           @keydown.delete.prevent
           @keydown="disableInput"
           class="w-full bg-gray-700 placeholder-gray-200 text-gray-300 border border-gray-500 focus:outline-none p-4 rounded-md cursor-not-allowed"
-          placeholder="Enter your answer..."
+          placeholder="Text answer..."
           ref="input"
       />
       <div
