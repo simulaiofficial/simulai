@@ -4,6 +4,7 @@ import HeadingBlock from '@/components/blocks/HeadingBlock.vue'
 import QuoteBlock from '@/components/blocks/QuoteBlock.vue'
 import OptionsBlock from '@/components/blocks/OptionsBlock.vue'
 import RadioBlock from '@/components/blocks/RadioBlock.vue'
+import InputTextAnswerBlock from '@/components/blocks/InputTextAnswerBlock.vue'
 
 export interface Block {
     id: string,
@@ -19,7 +20,8 @@ export enum BlockType {
     Divider = 'DIVIDER',
     Quote = 'QUOTE',
     Options = 'OPTIONS',
-    Radio = 'RADIO'
+    Radio = 'RADIO',
+    InputTextAnswer = 'INPUT_TEXT_ANSWER'
 }
 
 
@@ -43,6 +45,9 @@ export interface BlockRadio extends Block {
     items: OptionItem[];
 }
 
+export interface BlockInputTextAnswer extends Block {
+}
+
 export interface Details {
     value?: string;
     blockTypes?: BlockType[];
@@ -62,6 +67,7 @@ export const BlockComponents = {
     [BlockType.Quote]: QuoteBlock,
     [BlockType.Options]: OptionsBlock,
     [BlockType.Radio]: RadioBlock,
+    [BlockType.InputTextAnswer]: InputTextAnswerBlock,
 }
 
 export const textBlockMap = [BlockType.Text, BlockType.Quote]
@@ -120,6 +126,13 @@ export const availableBlockTypes = [
         icon: 'io-radio-button-on-outline',
         label: 'Radio',
         blockType: BlockType.Radio,
+        canSplit: false,
+    },
+    {
+        type: 'Turn into',
+        icon: 'bi-text-left',
+        label: 'Input Text Answer',
+        blockType: BlockType.InputTextAnswer,
         canSplit: false,
     },
 ] as { type: string, icon: string, label: string, blockType: BlockType | string, canSplit: boolean }[]
