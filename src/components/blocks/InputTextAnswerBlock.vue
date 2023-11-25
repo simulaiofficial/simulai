@@ -8,12 +8,12 @@
           @keydown.tab.prevent
           @keydown.delete.prevent
           @keydown="disableInput"
-          class="w-full bg-gray-800 text-gray-200 border border-gray-600 focus:outline-none p-3 rounded-md shadow-md cursor-not-allowed"
+          class="w-full bg-gray-700 placeholder-gray-200 text-gray-300 border border-gray-500 focus:outline-none p-4 rounded-md cursor-not-allowed"
           placeholder="Enter your answer..."
           ref="input"
       />
       <div
-          class="absolute inset-0 bg-gradient-to-t from-gray-800 to-transparent shadow-md rounded-md pointer-events-none"></div>
+          class="absolute inset-0 bg-gradient-to-t from-gray-700 to-transparent  rounded-md pointer-events-none"></div>
     </div>
   </div>
 </template>
