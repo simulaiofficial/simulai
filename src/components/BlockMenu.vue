@@ -1,6 +1,6 @@
 <template>
   <div ref="container" as="div" class="relative w-max h-max">
-    <div @click="open = !open" class="handle" data-test-id="block-menu">
+    <div @click="open = !open; openTurnInto = false;" class="handle" data-test-id="block-menu">
       <Tooltip value="<span class='text-neutral-400'><span class='text-white'>Drag</span> to move<br/><span class='text-white'>Click</span> to open menu</span>">
         <v-icon name="md-dragindicator" @mouseup="$event.stopPropagation()"
           class="w-6 h-6 hover:bg-slate-800 hover:text-neutral-400 p-0.5 rounded group-hover:opacity-100 opacity-0"
@@ -8,7 +8,19 @@
       </Tooltip>
     </div>
     <div v-show="open" class="block-menu">
-      <div ref="menu"
+      <div ref="mainMenu"
+        class="w-[10rem] lg:w-[12rem] xl:w-[16rem] absolute z-10 shadow-block rounded py-1 text-white text-sm right-full bg-slate-800 max-h-[24rem] overflow-auto focus-visible:outline-none top-0">
+        <div class="text-left divide-y">
+          <div class="px-2 py-2">
+            <div class="px-2 pb-2 font-semibold uppercase text-xs text-neutral-400">Menu</div>
+            <div @click="openTurnInto = !openTurnInto"
+              class="px-2 py-1 rounded flex items-center gap-2 hover:bg-slate-600">
+              <span class="truncate">Turn Into</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div ref="menu" v-if="openTurnInto"
         class="w-[10rem] lg:w-[12rem] xl:w-[16rem] absolute z-10 shadow-block rounded py-1 text-white text-sm right-full bg-slate-800 max-h-[24rem] overflow-auto focus-visible:outline-none top-0">
         <div class="text-left divide-y">
           <!-- Search term -->
@@ -60,6 +72,8 @@ const open = ref(false)
 let openedWithSlash = false
 const container = ref<HTMLDivElement|null>(null)
 const menu = ref<HTMLDivElement|null>(null)
+
+const openTurnInto = ref(false)
 
 watch(open, isOpen => {
   if (!isOpen) {
