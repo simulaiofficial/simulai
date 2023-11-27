@@ -16,7 +16,7 @@
           <div class="px-2 py-2">
             <div class="px-2 pb-2 font-semibold uppercase text-xs text-neutral-400">Menu</div>
             <div @click="openTurnIntoMenu"
-                 class="px-2 py-1 rounded flex items-center gap-2 hover:bg-slate-600">
+                 class="px-2 py-1 rounded flex items-center gap-2 hover:bg-slate-600" data-test-id="turn-into-menu">
               <span class="truncate">Turn Into</span>
             </div>
           </div>
