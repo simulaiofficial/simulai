@@ -177,6 +177,8 @@ function setBlockType(blockType: BlockType | string) {
 
 defineExpose({
   open,
+  openTurnInto,
+  openMainMenu,
   openedWithSlash,
 })
 </script>

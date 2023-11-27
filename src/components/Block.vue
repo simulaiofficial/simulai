@@ -513,6 +513,8 @@ function parseMarkdown(event: KeyboardEvent) {
   } else if (event.key === '/') {
     if (menu.value && !menu.value.open) {
       menu.value.open = true
+      menu.value.openTurnInto = true
+      menu.value.openMainMenu = false
       menu.value.openedWithSlash = true
     }
   }
