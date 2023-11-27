@@ -27,14 +27,14 @@
       />
     </div>
     <div :block-index="blockNumber" class="flex-1 relative" :class="{ 'px-0': block.type !== BlockType.Divider }">
-      <div v-if="availableBlockTypes.find(blockType => blockType.blockType === props.block.type).emojiVisible" class="flex justify-end w-full">
+      <div v-if="BlockComponents[props.block.type].options.emojiVisible" class="flex justify-end w-full">
         <Tooltip :style="{maxHeight: '10px'}" value="<span class='text-neutral-400'><span class='text-white'>Click</span> to add emoji</span>">
-          <v-icon name="bi-emoji-smile" @mousedown.stop.prevent="openEmoji"
+          <v-icon name="bi-emoji-smile" @mousedown.stop.prevent="console.log(props.block.type); console.log(BlockComponents[props.block.type])"
                   class="w-5 h-5 hover:bg-slate-800 hover:text-neutral-400 text-neutral-400 p-0.5 rounded group-hover:opacity-100 opacity-0"/>
         </Tooltip>
       </div>
       <!-- Actual content -->
-      <component :is="BlockComponents[props.block.type]" ref="content"
+      <component :is="BlockComponents[props.block.type].component" ref="content"
                  :block="block"
                  @moveToPrevLine="emit('moveToPrevLine')"
                  @moveToNextLine="emit('moveToNextLine')"
@@ -47,7 +47,7 @@
 
 <script setup lang="ts">
 import {ref, PropType} from 'vue'
-import {Block, BlockType, BlockComponents, isTextBlock, availableBlockTypes} from '@/utils/types'
+import {Block, BlockType, BlockComponents, isTextBlock} from '@/utils/types'
 import BlockMenu from './BlockMenu.vue'
 import Tooltip from './elements/Tooltip.vue'
 
@@ -183,7 +183,7 @@ function keyDownHandler(event: KeyboardEvent) {
   } else if (event.key === 'Enter') {
     entersPressed.value += 1
 
-    const blockTypeDetails = availableBlockTypes.find(blockType => blockType.blockType === props.block.type)
+    const blockTypeDetails = BlockComponents[props.block.type].options
     if (!blockTypeDetails) return
     if (blockTypeDetails.canSplit) {
       if (!(menu.value && menu.value.open)) {

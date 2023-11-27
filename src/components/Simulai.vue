@@ -39,7 +39,7 @@
 import {ref, onBeforeUpdate, PropType, onBeforeUnmount, onMounted} from 'vue'
 import {VueDraggableNext as draggable} from 'vue-draggable-next'
 import {v4 as uuidv4} from 'uuid'
-import {Block, BlockType, isTextBlock, availableBlockTypes} from '@/utils/types'
+import {Block, BlockType, isTextBlock, BlockComponents} from '@/utils/types'
 import {htmlToMarkdown} from '@/utils/utils'
 import BlockComponent from './Block.vue'
 import EmojiPicker from 'vue3-emoji-picker'
@@ -376,7 +376,7 @@ function mergeTitle(blockIdx: number = 0) {
 function split(blockIdx: number) {
   const caretPos = blockElements.value[blockIdx].getCaretPos()
   insertBlock(blockIdx)
-  const blockTypeDetails = availableBlockTypes.find(blockType => blockType.blockType === props.page.blocks[blockIdx].type)
+  const blockTypeDetails = BlockComponents[props.page.blocks[blockIdx].type].options
   if (!blockTypeDetails) return
   if (blockTypeDetails.canSplit) {
     let htmlValue = blockElements.value[blockIdx].getHtmlContent()

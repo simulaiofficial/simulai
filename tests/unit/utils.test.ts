@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest'
-import { isTextBlock, BlockType, BlockComponents, availableBlockTypes } from '@/utils/types'
+import { isTextBlock, BlockType } from '@/utils/types'
 
 test('isTextBlock should work for text blocks', () => {
   // Keep as reminder to update textBlockMap in @/utils/types

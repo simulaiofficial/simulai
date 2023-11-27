@@ -59,15 +59,87 @@ export interface OptionItem {
 }
 
 export const BlockComponents = {
-    [BlockType.Text]: TextBlock,
-    [BlockType.H1]: HeadingBlock,
-    [BlockType.H2]: HeadingBlock,
-    [BlockType.H3]: HeadingBlock,
-    [BlockType.Divider]: DividerBlock,
-    [BlockType.Quote]: QuoteBlock,
-    [BlockType.Options]: OptionsBlock,
-    [BlockType.Radio]: RadioBlock,
-    [BlockType.InputTextAnswer]: InputTextAnswerBlock,
+    [BlockType.Text]: {
+        component: TextBlock,
+        options: {
+            icon: 'bi-text-left',
+            label: 'Text',
+            canSplit: true,
+            emojiVisible: true,
+        }
+    },
+    [BlockType.H1]: {
+        component: HeadingBlock,
+        options: {
+            icon: 'bi-type-h1',
+            label: 'Heading 1',
+            canSplit: true,
+            emojiVisible: true,
+        }
+    },
+    [BlockType.H2]: {
+        component: HeadingBlock,
+        options: {
+            icon: 'bi-type-h2',
+            label: 'Heading 2',
+            canSplit: true,
+            emojiVisible: true,
+        }
+    },
+    [BlockType.H3]: {
+        component: HeadingBlock,
+        options: {
+            icon: 'bi-type-h3',
+            label: 'Heading 3',
+            canSplit: true,
+            emojiVisible: true,
+        }
+    },
+    [BlockType.Divider]: {
+        component: DividerBlock,
+        options: {
+            icon: 'bi-hr',
+            label: 'Divider',
+            canSplit: false,
+            emojiVisible: false,
+        }
+    },
+    [BlockType.Quote]: {
+        component: QuoteBlock,
+        options: {
+            icon: 'bi-quote',
+            label: 'Quote',
+            canSplit: true,
+            emojiVisible: true,
+        }
+    },
+    [BlockType.Options]: {
+        component: OptionsBlock,
+        options: {
+            icon: 'md-checkbox-outlined',
+            label: 'Options',
+            canSplit: false,
+            emojiVisible: true,
+        }
+    },
+    [BlockType.Radio]: {
+        component: RadioBlock,
+        options: {
+            icon: 'io-radio-button-on-outline',
+            label: 'Radio',
+            canSplit: false,
+            emojiVisible: true,
+        }
+    },
+    [BlockType.InputTextAnswer]: {
+        component: InputTextAnswerBlock,
+        options: {
+            icon: 'bi-text-left',
+            label: 'Input Text Answer',
+            canSplit: false,
+            emojiVisible: false,
+        }
+    },
 }
 
 export const textBlockMap = [BlockType.Text, BlockType.Quote]
@@ -75,73 +147,3 @@ export const textBlockMap = [BlockType.Text, BlockType.Quote]
 export const isTextBlock = (type: string) => {
     return textBlockMap.some(textBlock => textBlock === type)
 }
-
-export const availableBlockTypes = [
-    {
-        type: 'Turn into',
-        icon: 'bi-text-left',
-        label: 'Text',
-        blockType: BlockType.Text,
-        canSplit: true,
-        emojiVisible: true,
-    }, {
-        type: 'Turn into',
-        icon: 'bi-type-h1',
-        label: 'Heading 1',
-        blockType: BlockType.H1,
-        canSplit: true,
-        emojiVisible: true,
-    }, {
-        type: 'Turn into',
-        icon: 'bi-type-h2',
-        label: 'Heading 2',
-        blockType: BlockType.H2,
-        canSplit: true,
-        emojiVisible: true,
-    }, {
-        type: 'Turn into',
-        icon: 'bi-type-h3',
-        label: 'Heading 3',
-        blockType: BlockType.H3,
-        canSplit: true,
-        emojiVisible: true,
-    }, {
-        type: 'Turn into',
-        icon: 'bi-hr',
-        label: 'Divider',
-        blockType: BlockType.Divider,
-        canSplit: false,
-        emojiVisible: false,
-    }, {
-        type: 'Turn into',
-        icon: 'bi-quote',
-        label: 'Quote',
-        blockType: BlockType.Quote,
-        canSplit: true,
-        emojiVisible: true,
-    },
-    {
-        type: 'Turn into',
-        icon: 'md-checkbox-outlined',
-        label: 'Options',
-        blockType: BlockType.Options,
-        canSplit: false,
-        emojiVisible: true,
-    },
-    {
-        type: 'Turn into',
-        icon: 'io-radio-button-on-outline',
-        label: 'Radio',
-        blockType: BlockType.Radio,
-        canSplit: false,
-        emojiVisible: true,
-    },
-    {
-        type: 'Turn into',
-        icon: 'bi-text-left',
-        label: 'Input Text Answer',
-        blockType: BlockType.InputTextAnswer,
-        canSplit: false,
-        emojiVisible: false,
-    },
-] as { type: string, icon: string, label: string, blockType: BlockType | string, canSplit: boolean }[]

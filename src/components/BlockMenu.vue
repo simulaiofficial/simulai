@@ -33,9 +33,9 @@
             </div>
           </div>
           <!-- Turn into another block like Text, Heading or Divider -->
-          <div class="px-2 py-2" v-if="options.filter(option => option.type === 'Turn into').length">
+          <div class="px-2 py-2" v-if="options.length">
             <div class="px-2 pb-2 font-semibold uppercase text-xs text-neutral-400">Turn into</div>
-            <div v-for="option, i in options.filter(option => option.type === 'Turn into')"
+            <div v-for="option, i in options"
                  class="px-2 py-1 rounded flex items-center gap-2"
                  :class="[active === (i + options.filter(option => option.type !== 'Turn into').length) ? 'bg-slate-600' : '']"
                  @click.stop="setBlockType(option.blockType);"
@@ -55,7 +55,7 @@
 <script setup lang="ts">
 import {ref, computed, watch, PropType} from 'vue'
 import Fuse from 'fuse.js'
-import {BlockType, availableBlockTypes} from '@/utils/types'
+import {BlockComponents, BlockType} from '@/utils/types'
 import Tooltip from './elements/Tooltip.vue'
 
 const props = defineProps({
@@ -150,16 +150,21 @@ document.addEventListener('keyup', (event: KeyboardEvent) => {
 Menu options
 */
 
-const fuzzySearch = new Fuse(availableBlockTypes, {
+const blockComponentArray = Object.entries(BlockComponents).map(([blockType, entry]) => ({
+  blockType,
+  ...entry.options,
+}));
+
+const fuzzySearch = new Fuse(blockComponentArray, {
   keys: ['label']
 })
 
 const options = computed(() => {
   const options = searchTerm.value === ''
-      ? availableBlockTypes
+      ? blockComponentArray
       : fuzzySearch.search(searchTerm.value).map(result => result.item)
-  if (props.blockTypes) return options.filter(option => props.blockTypes?.includes(option.blockType))
-  else return options
+  // if (props.blockTypes) return options.filter(option => props.blockTypes?.includes(option.blockType))
+  return options
 })
 
 function openTurnIntoMenu() {
