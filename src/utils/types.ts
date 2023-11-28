@@ -12,6 +12,10 @@ export interface Block {
     details: Details;
 }
 
+export interface BlockAnswer extends Block {
+    isRequired: boolean
+}
+
 export enum BlockType {
     Text = 'TEXT',
     H1 = 'H1',
@@ -37,15 +41,15 @@ export interface BlockDivider extends Block {
 export interface BlockQuote extends Block {
 }
 
-export interface BlockOptions extends Block {
+export interface BlockOptions extends BlockAnswer {
     items: OptionItem[];
 }
 
-export interface BlockRadio extends Block {
+export interface BlockRadio extends BlockAnswer {
     items: OptionItem[];
 }
 
-export interface BlockInputTextAnswer extends Block {
+export interface BlockInputTextAnswer extends BlockAnswer {
 }
 
 export interface Details {

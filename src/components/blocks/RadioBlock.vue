@@ -7,6 +7,7 @@ import {PropType} from "vue";
 import {Block, BlockRadio} from "@/utils/types"
 import Editor from "../elements/Editor.vue"
 import {ref} from 'vue'
+import {setUpInitialValuesForBlockAnswer} from "@/utils/utils";
 
 const props = defineProps({
   block: {
@@ -18,7 +19,7 @@ const props = defineProps({
 const content = ref<Editor>()
 
 function onSet() {
-  props.block.details.value = `<ul data-type=\"taskList\"><li data-type=\"taskItem\"><label><input type=\"checkbox\"><span></span></label><div><p>${props.block.details.value}</p><p></p></div></li></ul>`
+  setUpInitialValuesForBlockAnswer(props.block)
 }
 
 // function clickCheckbox(event) {

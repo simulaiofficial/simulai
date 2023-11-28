@@ -21,7 +21,7 @@
 <script setup lang="ts">
 import {PropType} from 'vue'
 import {Block, BlockInputTextAnswer, OptionItem} from '@/utils/types'
-import {markdownToHtml} from '@/utils/utils'
+import {markdownToHtml, setUpInitialValuesForBlockAnswer} from '@/utils/utils'
 import Editor from '../elements/Editor.vue'
 
 const props = defineProps({
@@ -39,6 +39,8 @@ function onSet() {
   if (props.block.details.value) {
     props.block.details.value = ''
   }
+
+  setUpInitialValuesForBlockAnswer(props.block)
 }
 
 defineExpose({
