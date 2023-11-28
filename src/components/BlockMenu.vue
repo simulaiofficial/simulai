@@ -19,6 +19,10 @@
                  class="px-2 py-1 rounded flex items-center gap-2 hover:bg-slate-600" data-test-id="turn-into-menu">
               <span class="truncate">Turn Into</span>
             </div>
+            <div v-if="BlockComponents[props.block.type].options.requiredVisible"
+                 class="px-2 py-1 rounded flex items-center gap-2 hover:bg-slate-600">
+              <span class="truncate">Require</span>
+            </div>
           </div>
         </div>
       </div>
@@ -55,7 +59,7 @@
 <script setup lang="ts">
 import {ref, computed, watch, PropType} from 'vue'
 import Fuse from 'fuse.js'
-import {BlockComponents, BlockType} from '@/utils/types'
+import {Block, BlockComponents, BlockDivider, BlockType} from '@/utils/types'
 import Tooltip from './elements/Tooltip.vue'
 
 const props = defineProps({
@@ -63,6 +67,10 @@ const props = defineProps({
     type: Object as PropType<null | (string | BlockType)[]>,
     default: null,
   },
+  block: {
+    type: Object as PropType<Block>,
+    required: true,
+  }
 })
 
 const emit = defineEmits([

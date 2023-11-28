@@ -24,6 +24,7 @@
       <BlockMenu ref="menu"
                  @setBlockType="setBlockType"
                  :blockTypes="props.block.details.blockTypes || props.blockTypes"
+                 :block="block"
       />
     </div>
     <div :block-index="blockNumber" class="flex-1 relative" :class="{ 'px-0': block.type !== BlockType.Divider }">

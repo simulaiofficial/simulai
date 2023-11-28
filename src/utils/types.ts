@@ -70,6 +70,7 @@ export const BlockComponents = {
             label: 'Text',
             canSplit: true,
             emojiVisible: true,
+            requiredVisible: false
         }
     },
     [BlockType.H1]: {
@@ -79,6 +80,7 @@ export const BlockComponents = {
             label: 'Heading 1',
             canSplit: true,
             emojiVisible: true,
+            requiredVisible: false
         }
     },
     [BlockType.H2]: {
@@ -88,6 +90,7 @@ export const BlockComponents = {
             label: 'Heading 2',
             canSplit: true,
             emojiVisible: true,
+            requiredVisible: false
         }
     },
     [BlockType.H3]: {
@@ -97,6 +100,7 @@ export const BlockComponents = {
             label: 'Heading 3',
             canSplit: true,
             emojiVisible: true,
+            requiredVisible: false
         }
     },
     [BlockType.Divider]: {
@@ -106,6 +110,7 @@ export const BlockComponents = {
             label: 'Divider',
             canSplit: false,
             emojiVisible: false,
+            requiredVisible: false
         }
     },
     [BlockType.Quote]: {
@@ -115,6 +120,7 @@ export const BlockComponents = {
             label: 'Quote',
             canSplit: true,
             emojiVisible: true,
+            requiredVisible: false
         }
     },
     [BlockType.Options]: {
@@ -124,6 +130,7 @@ export const BlockComponents = {
             label: 'Options',
             canSplit: false,
             emojiVisible: true,
+            requiredVisible: true
         }
     },
     [BlockType.Radio]: {
@@ -133,6 +140,7 @@ export const BlockComponents = {
             label: 'Radio',
             canSplit: false,
             emojiVisible: true,
+            requiredVisible: true
         }
     },
     [BlockType.InputTextAnswer]: {
@@ -142,6 +150,7 @@ export const BlockComponents = {
             label: 'Input Text Answer',
             canSplit: false,
             emojiVisible: false,
+            requiredVisible: true
         }
     },
 }
