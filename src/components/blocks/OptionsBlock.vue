@@ -21,7 +21,7 @@
 import {PropType, ref, watch} from "vue";
 import {BlockOptions, isTextBlock, OptionItem} from "@/utils/types"
 import Editor from '../elements/Editor.vue'
-import {setUpInitialValuesForBlockAnswer} from "@/utils/utils";
+import {setUpInitialValuesForBlockAnswer, unsetInitialValuesForBlockAnswer} from "@/utils/utils";
 
 const props = defineProps({
   block: {
@@ -59,6 +59,11 @@ function onSet() {
   }
   props.block.items = items
   setUpInitialValuesForBlockAnswer(props.block)
+}
+
+function onUnset() {
+  delete props.block.items
+  unsetInitialValuesForBlockAnswer(props.block)
 }
 
 function keyDownHandler(event) {
@@ -210,6 +215,7 @@ watch(
 
 defineExpose({
   onSet,
+  onUnset,
   goIntoStart,
   goIntoEnd
 })

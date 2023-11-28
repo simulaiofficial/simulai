@@ -29,3 +29,7 @@ export function htmlToMarkdown(htmlString: string) {
 export function setUpInitialValuesForBlockAnswer(block: BlockAnswer) {
     block.isRequired = true
 }
+
+export function unsetInitialValuesForBlockAnswer(block: BlockAnswer) {
+    delete block.isRequired
+}
