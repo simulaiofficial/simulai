@@ -8,8 +8,9 @@ import InputTextAnswerBlock from '@/components/blocks/InputTextAnswerBlock.vue'
 
 export interface Block {
     id: string,
-    type: BlockType;
-    details: Details;
+    type: BlockType,
+    details: Details,
+    isHidden: boolean;
 }
 
 export interface BlockAnswer extends Block {
@@ -70,7 +71,8 @@ export const BlockComponents = {
             label: 'Text',
             canSplit: true,
             emojiVisible: true,
-            requiredVisible: false
+            requiredVisible: false,
+            hideVisible: true,
         }
     },
     [BlockType.H1]: {
@@ -80,7 +82,8 @@ export const BlockComponents = {
             label: 'Heading 1',
             canSplit: true,
             emojiVisible: true,
-            requiredVisible: false
+            requiredVisible: false,
+            hideVisible: true,
         }
     },
     [BlockType.H2]: {
@@ -90,7 +93,8 @@ export const BlockComponents = {
             label: 'Heading 2',
             canSplit: true,
             emojiVisible: true,
-            requiredVisible: false
+            requiredVisible: false,
+            hideVisible: true,
         }
     },
     [BlockType.H3]: {
@@ -100,7 +104,8 @@ export const BlockComponents = {
             label: 'Heading 3',
             canSplit: true,
             emojiVisible: true,
-            requiredVisible: false
+            requiredVisible: false,
+            hideVisible: true,
         }
     },
     [BlockType.Divider]: {
@@ -110,7 +115,8 @@ export const BlockComponents = {
             label: 'Divider',
             canSplit: false,
             emojiVisible: false,
-            requiredVisible: false
+            requiredVisible: false,
+            hideVisible: true,
         }
     },
     [BlockType.Quote]: {
@@ -120,7 +126,8 @@ export const BlockComponents = {
             label: 'Quote',
             canSplit: true,
             emojiVisible: true,
-            requiredVisible: false
+            requiredVisible: false,
+            hideVisible: true,
         }
     },
     [BlockType.Options]: {
@@ -130,7 +137,8 @@ export const BlockComponents = {
             label: 'Options',
             canSplit: false,
             emojiVisible: true,
-            requiredVisible: true
+            requiredVisible: true,
+            hideVisible: true,
         }
     },
     [BlockType.Radio]: {
@@ -140,7 +148,8 @@ export const BlockComponents = {
             label: 'Radio',
             canSplit: false,
             emojiVisible: true,
-            requiredVisible: true
+            requiredVisible: true,
+            hideVisible: true,
         }
     },
     [BlockType.InputTextAnswer]: {
@@ -150,7 +159,8 @@ export const BlockComponents = {
             label: 'Input Text Answer',
             canSplit: false,
             emojiVisible: false,
-            requiredVisible: true
+            requiredVisible: true,
+            hideVisible: true,
         }
     },
 }

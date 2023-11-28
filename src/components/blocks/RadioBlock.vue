@@ -7,7 +7,7 @@ import {PropType} from "vue";
 import {Block, BlockRadio} from "@/utils/types"
 import Editor from "../elements/Editor.vue"
 import {ref} from 'vue'
-import {setUpInitialValuesForBlockAnswer} from "@/utils/utils";
+import {setUpInitialValuesForBlock, setUpInitialValuesForBlockAnswer} from "@/utils/utils";
 
 const props = defineProps({
   block: {
@@ -19,6 +19,7 @@ const props = defineProps({
 const content = ref<Editor>()
 
 function onSet() {
+  setUpInitialValuesForBlock(props.block)
   setUpInitialValuesForBlockAnswer(props.block)
 }
 

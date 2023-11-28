@@ -21,7 +21,11 @@
 import {PropType, ref, watch} from "vue";
 import {BlockOptions, isTextBlock, OptionItem} from "@/utils/types"
 import Editor from '../elements/Editor.vue'
-import {setUpInitialValuesForBlockAnswer, unsetInitialValuesForBlockAnswer} from "@/utils/utils";
+import {
+  setUpInitialValuesForBlock,
+  setUpInitialValuesForBlockAnswer,
+  unsetInitialValuesForBlockAnswer
+} from "@/utils/utils";
 
 const props = defineProps({
   block: {
@@ -58,6 +62,7 @@ function onSet() {
     )
   }
   props.block.items = items
+  setUpInitialValuesForBlock(props.block)
   setUpInitialValuesForBlockAnswer(props.block)
 }
 

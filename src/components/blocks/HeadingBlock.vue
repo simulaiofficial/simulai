@@ -13,6 +13,7 @@
 <script setup lang="ts">
 import { ref, PropType } from 'vue'
 import {Block, BlockHeading, BlockType} from '@/utils/types'
+import {setUpInitialValuesForBlock} from "@/utils/utils";
 
 const headingConfig = {
   [BlockType.H1]: {
@@ -44,6 +45,7 @@ const content = ref<HTMLDivElement>()
 
 function onSet () {
   if (content.value && props.block.details.value) content.value.innerText = props.block.details.value
+  setUpInitialValuesForBlock(props.block)
 }
 
 defineExpose({

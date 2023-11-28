@@ -6,11 +6,20 @@
 <script setup lang="ts">
 import { PropType } from 'vue'
 import {Block, BlockDivider} from '@/utils/types'
+import {setUpInitialValuesForBlock} from "@/utils/utils";
 
 const props = defineProps({
   block: {
     type: Object as PropType<BlockDivider>,
     required: true,
   }
+})
+
+function onSet() {
+  setUpInitialValuesForBlock(props.block)
+}
+
+defineExpose({
+  onSet,
 })
 </script>

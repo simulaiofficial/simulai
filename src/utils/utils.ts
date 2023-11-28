@@ -1,4 +1,4 @@
-import {BlockAnswer, BlockComponents} from './types'
+import {Block, BlockAnswer, BlockComponents} from './types'
 
 export function markdownToHtml(mdString: string) {
     // Adapted from https://randyperkins2k.medium.com/writing-a-simple-markdown-parser-using-javascript-1f2e9449a558
@@ -25,6 +25,11 @@ export function htmlToMarkdown(htmlString: string) {
         .replaceAll('</em>', '*')
         .replaceAll(/\<br.*?\>/g, '')
 }
+
+export function setUpInitialValuesForBlock(block: Block) {
+    block.isHidden = false
+}
+
 
 export function setUpInitialValuesForBlockAnswer(block: BlockAnswer) {
     block.isRequired = true

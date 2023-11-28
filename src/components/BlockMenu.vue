@@ -19,13 +19,24 @@
                  class="px-2 py-1 rounded flex items-center gap-2 hover:bg-slate-600" data-test-id="turn-into-menu">
               <span class="truncate">Turn Into</span>
             </div>
+            <div v-if="BlockComponents[props.block.type].options.hideVisible"
+                 class="px-2 py-1 rounded flex items-center gap-2 hover:bg-slate-600">
+              <span class="truncate">Hide block</span>
+              <div class="flex items-center ml-auto">
+                <!-- Added a container for the switch, using ml-auto to push it to the right -->
+                <label class="switch">
+                  <input type="checkbox" v-model="props.block.isHidden">
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
             <div v-if="BlockComponents[props.block.type].options.requiredVisible"
                  class="px-2 py-1 rounded flex items-center gap-2 hover:bg-slate-600">
               <span class="truncate">Required</span>
               <div class="flex items-center ml-auto">
                 <!-- Added a container for the switch, using ml-auto to push it to the right -->
                 <label class="switch">
-                  <input type="checkbox" v-model="props.block.isRequired" @change="handleRequireOptionChange">
+                  <input type="checkbox" v-model="props.block.isRequired">
                   <span class="slider"></span>
                 </label>
               </div>
@@ -195,9 +206,6 @@ function setBlockType(blockType: BlockType | string) {
 
   searchTerm.value = ''
   open.value = false
-}
-
-function handleRequireOptionChange() {
 }
 
 defineExpose({

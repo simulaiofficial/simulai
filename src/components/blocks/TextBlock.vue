@@ -6,7 +6,7 @@
 <script setup lang="ts">
 import { PropType } from 'vue'
 import {Block, BlockText} from '@/utils/types'
-import { markdownToHtml } from '@/utils/utils'
+import {markdownToHtml, setUpInitialValuesForBlock} from '@/utils/utils'
 import Editor from '../elements/Editor.vue'
 
 const props = defineProps({
@@ -14,5 +14,13 @@ const props = defineProps({
     type: Object as PropType<BlockText>,
     required: true,
   }
+})
+
+function onSet() {
+  setUpInitialValuesForBlock(props.block)
+}
+
+defineExpose({
+  onSet,
 })
 </script>

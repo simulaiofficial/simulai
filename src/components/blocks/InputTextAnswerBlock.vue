@@ -21,7 +21,7 @@
 <script setup lang="ts">
 import {PropType} from 'vue'
 import {Block, BlockInputTextAnswer, OptionItem} from '@/utils/types'
-import {markdownToHtml, setUpInitialValuesForBlockAnswer} from '@/utils/utils'
+import {markdownToHtml, setUpInitialValuesForBlock, setUpInitialValuesForBlockAnswer} from '@/utils/utils'
 import Editor from '../elements/Editor.vue'
 
 const props = defineProps({
@@ -40,6 +40,7 @@ function onSet() {
     props.block.details.value = ''
   }
 
+  setUpInitialValuesForBlock(props.block)
   setUpInitialValuesForBlockAnswer(props.block)
 }
 
