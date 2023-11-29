@@ -53,7 +53,7 @@
               </div>
               <!-- Add input field for minimum characters -->
               <div v-if="props.block.minRequired" class="ml-2">
-                <input @click.stop @input.stop @mouseup.stop v-model="props.block.minChars" type="number" class="w-16 px-1 border border-gray-300 rounded border-1 text-gray-600" min="1" placeholder="">
+                <input @click.stop @input.stop @mouseup.stop v-model="props.block.minChars" type="number" class="w-16 px-1 border rounded border-1 text-gray-400 bg-gray-800 border-blue-500 focus:border-blue-500 focus:outline-none outline-none" min="1" placeholder="">
               </div>
             </div>
             <div v-if="BlockComponents[props.block.type].options.maxVisible"
@@ -68,8 +68,19 @@
               </div>
               <!-- Add input field for minimum characters -->
               <div v-if="props.block.maxRequired" class="ml-1">
-                <input @click.stop @input.stop @mouseup.stop v-model="props.block.maxChars" type="number" class="w-16 px-1 border border-gray-300 rounded border-1 text-gray-600" min="1" placeholder="">
+                <input @click.stop @input.stop @mouseup.stop v-model="props.block.maxChars" type="number" class="w-16 px-1 border rounded border-1 text-gray-400 bg-gray-800 border-blue-500 focus:border-blue-500 focus:outline-none outline-none" min="1" placeholder="">
               </div>
+            </div>
+            <hr class="border-t border-solid my-3" style="border-color: #684141"/>
+            <div @click="open = false; emit('deleteBlock')"
+                 class="px-2 py-1 rounded flex items-center gap-2 hover:bg-slate-600" data-test-id="turn-into-menu">
+              <v-icon name="hi-trash"
+                class="w-6 h-6 p-0.5 rounded opacity-100 opacity-0"/><span class="truncate">Delete</span>
+            </div>
+            <div @click="open = false; emit('deleteBlock')"
+                 class="px-2 py-1 rounded flex items-center gap-2 hover:bg-slate-600" data-test-id="turn-into-menu">
+              <v-icon name="pr-clone"
+                class="w-6 h-6 p-0.5 rounded opacity-100 opacity-0"/><span class="truncate">Duplicate</span>
             </div>
           </div>
         </div>
@@ -123,6 +134,7 @@ const props = defineProps({
 
 const emit = defineEmits([
   'setBlockType',
+  'deleteBlock',
   'clearSearch',
 ])
 

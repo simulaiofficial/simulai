@@ -13,7 +13,8 @@ import {
     BiQuote,
     MdCheckboxOutlined,
     IoRadioButtonOnOutline,
-    BiEmojiSmile
+    BiEmojiSmile,
+    PrClone
 } from "oh-vue-icons/icons"
 import App from './App.vue'
 import './index.css'
@@ -31,7 +32,8 @@ addIcons(
     BiQuote,
     MdCheckboxOutlined,
     IoRadioButtonOnOutline,
-    BiEmojiSmile
+    BiEmojiSmile,
+    PrClone
 )
 
 const app = createApp(App)

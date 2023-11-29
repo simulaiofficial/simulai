@@ -23,6 +23,7 @@
       </Tooltip>
       <BlockMenu ref="menu"
                  @setBlockType="setBlockType"
+                 @deleteBlock="emit('deleteBlock')"
                  :blockTypes="props.block.details.blockTypes || props.blockTypes"
                  :block="block"
       />
