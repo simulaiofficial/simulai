@@ -298,11 +298,6 @@ function deleteBlock(blockIdx: number) {
 }
 
 function duplicateBlock(blockIdx: number) {
-  // Ensure that the block index is valid
-  if (blockIdx < 0 || blockIdx >= props.page.blocks.length) {
-    return;
-  }
-
   // Clone the block to duplicate it
   const duplicatedBlock = { ...props.page.blocks[blockIdx] };
 
