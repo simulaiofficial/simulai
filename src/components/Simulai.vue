@@ -104,6 +104,7 @@ document.addEventListener('click', (event) => {
 });
 
 document.addEventListener('mouseup', (event: MouseEvent) => {
+  debugger;
   // Automatically focus on nearest block on click
   const blocks = document.getElementById('blocks')
   const title = document.getElementById('title')

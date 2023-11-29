@@ -51,6 +51,10 @@ export interface BlockRadio extends BlockAnswer {
 }
 
 export interface BlockInputTextAnswer extends BlockAnswer {
+    minRequired: boolean
+    minChars: number,
+    maxRequired: boolean
+    maxChars: number,
 }
 
 export interface Details {
@@ -73,6 +77,8 @@ export const BlockComponents = {
             emojiVisible: true,
             requiredVisible: false,
             hideVisible: true,
+            minVisible: false,
+            maxVisible: false,
         }
     },
     [BlockType.H1]: {
@@ -84,6 +90,8 @@ export const BlockComponents = {
             emojiVisible: true,
             requiredVisible: false,
             hideVisible: true,
+            minVisible: false,
+            maxVisible: false,
         }
     },
     [BlockType.H2]: {
@@ -95,6 +103,8 @@ export const BlockComponents = {
             emojiVisible: true,
             requiredVisible: false,
             hideVisible: true,
+            minVisible: false,
+            maxVisible: false,
         }
     },
     [BlockType.H3]: {
@@ -106,6 +116,8 @@ export const BlockComponents = {
             emojiVisible: true,
             requiredVisible: false,
             hideVisible: true,
+            minVisible: false,
+            maxVisible: false,
         }
     },
     [BlockType.Divider]: {
@@ -117,6 +129,8 @@ export const BlockComponents = {
             emojiVisible: false,
             requiredVisible: false,
             hideVisible: true,
+            minVisible: false,
+            maxVisible: false,
         }
     },
     [BlockType.Quote]: {
@@ -128,6 +142,8 @@ export const BlockComponents = {
             emojiVisible: true,
             requiredVisible: false,
             hideVisible: true,
+            minVisible: false,
+            maxVisible: false,
         }
     },
     [BlockType.Options]: {
@@ -139,6 +155,8 @@ export const BlockComponents = {
             emojiVisible: true,
             requiredVisible: true,
             hideVisible: true,
+            minVisible: false,
+            maxVisible: false,
         }
     },
     [BlockType.Radio]: {
@@ -150,6 +168,8 @@ export const BlockComponents = {
             emojiVisible: true,
             requiredVisible: true,
             hideVisible: true,
+            minVisible: false,
+            maxVisible: false,
         }
     },
     [BlockType.InputTextAnswer]: {
@@ -161,6 +181,8 @@ export const BlockComponents = {
             emojiVisible: false,
             requiredVisible: true,
             hideVisible: true,
+            minVisible: true,
+            maxVisible: true,
         }
     },
 }

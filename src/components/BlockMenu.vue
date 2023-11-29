@@ -41,6 +41,36 @@
                 </label>
               </div>
             </div>
+            <div v-if="BlockComponents[props.block.type].options.minVisible"
+                 class="px-2 py-1 rounded flex items-center gap-2 hover:bg-slate-600">
+              <span class="truncate flex-shrink-0">Min characters</span>
+              <div class="flex items-center ml-auto">
+                <!-- Added a container for the switch, using ml-auto to push it to the right -->
+                <label class="switch">
+                  <input type="checkbox" v-model="props.block.minRequired">
+                  <span class="slider"></span>
+                </label>
+              </div>
+              <!-- Add input field for minimum characters -->
+              <div v-if="props.block.minRequired" class="ml-2">
+                <input @click.stop @mouseup.stop v-model="props.block.minChars" type="number" class="w-16" min="1" placeholder="">
+              </div>
+            </div>
+            <div v-if="BlockComponents[props.block.type].options.maxVisible"
+                 class="px-2 py-1 rounded flex items-center gap-2 hover:bg-slate-600">
+              <span class="truncate flex-shrink-0">Max characters</span>
+              <div class="flex items-center ml-auto">
+                <!-- Added a container for the switch, using ml-auto to push it to the right -->
+                <label class="switch">
+                  <input type="checkbox" v-model="props.block.maxRequired">
+                  <span class="slider"></span>
+                </label>
+              </div>
+              <!-- Add input field for minimum characters -->
+              <div v-if="props.block.maxRequired" class="ml-2">
+                <input @click.stop @mouseup.stop v-model="props.block.maxChars" type="number" class="w-16" min="1" placeholder="">
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -112,6 +142,7 @@ watch(open, isOpen => {
 
 document.addEventListener('click', (event: Event) => {
   // Close menu on click outside of menu
+  console.log('Clicked on:', event.target);
   if (!open.value) return
   if (!(container.value && container.value.contains(event.target as Node))) {
     open.value = false
@@ -218,56 +249,56 @@ defineExpose({
 
 <style lang="scss" scoped>
 /* Add these styles for the switch */
-  .switch {
-    position: relative;
-    display: inline-block;
-    width: 40px;
-    height: 20px;
-  }
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+}
 
-  .switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
 
-  .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0; /* Adjusted right property to 0 */
-    bottom: 0;
-    background-color: #ccc;
-    -webkit-transition: .4s;
-    transition: .4s;
-    border-radius: 34px;
-  }
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0; /* Adjusted right property to 0 */
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 34px;
+}
 
-  .slider:before {
-    position: absolute;
-    content: "";
-    height: 16px;
-    width: 16px;
-    left: 2px;
-    bottom: 2px;
-    background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
-    border-radius: 50%;
-  }
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 50%;
+}
 
-  input:checked + .slider {
-    background-color: #2196F3;
-  }
+input:checked + .slider {
+  background-color: #2196F3;
+}
 
-  input:focus + .slider {
-    box-shadow: 0 0 1px #2196F3;
-  }
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
 
-  input:checked + .slider:before {
-    -webkit-transform: translateX(20px);
-    -ms-transform: translateX(20px);
-    transform: translateX(20px);
-  }
+input:checked + .slider:before {
+  -webkit-transform: translateX(20px);
+  -ms-transform: translateX(20px);
+  transform: translateX(20px);
+}
 </style>

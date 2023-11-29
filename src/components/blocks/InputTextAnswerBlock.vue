@@ -21,7 +21,12 @@
 <script setup lang="ts">
 import {PropType} from 'vue'
 import {Block, BlockInputTextAnswer, OptionItem} from '@/utils/types'
-import {markdownToHtml, setUpInitialValuesForBlock, setUpInitialValuesForBlockAnswer} from '@/utils/utils'
+import {
+  markdownToHtml,
+  setUpInitialValuesForBlock,
+  setUpInitialValuesForBlockAnswer,
+  unsetInitialValuesForBlockAnswer
+} from '@/utils/utils'
 import Editor from '../elements/Editor.vue'
 
 const props = defineProps({
@@ -42,9 +47,21 @@ function onSet() {
 
   setUpInitialValuesForBlock(props.block)
   setUpInitialValuesForBlockAnswer(props.block)
+
+  props.block.minRequired = false
+  props.block.maxRequired = false
+}
+
+function onUnset() {
+  unsetInitialValuesForBlockAnswer(props.block)
+  delete props.block.minRequired
+  delete props.block.maxRequired
+  delete props.block.minChars
+  delete props.block.maxChars
 }
 
 defineExpose({
-  onSet
+  onSet,
+  onUnset
 })
 </script>
