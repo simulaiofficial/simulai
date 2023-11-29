@@ -53,7 +53,7 @@
               </div>
               <!-- Add input field for minimum characters -->
               <div v-if="props.block.minRequired" class="ml-2">
-                <input @click.stop @mouseup.stop v-model="props.block.minChars" type="number" class="w-16 px-1 border border-gray-300 rounded border-1 text-gray-600" min="1" placeholder="">
+                <input @click.stop @input.stop @mouseup.stop v-model="props.block.minChars" type="number" class="w-16 px-1 border border-gray-300 rounded border-1 text-gray-600" min="1" placeholder="">
               </div>
             </div>
             <div v-if="BlockComponents[props.block.type].options.maxVisible"
@@ -68,7 +68,7 @@
               </div>
               <!-- Add input field for minimum characters -->
               <div v-if="props.block.maxRequired" class="ml-1">
-                <input @click.stop @mouseup.stop v-model="props.block.maxChars" type="number" class="w-16 px-1 border border-gray-300 rounded border-1 text-gray-600" min="1" placeholder="">
+                <input @click.stop @input.stop @mouseup.stop v-model="props.block.maxChars" type="number" class="w-16 px-1 border border-gray-300 rounded border-1 text-gray-600" min="1" placeholder="">
               </div>
             </div>
           </div>
