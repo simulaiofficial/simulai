@@ -77,7 +77,7 @@
               <v-icon name="hi-trash"
                 class="w-6 h-6 p-0.5 rounded opacity-100 opacity-0"/><span class="truncate">Delete</span>
             </div>
-            <div @click="open = false; emit('deleteBlock')"
+            <div @click="open = false; emit('duplicateBlock')"
                  class="px-2 py-1 rounded flex items-center gap-2 hover:bg-slate-600" data-test-id="turn-into-menu">
               <v-icon name="pr-clone"
                 class="w-6 h-6 p-0.5 rounded opacity-100 opacity-0"/><span class="truncate">Duplicate</span>
@@ -135,6 +135,7 @@ const props = defineProps({
 const emit = defineEmits([
   'setBlockType',
   'deleteBlock',
+  'duplicateBlock',
   'clearSearch',
 ])
 

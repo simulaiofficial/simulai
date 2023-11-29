@@ -18,6 +18,7 @@
                         :ref="el => blockElements[i] = (el as unknown as typeof Block)"
                         :style="{backgroundColor: props.bgColor}"
                         @deleteBlock="deleteBlock(i)"
+                        @duplicateBlock="duplicateBlock(i)"
                         @newBlock="insertBlock(i)"
                         @moveToPrevChar="blockElements[i-1]?.moveToEnd(); scrollIntoView();"
                         @moveToNextChar="blockElements[i+1]?.moveToStart(); scrollIntoView();"
@@ -294,6 +295,19 @@ function deleteBlock(blockIdx: number) {
   if (props.page.blocks.length === 0) {
     insertBlock(0)
   }
+}
+
+function duplicateBlock(blockIdx: number) {
+  // Ensure that the block index is valid
+  if (blockIdx < 0 || blockIdx >= props.page.blocks.length) {
+    return;
+  }
+
+  // Clone the block to duplicate it
+  const duplicatedBlock = { ...props.page.blocks[blockIdx] };
+
+  // Insert the duplicated block after the original block
+  props.page.blocks.splice(blockIdx + 1, 0, duplicatedBlock);
 }
 
 async function setBlockType(blockIdx: number, type: BlockType) {

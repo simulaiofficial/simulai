@@ -24,6 +24,7 @@
       <BlockMenu ref="menu"
                  @setBlockType="setBlockType"
                  @deleteBlock="emit('deleteBlock')"
+                 @duplicateBlock="emit('duplicateBlock')"
                  :blockTypes="props.block.details.blockTypes || props.blockTypes"
                  :block="block"
       />
@@ -77,6 +78,7 @@ const entersPressed = ref(0)
 
 const emit = defineEmits([
   'deleteBlock',
+  'duplicateBlock',
   'newBlock',
   'moveToPrevChar',
   'moveToNextChar',
