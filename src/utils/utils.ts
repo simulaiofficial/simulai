@@ -33,8 +33,11 @@ export function setUpInitialValuesForBlock(block: Block) {
 
 export function setUpInitialValuesForBlockAnswer(block: BlockAnswer) {
     block.isRequired = true
+    block.setName = false
 }
 
 export function unsetInitialValuesForBlockAnswer(block: BlockAnswer) {
     delete block.isRequired
+    delete block.setName
+    delete block.name
 }

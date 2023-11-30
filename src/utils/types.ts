@@ -14,7 +14,9 @@ export interface Block {
 }
 
 export interface BlockAnswer extends Block {
-    isRequired: boolean
+    isRequired: boolean,
+    setName: boolean,
+    name: string;
 }
 
 export enum BlockType {
@@ -79,6 +81,7 @@ export const BlockComponents = {
             hideVisible: true,
             minVisible: false,
             maxVisible: false,
+            nameVisible: false
         }
     },
     [BlockType.H1]: {
@@ -92,6 +95,7 @@ export const BlockComponents = {
             hideVisible: true,
             minVisible: false,
             maxVisible: false,
+            nameVisible: false
         }
     },
     [BlockType.H2]: {
@@ -105,6 +109,7 @@ export const BlockComponents = {
             hideVisible: true,
             minVisible: false,
             maxVisible: false,
+            nameVisible: false
         }
     },
     [BlockType.H3]: {
@@ -118,6 +123,7 @@ export const BlockComponents = {
             hideVisible: true,
             minVisible: false,
             maxVisible: false,
+            nameVisible: false
         }
     },
     [BlockType.Divider]: {
@@ -131,6 +137,7 @@ export const BlockComponents = {
             hideVisible: true,
             minVisible: false,
             maxVisible: false,
+            nameVisible: false
         }
     },
     [BlockType.Quote]: {
@@ -144,6 +151,7 @@ export const BlockComponents = {
             hideVisible: true,
             minVisible: false,
             maxVisible: false,
+            nameVisible: false
         }
     },
     [BlockType.Options]: {
@@ -157,6 +165,7 @@ export const BlockComponents = {
             hideVisible: true,
             minVisible: false,
             maxVisible: false,
+            nameVisible: true
         }
     },
     [BlockType.Radio]: {
@@ -170,6 +179,7 @@ export const BlockComponents = {
             hideVisible: true,
             minVisible: false,
             maxVisible: false,
+            nameVisible: true
         }
     },
     [BlockType.InputTextAnswer]: {
@@ -183,6 +193,7 @@ export const BlockComponents = {
             hideVisible: true,
             minVisible: true,
             maxVisible: true,
+            nameVisible: true
         }
     },
 }

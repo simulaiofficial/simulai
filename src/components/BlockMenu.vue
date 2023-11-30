@@ -19,6 +19,21 @@
                  class="px-2 py-1 rounded flex items-center gap-2 hover:bg-slate-600" data-test-id="turn-into-menu">
               <span class="truncate">Turn Into</span>
             </div>
+            <div v-if="BlockComponents[props.block.type].options.nameVisible"
+                 class="px-2 py-1 rounded flex items-center gap-2 hover:bg-slate-600">
+              <span class="truncate flex-shrink-0">Set name</span>
+              <div class="flex items-center ml-auto">
+                <!-- Added a container for the switch, using ml-auto to push it to the right -->
+                <label class="switch">
+                  <input type="checkbox" v-model="props.block.setName">
+                  <span class="slider"></span>
+                </label>
+              </div>
+              <!-- Add input field for minimum characters -->
+              <div v-if="props.block.setName" class="ml-1">
+                <input @click.stop @input.stop @mouseup.stop v-model="props.block.name" type="text" class="w-16 px-1 border rounded border-1 text-gray-400 bg-gray-800 border-blue-600 focus:border-blue-500 focus:outline-none outline-none" min="1" placeholder="">
+              </div>
+            </div>
             <div v-if="BlockComponents[props.block.type].options.hideVisible"
                  class="px-2 py-1 rounded flex items-center gap-2 hover:bg-slate-600">
               <span class="truncate">Hide block</span>
