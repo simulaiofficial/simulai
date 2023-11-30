@@ -32,7 +32,7 @@
     <div :block-index="blockNumber" class="flex-1 relative" :class="{ 'px-0': block.type !== BlockType.Divider, 'opacity-50 pointer-events-none': props.block.isHidden }">
       <div v-if="BlockComponents[props.block.type].options.emojiVisible" class="flex justify-end w-full">
         <Tooltip :style="{maxHeight: '10px'}" value="<span class='text-neutral-400'><span class='text-white'>Click</span> to add emoji</span>">
-          <v-icon name="bi-emoji-smile" @mousedown.stop.prevent="console.log(props.block.type); console.log(BlockComponents[props.block.type])"
+          <v-icon name="bi-emoji-smile" @mousedown.stop.prevent="openEmoji()"
                   class="w-5 h-5 hover:bg-slate-800 hover:text-neutral-400 text-neutral-400 p-0.5 rounded group-hover:opacity-100 opacity-0"/>
         </Tooltip>
       </div>

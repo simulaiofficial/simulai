@@ -105,7 +105,6 @@ document.addEventListener('click', (event) => {
 });
 
 document.addEventListener('mouseup', (event: MouseEvent) => {
-  debugger;
   // Automatically focus on nearest block on click
   const blocks = document.getElementById('blocks')
   const title = document.getElementById('title')
@@ -184,12 +183,14 @@ onBeforeUpdate(() => {
 const blockElements = ref<typeof BlockComponent[]>([])
 
 function insertTextAtCursor(textToInsert) {
-  const range = document.createRange();
-  range.setStart(savedCaretPosition.value.startContainer, savedCaretPosition.value.startOffset);
-  range.setEnd(savedCaretPosition.value.endContainer, savedCaretPosition.value.endOffset);
-  range.deleteContents();
-  const emojiNode = document.createTextNode(textToInsert);
-  range.insertNode(emojiNode);
+  if (savedCaretPosition.value) {
+    const range = document.createRange();
+    range.setStart(savedCaretPosition.value.startContainer, savedCaretPosition.value.startOffset);
+    range.setEnd(savedCaretPosition.value.endContainer, savedCaretPosition.value.endOffset);
+    range.deleteContents();
+    const emojiNode = document.createTextNode(textToInsert);
+    range.insertNode(emojiNode);
+  }
 }
 
 function onSelectEmoji(emoji) {
@@ -299,7 +300,7 @@ function deleteBlock(blockIdx: number) {
 
 function duplicateBlock(blockIdx: number) {
   // Clone the block to duplicate it
-  const duplicatedBlock = { ...props.page.blocks[blockIdx] };
+  const duplicatedBlock = {...props.page.blocks[blockIdx]};
 
   // Insert the duplicated block after the original block
   props.page.blocks.splice(blockIdx + 1, 0, duplicatedBlock);
@@ -431,8 +432,6 @@ function keydownHandler(event) {
     if (currentHistoryIndex !== null) {
       // Update the page with the historical state
       isUndoNextOperation = true;
-
-      debugger;
 
       const historicalState = cloneDeep(blocksHistory[currentHistoryIndex]);
 

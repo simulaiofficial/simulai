@@ -170,7 +170,6 @@ watch(open, isOpen => {
 
 document.addEventListener('click', (event: Event) => {
   // Close menu on click outside of menu
-  console.log('Clicked on:', event.target);
   if (!open.value) return
   if (!(container.value && container.value.contains(event.target as Node))) {
     open.value = false
