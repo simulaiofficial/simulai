@@ -1,7 +1,7 @@
 <template>
   <ul data-type="taskList">
     <li v-for="item, i in props.block.items" ref="itemRefs" :data-index="i" :key="i" data-checked="true">
-      <label class="switch">
+      <label class="switch" @click="updateItemState">
         <input type="checkbox" v-model="item.isChecked">
         <span class="slider"></span>
       </label>
@@ -121,9 +121,23 @@ function keyDownHandler(event) {
   }
 }
 
+function updateItemState(event) {
+  const index = parseInt(event.target.getAttribute('data-index'));
+
+  // Set isChecked to false for all items
+  props.block.items.forEach((item, i) => {
+    if (i !== index) {
+      item.isChecked = false;
+    }
+  });
+}
+
 function updateItemLabel(event) {
-  const index = parseInt(event.target.getAttribute('data-index'))
-  props.block.items[index].label = event.target.textContent || '';
+  const index = parseInt(event.target.getAttribute('data-index'));
+  const updatedLabel = event.target.textContent || '';
+
+  // Update the label for the selected item
+  props.block.items[index].label = updatedLabel;
 }
 
 function isCursorAtEnd(paragraphElement) {
@@ -259,11 +273,11 @@ ul[data-type="taskList"] {
   }
 }
 
-/* Add these styles for the switch */
+/* Add these styles for the radio button */
 .switch {
   position: relative;
   display: inline-block;
-  width: 40px;
+  width: 20px; /* Adjusted width */
   height: 20px;
 }
 
@@ -278,38 +292,24 @@ ul[data-type="taskList"] {
   cursor: pointer;
   top: 0;
   left: 0;
-  right: 0; /* Adjusted right property to 0 */
+  right: 0;
   bottom: 0;
   background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
-  border-radius: 34px;
+  border-radius: 50%; /* Changed border-radius for a circular shape */
 }
 
 .slider:before {
-  position: absolute;
   content: "";
-  height: 16px;
-  width: 16px;
-  left: 2px;
-  bottom: 2px;
+  height: 14px;
+  width: 14px;
+  position: absolute;
+  left: 3px;
+  bottom: 3px;
   background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
   border-radius: 50%;
 }
 
 input:checked + .slider {
   background-color: #2196F3;
-}
-
-input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
-}
-
-input:checked + .slider:before {
-  -webkit-transform: translateX(20px);
-  -ms-transform: translateX(20px);
-  transform: translateX(20px);
 }
 </style>
