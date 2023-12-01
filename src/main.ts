@@ -15,7 +15,8 @@ import {
     IoRadioButtonOnOutline,
     BiEmojiSmile,
     PrClone,
-    CoTextSquare
+    CoTextSquare,
+    GiLogicGateNor
 } from "oh-vue-icons/icons"
 import App from './App.vue'
 import './index.css'
@@ -35,7 +36,8 @@ addIcons(
     IoRadioButtonOnOutline,
     BiEmojiSmile,
     PrClone,
-    CoTextSquare
+    CoTextSquare,
+    GiLogicGateNor
 )
 
 const app = createApp(App)

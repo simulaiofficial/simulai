@@ -81,7 +81,8 @@ export const BlockComponents = {
             hideVisible: true,
             minVisible: false,
             maxVisible: false,
-            nameVisible: false
+            nameVisible: false,
+            conditionVisible: false,
         }
     },
     [BlockType.H1]: {
@@ -95,7 +96,8 @@ export const BlockComponents = {
             hideVisible: true,
             minVisible: false,
             maxVisible: false,
-            nameVisible: false
+            nameVisible: false,
+            conditionVisible: false,
         }
     },
     [BlockType.H2]: {
@@ -109,7 +111,8 @@ export const BlockComponents = {
             hideVisible: true,
             minVisible: false,
             maxVisible: false,
-            nameVisible: false
+            nameVisible: false,
+            conditionVisible: false,
         }
     },
     [BlockType.H3]: {
@@ -123,7 +126,8 @@ export const BlockComponents = {
             hideVisible: true,
             minVisible: false,
             maxVisible: false,
-            nameVisible: false
+            nameVisible: false,
+            conditionVisible: false,
         }
     },
     [BlockType.Divider]: {
@@ -137,7 +141,8 @@ export const BlockComponents = {
             hideVisible: true,
             minVisible: false,
             maxVisible: false,
-            nameVisible: false
+            nameVisible: false,
+            conditionVisible: false,
         }
     },
     [BlockType.Quote]: {
@@ -151,7 +156,8 @@ export const BlockComponents = {
             hideVisible: true,
             minVisible: false,
             maxVisible: false,
-            nameVisible: false
+            nameVisible: false,
+            conditionVisible: false,
         }
     },
     [BlockType.Options]: {
@@ -165,7 +171,8 @@ export const BlockComponents = {
             hideVisible: true,
             minVisible: false,
             maxVisible: false,
-            nameVisible: true
+            nameVisible: true,
+            conditionVisible: true,
         }
     },
     [BlockType.Radio]: {
@@ -179,7 +186,8 @@ export const BlockComponents = {
             hideVisible: true,
             minVisible: false,
             maxVisible: false,
-            nameVisible: true
+            nameVisible: true,
+            conditionVisible: true,
         }
     },
     [BlockType.InputTextAnswer]: {
@@ -193,7 +201,8 @@ export const BlockComponents = {
             hideVisible: true,
             minVisible: true,
             maxVisible: true,
-            nameVisible: true
+            nameVisible: true,
+            conditionVisible: true,
         }
     },
 }
