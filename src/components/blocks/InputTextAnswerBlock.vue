@@ -15,11 +15,37 @@
       <div
           class="absolute inset-0 bg-gradient-to-t from-gray-700 to-transparent  rounded-md pointer-events-none"></div>
     </div>
+
+    <!-- New block for conditional logic -->
+    <div class="mt-4">
+      <div class="flex items-center">
+        <label class="text-gray-300 mr-2">When:</label>
+        <div class="flex items-center">
+          <Dropdown v-model="selectedComparison" :options="comparisonOptions" optionLabel="name" placeholder="Select a City" class="w-full md:w-14rem" />
+          <input
+              class="w-1/2 bg-gray-700 placeholder-gray-200 text-gray-300 border border-gray-500 focus:outline-none p-2 rounded-md"
+              placeholder="Value..."
+          />
+        </div>
+      </div>
+
+      <div class="flex items-center mt-2">
+        <label class="text-gray-300 mr-2">Then:</label>
+        <Dropdown v-model="selectedComparison" :options="comparisonOptions" optionLabel="name" placeholder="Select a City" class="w-full md:w-14rem" />
+        <!-- Input for the index to jump to -->
+        <input
+            v-model="jumpIndex"
+            type="number"
+            class="w-1/4 bg-gray-700 placeholder-gray-200 text-gray-300 border border-gray-500 focus:outline-none p-2 rounded-md ml-2"
+            placeholder="Index..."
+        />
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import {PropType} from 'vue'
+import {PropType, ref} from 'vue'
 import {Block, BlockInputTextAnswer, OptionItem} from '@/utils/types'
 import {
   markdownToHtml,
@@ -28,6 +54,24 @@ import {
   unsetInitialValuesForBlockAnswer
 } from '@/utils/utils'
 import Editor from '../elements/Editor.vue'
+import Dropdown from 'primevue/dropdown';
+
+const comparisonOptions = ref([
+  { value: '=', name: 'Equal to' },
+  { value: '!=', name: 'Not equal to' },
+  { value: '>', name: 'Greater than' },
+  { value: '<', name: 'Less than' },
+]);
+
+const actionOptions = ref([
+  { value: 'jump', name: 'Jump to section' },
+  { value: 'other', name: 'Other action' },
+]);
+
+const selectedComparison = ref('=');
+const comparisonValue = ref('');
+const selectedAction = ref('jump');
+const jumpIndex = ref('');
 
 const props = defineProps({
   block: {

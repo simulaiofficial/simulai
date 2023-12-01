@@ -21,6 +21,9 @@ import {
 import App from './App.vue'
 import './index.css'
 
+import PrimeVue from 'primevue/config';
+import Dropdown from 'primevue/dropdown';
+
 addIcons(
     MdDragindicator,
     HiTrash,
@@ -41,5 +44,9 @@ addIcons(
 )
 
 const app = createApp(App)
+
+app.use(PrimeVue);
+
 app.component("v-icon", OhVueIcon)
+app.component('Dropdown', Dropdown);
 app.mount('#app')
