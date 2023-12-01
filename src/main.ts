@@ -14,7 +14,8 @@ import {
     MdCheckboxOutlined,
     IoRadioButtonOnOutline,
     BiEmojiSmile,
-    PrClone
+    PrClone,
+    CoTextSquare
 } from "oh-vue-icons/icons"
 import App from './App.vue'
 import './index.css'
@@ -33,7 +34,8 @@ addIcons(
     MdCheckboxOutlined,
     IoRadioButtonOnOutline,
     BiEmojiSmile,
-    PrClone
+    PrClone,
+    CoTextSquare
 )
 
 const app = createApp(App)

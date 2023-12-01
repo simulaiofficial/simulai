@@ -1,13 +1,31 @@
 <template>
-  {{ props.block.details.value }}
+  <ul data-type="taskList">
+    <li v-for="item, i in props.block.items" ref="itemRefs" :data-index="i" :key="i" data-checked="true">
+      <label class="switch">
+        <input type="checkbox" v-model="item.isChecked">
+        <span class="slider"></span>
+      </label>
+      <div>
+        <Editor v-model="item.label" :data-index="i"
+                :contenteditable="true" spellcheck="false"
+                :showPlaceholder="false"
+                @input="updateItemLabel"
+                @keydown="keyDownHandler"
+                class=""/>
+      </div>
+    </li>
+  </ul>
 </template>
 
 <script setup lang="ts">
-import {PropType} from "vue";
-import {Block, BlockRadio} from "@/utils/types"
-import Editor from "../elements/Editor.vue"
-import {ref} from 'vue'
-import {setUpInitialValuesForBlock, setUpInitialValuesForBlockAnswer} from "@/utils/utils";
+import {PropType, ref, watch} from "vue";
+import {BlockRadio, isTextBlock, OptionItem} from "@/utils/types"
+import Editor from '../elements/Editor.vue'
+import {
+  setUpInitialValuesForBlock,
+  setUpInitialValuesForBlockAnswer,
+  unsetInitialValuesForBlockAnswer
+} from "@/utils/utils";
 
 const props = defineProps({
   block: {
@@ -16,44 +34,200 @@ const props = defineProps({
   }
 });
 
-const content = ref<Editor>()
+const emit = defineEmits([
+  'deleteBlock',
+  'moveToPrevLine',
+  'moveToNextLine',
+])
+
+const itemRefs = ref([])
 
 function onSet() {
+  const items: Array<OptionItem> = []
+
+  if (props.block.details.value) {
+    items.push(
+        {
+          label: props.block.details.value,
+          isChecked: false
+        }
+    )
+    props.block.details.value = ''
+  } else {
+    items.push(
+        {
+          label: '',
+          isChecked: false
+        }
+    )
+  }
+  props.block.items = items
   setUpInitialValuesForBlock(props.block)
   setUpInitialValuesForBlockAnswer(props.block)
 }
 
-// function clickCheckbox(event) {
-//   if (event.target.tagName === 'INPUT' && event.target.type === 'checkbox') {
-//     // Perform your action when a checkbox is clicked
-//     // Access event.target to get the clicked checkbox element
-//     // Get all checkbox inputs inside the Editor component
-//     const checkbox = event.target;
-//     const isChecked = checkbox.checked
-//
-//     const editorElement = content.value.$el;
-//
-//     const checkboxInputs = editorElement.querySelectorAll('input[type="checkbox"]');
-//
-//     // Uncheck all checkboxes
-//     checkboxInputs.forEach((checkbx) => {
-//       checkbx.checked = false;
-//       // checkbx.parentElement.parentElement.setAttribute('data-checked', false.toString());
-//     });
-//     if (isChecked === true) {
-//       checkbox.checked = isChecked
-//       // checkbox.parentElement.parentElement.setAttribute('data-checked', true.toString());
-//     }
-//   }
-// }
+function onUnset() {
+  delete props.block.items
+  unsetInitialValuesForBlockAnswer(props.block)
+}
+
+function keyDownHandler(event) {
+  const index = parseInt(event.target.getAttribute('data-index'))
+
+  if (event.key === 'Enter') {
+    console.log(itemRefs.value)
+    const cursorIsAtEnd: boolean = isCursorAtEnd(event.target)
+    if (cursorIsAtEnd) {
+      event.stopPropagation()
+      event.preventDefault()
+      props.block.items.splice(index + 1, 0, {
+        label: "",
+        isChecked: false
+      })
+      setTimeout(() => {
+        const liNode = findItemRef(index + 1);
+        setCursorAtBeginning(liNode.querySelector('p'))
+      })
+    }
+  } else if (event.key === 'Backspace') {
+    const cursorIsAtBeginning: boolean = isCursorAtBeginning(event.target)
+    if (cursorIsAtBeginning) {
+      props.block.items.splice(index, 1)
+      if (index > 0) {
+        const liNode = findItemRef(index - 1);
+        setTimeout(() => {
+          setCursorAtBeginning(liNode.querySelector('p'))
+        })
+      }
+    }
+  } else if (event.key === 'ArrowUp') {
+    if (index > 0) {
+      const liNode = findItemRef(index - 1);
+      setTimeout(() => {
+        setCursorAtBeginning(liNode.querySelector('p'))
+      })
+    } else {
+      emit('moveToPrevLine')
+    }
+  } else if (event.key === 'ArrowDown') {
+    if (index < props.block.items.length - 1) {
+      const liNode = findItemRef(index + 1);
+      setTimeout(() => {
+        setCursorAtBeginning(liNode.querySelector('p'))
+      })
+    } else {
+      emit('moveToNextLine')
+    }
+  }
+}
+
+function updateItemLabel(event) {
+  const index = parseInt(event.target.getAttribute('data-index'))
+  props.block.items[index].label = event.target.textContent || '';
+}
+
+function isCursorAtEnd(paragraphElement) {
+  const selection = window.getSelection();
+
+  if (selection.rangeCount === 0) {
+    return false;
+  }
+
+  const range = selection.getRangeAt(0);
+  // const endNode = paragraphElement.lastChild;
+  const endOffset = paragraphElement.textContent.length;
+
+  return (
+      range.endOffset === endOffset
+  );
+}
+
+function isCursorAtBeginning(paragraphElement) {
+  // Get the selection object
+  var selection = window.getSelection();
+
+  // Check if there is a selection and it is a Range
+  if (selection.rangeCount > 0) {
+    var range = selection.getRangeAt(0);
+
+    if (range.startOffset === 0) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function setCursorAtBeginning(element) {
+  if (element) {
+    const range = document.createRange();
+    const selection = window.getSelection();
+
+    // if (element.innerHTML === '') {
+    //   // If the paragraph is empty, insert a zero-width space character
+    //   element.innerHTML = '&#8203;'; // Zero-width space character
+    // }
+
+    // range.setStart(offsetNode.firstChild || offsetNode, caretPos - offset)
+    // range.setEnd(offsetNode.firstChild || offsetNode, caretPos - offset)
+    // selection?.removeAllRanges()
+    // selection?.addRange(range)
+
+    range.setStart(element, 0);
+    range.setEnd(element, 0);
+    range.collapse(true);
+
+    selection.removeAllRanges();
+    selection.addRange(range);
+
+    element.focus();
+
+    setTimeout(() => {
+      element.innerHTML = element.innerHTML.replace(/[\u200B-\u200D\uFEFF]/g, '');
+    })
+  }
+}
+
+function findItemRef(index) {
+  const foundRefs = itemRefs.value.filter((ref) => parseInt(ref.getAttribute('data-index')) === index)
+  return foundRefs[0]
+}
+
+function goIntoStart() {
+  if (itemRefs.value.length > 0) {
+    const liNode = findItemRef(0);
+    setCursorAtBeginning(liNode.querySelector('p'))
+  }
+}
+
+function goIntoEnd() {
+  if (itemRefs.value.length > 0) {
+    const liNode = findItemRef(itemRefs.value.length - 1);
+    setCursorAtBeginning(liNode.querySelector('p'))
+  }
+}
+
+watch(
+    () => props.block.items,
+    (newItems) => {
+      // Check if there are no items and emit an action
+      if (newItems && newItems.length === 0) {
+        emit('deleteBlock');
+      }
+    },
+    {deep: true}
+);
 
 defineExpose({
   onSet,
+  onUnset,
+  goIntoStart,
+  goIntoEnd
 })
 </script>
 
 <style lang="scss" scoped>
-:deep(ul[data-type="taskList"]) {
+ul[data-type="taskList"] {
   list-style: none;
   padding: 0;
 
@@ -83,5 +257,59 @@ defineExpose({
       display: flex;
     }
   }
+}
+
+/* Add these styles for the switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0; /* Adjusted right property to 0 */
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(20px);
+  -ms-transform: translateX(20px);
+  transform: translateX(20px);
 }
 </style>

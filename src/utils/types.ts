@@ -185,7 +185,7 @@ export const BlockComponents = {
     [BlockType.InputTextAnswer]: {
         component: InputTextAnswerBlock,
         options: {
-            icon: 'bi-text-left',
+            icon: 'co-text-square',
             label: 'Input Text Answer',
             canSplit: false,
             emojiVisible: false,
