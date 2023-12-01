@@ -300,7 +300,7 @@ function deleteBlock(blockIdx: number) {
 
 function duplicateBlock(blockIdx: number) {
   // Clone the block to duplicate it
-  const duplicatedBlock = {...props.page.blocks[blockIdx]};
+  const duplicatedBlock = cloneDeep({...props.page.blocks[blockIdx]});
 
   // Insert the duplicated block after the original block
   props.page.blocks.splice(blockIdx + 1, 0, duplicatedBlock);
