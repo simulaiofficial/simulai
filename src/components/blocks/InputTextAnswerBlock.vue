@@ -2,53 +2,75 @@
   <div class="py-3.5">
     <div class="relative">
       <input
-          @input.prevent
-          @keydown.enter.prevent
-          @keydown.space.prevent
-          @keydown.tab.prevent
-          @keydown.delete.prevent
-          @keydown="disableInput"
-          class="w-full bg-gray-700 placeholder-gray-200 text-gray-300 border border-gray-500 focus:outline-none p-4 rounded-md cursor-not-allowed"
-          placeholder="Text answer..."
-          ref="input"
+        @input.prevent
+        @keydown.enter.prevent
+        @keydown.space.prevent
+        @keydown.tab.prevent
+        @keydown.delete.prevent
+        @keydown="disableInput"
+        class="w-full h-full bg-gray-700 placeholder-gray-200 text-gray-300 border border-gray-500 focus:outline-none p-4 rounded-md cursor-not-allowed"
+        placeholder="Text answer..."
+        ref="input"
       />
       <div
-          class="absolute inset-0 bg-gradient-to-t from-gray-700 to-transparent  rounded-md pointer-events-none"></div>
+        class="absolute inset-0 bg-gradient-to-t from-gray-700 to-transparent rounded-md pointer-events-none"
+      ></div>
     </div>
 
-    <div class="mt-4">
-      <div class="flex items-center">
+    <div class="mt-4 flex flex-wrap">
+      <div class="flex items-center w-full mt-2 md:mt-2 ">
         <label class="text-gray-300 mr-2">When:</label>
-        <div class="flex items-center">
+        <div class="flex items-center h-full"> <!-- Set the parent container's height to 100% -->
           <div class="relative">
-            <Dropdown v-model="selectedComparison" :options="comparisonOptions" optionLabel="name" optionValue="value"
-                      placeholder="Select a City" class="w-32 md:w-64 h-full"/>
+            <Dropdown
+              v-model="selectedComparison"
+              :options="comparisonOptions"
+              optionLabel="name"
+              optionValue="value"
+              placeholder="Select a City"
+              class="w-32 md:w-64 h-full"
+            />
           </div>
-          <input
-              class="w-32 md:w-64 h-full bg-gray-700 placeholder-gray-200 text-gray-300 border border-gray-500 focus:outline-none p-2 rounded-md ml-2"
-              placeholder="Value..."
-          />
+          <!-- Input for the index to jump to -->
+          <div class="relative h-full">
+            <input
+              v-model="jumpIndex"
+              type="number"
+              class="w-full h-full bg-gray-700 placeholder-gray-200 text-gray-300 border border-gray-500 focus:outline-none p-2 rounded-md ml-1"
+              placeholder=""
+            />
+          </div>
         </div>
       </div>
 
-      <div class="flex items-center mt-2">
+      <div class="flex items-center w-full mt-2 md:mt-2 ">
         <label class="text-gray-300 mr-2">Then:</label>
-        <div class="relative">
-          <Dropdown v-model="selectedComparison" :options="comparisonOptions" optionLabel="name" optionValue="value"
-                    placeholder="Select a City" class="w-32 md:w-64 h-full"/>
+        <div class="flex items-center h-full"> <!-- Set the parent container's height to 100% -->
+          <div class="relative">
+            <Dropdown
+              v-model="selectedComparison"
+              :options="comparisonOptions"
+              optionLabel="name"
+              optionValue="value"
+              placeholder="Select a City"
+              class="w-32 md:w-64 h-full"
+            />
+          </div>
+          <!-- Input for the index to jump to -->
+          <div class="relative h-full">
+            <input
+              v-model="jumpIndex"
+              type="number"
+              class="w-full h-full bg-gray-700 placeholder-gray-200 text-gray-300 border border-gray-500 focus:outline-none p-2 rounded-md ml-1"
+              placeholder=""
+            />
+          </div>
         </div>
-        <!-- Input for the index to jump to -->
-        <input
-            v-model="jumpIndex"
-            type="number"
-            class="w-32 md:w-64 h-full bg-gray-700 placeholder-gray-200 text-gray-300 border border-gray-500 focus:outline-none p-2 rounded-md ml-2"
-            placeholder="Index..."
-        />
       </div>
     </div>
-
   </div>
 </template>
+
 
 <script setup lang="ts">
 import {PropType, ref} from 'vue'
