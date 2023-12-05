@@ -36,7 +36,7 @@
             <input
               v-model="jumpIndex"
               type="number"
-              class="w-full h-full bg-gray-700 placeholder-gray-200 text-gray-300 border border-gray-500 focus:outline-none p-2 rounded-md ml-1"
+              class="w-full h-full bg-gray-700 placeholder-gray-200 text-gray-300 border-gray-500 focus:outline-none p-2 rounded-md ml-1"
               placeholder=""
             />
           </div>
