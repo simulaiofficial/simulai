@@ -21,7 +21,7 @@
       <div class="flex items-center">
         <label class="text-gray-300 mr-2">When:</label>
         <div class="flex items-center">
-          <Dropdown v-model="selectedComparison" :options="comparisonOptions" optionLabel="name" placeholder="Select a City" class="w-full md:w-14rem" />
+          <Dropdown v-model="selectedComparison" :options="comparisonOptions" optionLabel="name" optionValue="value" placeholder="Select a City" class="w-full md:w-14rem" />
           <input
               class="w-1/2 bg-gray-700 placeholder-gray-200 text-gray-300 border border-gray-500 focus:outline-none p-2 rounded-md"
               placeholder="Value..."
@@ -31,7 +31,7 @@
 
       <div class="flex items-center mt-2">
         <label class="text-gray-300 mr-2">Then:</label>
-        <Dropdown v-model="selectedComparison" :options="comparisonOptions" optionLabel="name" placeholder="Select a City" class="w-full md:w-14rem" />
+        <Dropdown v-model="selectedComparison" :options="comparisonOptions" optionLabel="name" optionValue="value" placeholder="Select a City" class="w-full md:w-14rem" />
         <!-- Input for the index to jump to -->
         <input
             v-model="jumpIndex"
@@ -54,7 +54,8 @@ import {
   unsetInitialValuesForBlockAnswer
 } from '@/utils/utils'
 import Editor from '../elements/Editor.vue'
-import Dropdown from 'primevue/dropdown';
+// import Dropdown from 'primevue/dropdown';
+import Dropdown from '../elements/Dropdown.vue';
 
 const comparisonOptions = ref([
   { value: '=', name: 'Equal to' },
