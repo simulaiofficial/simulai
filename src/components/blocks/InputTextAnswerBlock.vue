@@ -16,14 +16,16 @@
           class="absolute inset-0 bg-gradient-to-t from-gray-700 to-transparent  rounded-md pointer-events-none"></div>
     </div>
 
-    <!-- New block for conditional logic -->
     <div class="mt-4">
       <div class="flex items-center">
         <label class="text-gray-300 mr-2">When:</label>
         <div class="flex items-center">
-          <Dropdown v-model="selectedComparison" :options="comparisonOptions" optionLabel="name" optionValue="value" placeholder="Select a City" class="w-full md:w-14rem" />
+          <div class="relative">
+            <Dropdown v-model="selectedComparison" :options="comparisonOptions" optionLabel="name" optionValue="value"
+                      placeholder="Select a City" class="w-32 md:w-64 h-full"/>
+          </div>
           <input
-              class="w-1/2 bg-gray-700 placeholder-gray-200 text-gray-300 border border-gray-500 focus:outline-none p-2 rounded-md"
+              class="w-32 md:w-64 h-full bg-gray-700 placeholder-gray-200 text-gray-300 border border-gray-500 focus:outline-none p-2 rounded-md ml-2"
               placeholder="Value..."
           />
         </div>
@@ -31,16 +33,20 @@
 
       <div class="flex items-center mt-2">
         <label class="text-gray-300 mr-2">Then:</label>
-        <Dropdown v-model="selectedComparison" :options="comparisonOptions" optionLabel="name" optionValue="value" placeholder="Select a City" class="w-full md:w-14rem" />
+        <div class="relative">
+          <Dropdown v-model="selectedComparison" :options="comparisonOptions" optionLabel="name" optionValue="value"
+                    placeholder="Select a City" class="w-32 md:w-64 h-full"/>
+        </div>
         <!-- Input for the index to jump to -->
         <input
             v-model="jumpIndex"
             type="number"
-            class="w-1/4 bg-gray-700 placeholder-gray-200 text-gray-300 border border-gray-500 focus:outline-none p-2 rounded-md ml-2"
+            class="w-32 md:w-64 h-full bg-gray-700 placeholder-gray-200 text-gray-300 border border-gray-500 focus:outline-none p-2 rounded-md ml-2"
             placeholder="Index..."
         />
       </div>
     </div>
+
   </div>
 </template>
 
@@ -58,15 +64,15 @@ import Editor from '../elements/Editor.vue'
 import Dropdown from '../elements/Dropdown.vue';
 
 const comparisonOptions = ref([
-  { value: '=', name: 'Equal to' },
-  { value: '!=', name: 'Not equal to' },
-  { value: '>', name: 'Greater than' },
-  { value: '<', name: 'Less than' },
+  {value: '=', name: 'Equal to'},
+  {value: '!=', name: 'Not equal to'},
+  {value: '>', name: 'Greater than'},
+  {value: '<', name: 'Less than'},
 ]);
 
 const actionOptions = ref([
-  { value: 'jump', name: 'Jump to section' },
-  { value: 'other', name: 'Other action' },
+  {value: 'jump', name: 'Jump to section'},
+  {value: 'other', name: 'Other action'},
 ]);
 
 const selectedComparison = ref('=');
