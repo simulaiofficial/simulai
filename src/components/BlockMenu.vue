@@ -11,7 +11,7 @@
     <div v-show="open" class="block-menu">
       <div ref="mainMenu"
            v-if="openMainMenu"
-           class="w-[10rem] lg:w-[12rem] xl:w-[16rem] absolute z-10 shadow-block rounded py-1 text-white text-sm right-full bg-slate-800 max-h-[24rem] overflow-auto focus-visible:outline-none top-0">
+           class="main-menu w-[10rem] lg:w-[12rem] xl:w-[16rem] absolute z-10 shadow-block rounded py-1 text-white text-sm bg-slate-800 max-h-[24rem] overflow-auto focus-visible:outline-none top-0">
         <div class="text-left divide-y">
           <div class="px-2 py-2">
             <div class="px-2 pb-2 font-semibold uppercase text-xs text-neutral-400">Menu</div>
@@ -280,6 +280,14 @@ defineExpose({
 </script>
 
 <style lang="scss" scoped>
+.main-menu {
+  right: 100%;
+  @media (max-width: 1000px) { // Adjust the breakpoint (768px) based on your design
+    right: 0; // Reset the right property for smaller screens if needed
+    left: 100%; // Set left to 100% for screens less than medium size
+  }
+}
+
 /* Add these styles for the switch */
 .switch {
   position: relative;
