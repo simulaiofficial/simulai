@@ -132,12 +132,15 @@ function onUnset() {
 }
 
 function updateConditionDropdowns() {
-  comparisonOptions.value = props.page.blocks
-      .filter((block) => getBlockOptions(block).conditionVisible)
-      .map((block) => {
-        const title = getBlockFuncs(block).getTitle(block)
-        return {'value': title, 'name': title}
-      })
+  let blocksWithIndex = props.page.blocks
+    .map((block, index) => ({ block, index })) // Create an array of objects containing both block and index
+    .filter(({ block }) => getBlockOptions(block).conditionVisible);
+
+  comparisonOptions.value = blocksWithIndex.map(({ block, index }) => {
+    const title = getBlockFuncs(block).getTitle(block);
+    const optionTitle = `[${index + 1}] ${title} ...`; // Adding 1 to the index to start from 1 instead of 0
+    return { 'value': title, 'name': optionTitle };
+  });
 }
 
 onMounted(() => {
