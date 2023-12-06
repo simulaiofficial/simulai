@@ -72,7 +72,7 @@
 
 
 <script setup lang="ts">
-import {onMounted, PropType, ref} from 'vue'
+import {onMounted, PropType, ref, watch} from 'vue'
 import {Block, BlockCondition, BlockInputTextAnswer, getBlockFuncs, getBlockOptions, OptionItem} from '@/utils/types'
 import {
   markdownToHtml,
@@ -131,14 +131,23 @@ function onUnset() {
   delete props.block.maxChars
 }
 
-onMounted(() => {
+function updateConditionDropdowns() {
   comparisonOptions.value = props.page.blocks
       .filter((block) => getBlockOptions(block).conditionVisible)
       .map((block) => {
         const title = getBlockFuncs(block).getTitle(block)
         return {'value': title, 'name': title}
       })
+}
+
+onMounted(() => {
+  updateConditionDropdowns()
 })
+
+watch(() => props.page.blocks, (blocks) => {
+  debugger;
+  updateConditionDropdowns()
+}, {deep: true})
 
 defineExpose({
   onSet,
