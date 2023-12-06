@@ -2,6 +2,7 @@ import TextBlock from '@/components/blocks/TextBlock.vue'
 import DividerBlock from '@/components/blocks/DividerBlock.vue'
 import HeadingBlock from '@/components/blocks/HeadingBlock.vue'
 import QuoteBlock from '@/components/blocks/QuoteBlock.vue'
+import ConditionBlock from '@/components/blocks/ConditionBlock.vue'
 import OptionsBlock from '@/components/blocks/OptionsBlock.vue'
 import RadioBlock from '@/components/blocks/RadioBlock.vue'
 import InputTextAnswerBlock from '@/components/blocks/InputTextAnswerBlock.vue'
@@ -19,6 +20,9 @@ export interface BlockAnswer extends Block {
     name: string;
 }
 
+export interface BlockCondition extends Block {
+}
+
 export enum BlockType {
     Text = 'TEXT',
     H1 = 'H1',
@@ -26,6 +30,7 @@ export enum BlockType {
     H3 = 'H3',
     Divider = 'DIVIDER',
     Quote = 'QUOTE',
+    Condition = 'CONDITION',
     Options = 'OPTIONS',
     Radio = 'RADIO',
     InputTextAnswer = 'INPUT_TEXT_ANSWER'
@@ -83,6 +88,9 @@ export const BlockComponents = {
             maxVisible: false,
             nameVisible: false,
             conditionVisible: false,
+        },
+        funcs: {
+            getTitle: (block: BlockText) => block.details.value
         }
     },
     [BlockType.H1]: {
@@ -98,6 +106,9 @@ export const BlockComponents = {
             maxVisible: false,
             nameVisible: false,
             conditionVisible: false,
+        },
+        funcs: {
+            getTitle: (block: BlockHeading) => block.details.value
         }
     },
     [BlockType.H2]: {
@@ -113,6 +124,9 @@ export const BlockComponents = {
             maxVisible: false,
             nameVisible: false,
             conditionVisible: false,
+        },
+        funcs: {
+            getTitle: (block: BlockHeading) => block.details.value
         }
     },
     [BlockType.H3]: {
@@ -128,6 +142,9 @@ export const BlockComponents = {
             maxVisible: false,
             nameVisible: false,
             conditionVisible: false,
+        },
+        funcs: {
+            getTitle: (block: BlockHeading) => block.details.value
         }
     },
     [BlockType.Divider]: {
@@ -143,6 +160,9 @@ export const BlockComponents = {
             maxVisible: false,
             nameVisible: false,
             conditionVisible: false,
+        },
+        funcs: {
+            getTitle: (block: BlockDivider) => '-'
         }
     },
     [BlockType.Quote]: {
@@ -158,6 +178,27 @@ export const BlockComponents = {
             maxVisible: false,
             nameVisible: false,
             conditionVisible: false,
+        },
+        funcs: {
+            getTitle: (block: BlockQuote) => block.details.value
+        }
+    },
+    [BlockType.Condition]: {
+        component: ConditionBlock,
+        options: {
+            icon: 'gi-logic-gate-nor',
+            label: 'Condition',
+            canSplit: false,
+            emojiVisible: false,
+            requiredVisible: false,
+            hideVisible: true,
+            minVisible: false,
+            maxVisible: false,
+            nameVisible: false,
+            conditionVisible: false,
+        },
+        funcs: {
+            getTitle: (block: BlockCondition) => '-'
         }
     },
     [BlockType.Options]: {
@@ -173,6 +214,15 @@ export const BlockComponents = {
             maxVisible: false,
             nameVisible: true,
             conditionVisible: true,
+        },
+        funcs: {
+            getTitle: (block: BlockOptions) => {
+                if(block.items.length > 0) {
+                    return block.items[0].label
+                } else {
+                    return '-'
+                }
+            }
         }
     },
     [BlockType.Radio]: {
@@ -188,6 +238,15 @@ export const BlockComponents = {
             maxVisible: false,
             nameVisible: true,
             conditionVisible: true,
+        },
+        funcs: {
+            getTitle: (block: BlockRadio) => {
+                if(block.items.length > 0) {
+                    return block.items[0].label
+                } else {
+                    return '-'
+                }
+            }
         }
     },
     [BlockType.InputTextAnswer]: {
@@ -203,6 +262,11 @@ export const BlockComponents = {
             maxVisible: true,
             nameVisible: true,
             conditionVisible: true,
+        },
+        funcs: {
+            getTitle: (block: BlockInputTextAnswer) => {
+                return '-'
+            }
         }
     },
 }
@@ -211,4 +275,12 @@ export const textBlockMap = [BlockType.Text, BlockType.Quote]
 
 export const isTextBlock = (type: string) => {
     return textBlockMap.some(textBlock => textBlock === type)
+}
+
+export const getBlockOptions = (block: Block) => {
+    return BlockComponents[block.type].options
+}
+
+export const getBlockFuncs = (block: Block) => {
+    return BlockComponents[block.type].funcs
 }

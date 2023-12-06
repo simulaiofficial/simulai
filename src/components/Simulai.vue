@@ -15,6 +15,7 @@
         <BlockComponent :block="block" v-for="block, i in props.page.blocks" :key="i" :id="'block-'+block.id"
                         :blockTypes="props.blockTypes"
                         :blockNumber="i+1"
+                        :page="props.page"
                         :ref="el => blockElements[i] = (el as unknown as typeof Block)"
                         :style="{backgroundColor: props.bgColor}"
                         @deleteBlock="deleteBlock(i)"

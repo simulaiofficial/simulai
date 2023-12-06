@@ -16,58 +16,6 @@
         class="absolute inset-0 bg-gradient-to-t from-gray-700 to-transparent rounded-md pointer-events-none"
       ></div>
     </div>
-
-    <div class="mt-4 flex flex-wrap">
-      <div class="flex items-center w-full mt-2 md:mt-2 ">
-        <label class="text-gray-300 mr-2">When:</label>
-        <div class="flex items-center h-full"> <!-- Set the parent container's height to 100% -->
-          <div class="relative">
-            <Dropdown
-              v-model="selectedComparison"
-              :options="comparisonOptions"
-              optionLabel="name"
-              optionValue="value"
-              placeholder="Select a City"
-              class="w-32 md:w-64 h-full"
-            />
-          </div>
-          <!-- Input for the index to jump to -->
-          <div class="relative h-full">
-            <input
-              v-model="jumpIndex"
-              type="number"
-              class="w-full h-full bg-gray-700 placeholder-gray-200 text-gray-300 focus:outline-none p-2 rounded-md ml-1"
-              placeholder=""
-            />
-          </div>
-        </div>
-      </div>
-
-      <div class="flex items-center w-full mt-2 md:mt-2 ">
-        <label class="text-gray-300 mr-2">Then:</label>
-        <div class="flex items-center h-full"> <!-- Set the parent container's height to 100% -->
-          <div class="relative">
-            <Dropdown
-              v-model="selectedComparison"
-              :options="comparisonOptions"
-              optionLabel="name"
-              optionValue="value"
-              placeholder="Select a City"
-              class="w-32 md:w-64 h-full"
-            />
-          </div>
-          <!-- Input for the index to jump to -->
-          <div class="relative h-full">
-            <input
-              v-model="jumpIndex"
-              type="number"
-              class="w-full h-full bg-gray-700 placeholder-gray-200 text-gray-300 focus:outline-none p-2 rounded-md ml-1"
-              placeholder=""
-            />
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -81,26 +29,6 @@ import {
   setUpInitialValuesForBlockAnswer,
   unsetInitialValuesForBlockAnswer
 } from '@/utils/utils'
-import Editor from '../elements/Editor.vue'
-// import Dropdown from 'primevue/dropdown';
-import Dropdown from '../elements/Dropdown.vue';
-
-const comparisonOptions = ref([
-  {value: '=', name: 'Equal to'},
-  {value: '!=', name: 'Not equal to'},
-  {value: '>', name: 'Greater than'},
-  {value: '<', name: 'Less than'},
-]);
-
-const actionOptions = ref([
-  {value: 'jump', name: 'Jump to section'},
-  {value: 'other', name: 'Other action'},
-]);
-
-const selectedComparison = ref('=');
-const comparisonValue = ref('');
-const selectedAction = ref('jump');
-const jumpIndex = ref('');
 
 const props = defineProps({
   block: {

@@ -39,6 +39,7 @@
       <!-- Actual content -->
       <component :is="BlockComponents[props.block.type].component" ref="content"
                  :block="block"
+                 :page="props.page"
                  @moveToPrevLine="emit('moveToPrevLine')"
                  @moveToNextLine="emit('moveToNextLine')"
                  @deleteBlock="emit('deleteBlock')"
@@ -63,6 +64,10 @@ const props = defineProps({
         value: 'Hello World',
       },
     },
+  },
+  page: {
+    type: Object as PropType<{ name: string, blocks: Block[] }>,
+    required: true,
   },
   blockTypes: {
     type: Object as PropType<null | (string | BlockType)[]>,
