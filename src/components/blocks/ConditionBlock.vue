@@ -6,11 +6,11 @@
         <div class="flex items-center h-full"> <!-- Set the parent container's height to 100% -->
           <div class="relative">
             <Dropdown
-                v-model="selectedComparison"
-                :options="comparisonOptions"
+                v-model="selectedBlock"
+                :options="blockOptions"
                 optionLabel="name"
                 optionValue="value"
-                placeholder="Select a City"
+                placeholder="Select block"
                 class="w-32 md:w-64 h-full"
             />
           </div>
@@ -26,14 +26,14 @@
                 :options="comparisonOptions"
                 optionLabel="name"
                 optionValue="value"
-                placeholder="Select a City"
+                placeholder="Select operator"
                 class="w-32 md:w-64 h-full"
             />
           </div>
           <!-- Input for the index to jump to -->
           <div class="relative h-full">
             <input
-                v-model="jumpIndex"
+                v-model="comparisonValue"
                 type="number"
                 class="w-full h-full bg-gray-700 placeholder-gray-200 text-gray-300 focus:outline-none p-2 rounded-md ml-1"
                 placeholder=""
@@ -47,11 +47,11 @@
         <div class="flex items-center h-full"> <!-- Set the parent container's height to 100% -->
           <div class="relative">
             <Dropdown
-                v-model="selectedComparison"
-                :options="comparisonOptions"
+                v-model="selectedAction"
+                :options="actionOptions"
                 optionLabel="name"
                 optionValue="value"
-                placeholder="Select a City"
+                placeholder="Select action"
                 class="w-32 md:w-64 h-full"
             />
           </div>
@@ -83,6 +83,8 @@ import {
 import Editor from '../elements/Editor.vue'
 import Dropdown from '../elements/Dropdown.vue';
 
+const blockOptions = ref([])
+
 const comparisonOptions = ref([
   {value: '=', name: 'Equal to'},
   {value: '!=', name: 'Not equal to'},
@@ -91,12 +93,13 @@ const comparisonOptions = ref([
 ]);
 
 const actionOptions = ref([
-  {value: 'jump', name: 'Jump to section'},
-  {value: 'other', name: 'Other action'},
+  {value: 'jump', name: 'Jump to block'},
+  {value: 'hide', name: 'Hide block'},
 ]);
 
+const selectedBlock = ref(null);
 const selectedComparison = ref('=');
-const comparisonValue = ref('');
+const comparisonValue = ref(null);
 const selectedAction = ref('jump');
 const jumpIndex = ref('');
 
@@ -136,10 +139,10 @@ function updateConditionDropdowns() {
     .map((block, index) => ({ block, index })) // Create an array of objects containing both block and index
     .filter(({ block }) => getBlockOptions(block).conditionVisible);
 
-  comparisonOptions.value = blocksWithIndex.map(({ block, index }) => {
+  blockOptions.value = blocksWithIndex.map(({ block, index }) => {
     const title = getBlockFuncs(block).getTitle(block);
     const optionTitle = `[${index + 1}] ${title} ...`; // Adding 1 to the index to start from 1 instead of 0
-    return { 'value': title, 'name': optionTitle };
+    return { 'value': block.id, 'name': optionTitle };
   });
 }
 
@@ -148,7 +151,6 @@ onMounted(() => {
 })
 
 watch(() => props.page.blocks, (blocks) => {
-  debugger;
   updateConditionDropdowns()
 }, {deep: true})
 
