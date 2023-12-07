@@ -159,7 +159,7 @@ function onUnset() {
 function updatePreviousInputBlocksDropdowns() {
   let blocksWithIndex = props.page.blocks
       .map((block, index) => ({block, index})) // Create an array of objects containing both block and index
-      .filter(({block, index}) => index < props.blockNumber && getBlockOptions(block).conditionVisible);
+      .filter(({block, index}) => index < props.blockNumber && getBlockOptions(block).conditionVisible && !block.isHidden);
 
   previousInputBlockOptions.value = blocksWithIndex.map(({block, index}) => {
     const title = getBlockFuncs(block).getTitle(block);
@@ -171,7 +171,7 @@ function updatePreviousInputBlocksDropdowns() {
 function updateAllNextBlocksDropdowns() {
   let blocksWithIndex = props.page.blocks
       .map((block, index) => ({block, index})) // Create an array of objects containing both block and index
-      .filter(({block, index}) => index >= props.blockNumber && isFlowBlock(block.type));
+      .filter(({block, index}) => index >= props.blockNumber && isFlowBlock(block.type) && !block.isHidden);
 
   allNextBlockOptions.value = blocksWithIndex.map(({block, index}) => {
     const title = getBlockFuncs(block).getTitle(block);
