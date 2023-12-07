@@ -7,7 +7,7 @@
           <div class="relative">
             <Dropdown
                 v-model="props.block.whenBlockSelectedId"
-                :options="inputBlockOptions"
+                :options="previousInputBlockOptions"
                 optionLabel="name"
                 optionValue="value"
                 placeholder="Select block"
@@ -63,7 +63,7 @@
             <div class="relative">
               <Dropdown
                   v-model="props.block.actionBlockSelectedId"
-                  :options="allBlockOptions"
+                  :options="allNextBlockOptions"
                   optionLabel="name"
                   optionValue="value"
                   placeholder="Select block"
@@ -97,8 +97,8 @@ import {
 } from '@/utils/utils'
 import Dropdown from '../elements/Dropdown.vue';
 
-const inputBlockOptions = ref([])
-const allBlockOptions = ref([])
+const previousInputBlockOptions = ref([])
+const allNextBlockOptions = ref([])
 
 const blocksHistoryKey = ref(0);
 
@@ -130,6 +130,10 @@ const props = defineProps({
     type: Object as PropType<{ name: string, blocks: Block[] }>,
     required: true,
   },
+  blockNumber: {
+    type: Number,
+    default: null
+  }
 })
 
 function onSet() {
@@ -152,24 +156,24 @@ function onUnset() {
   delete props.block.maxChars
 }
 
-function updateInputBlocksDropdowns() {
+function updatePreviousInputBlocksDropdowns() {
   let blocksWithIndex = props.page.blocks
       .map((block, index) => ({block, index})) // Create an array of objects containing both block and index
-      .filter(({block}) => getBlockOptions(block).conditionVisible);
+      .filter(({block, index}) => index < props.blockNumber && getBlockOptions(block).conditionVisible);
 
-  inputBlockOptions.value = blocksWithIndex.map(({block, index}) => {
+  previousInputBlockOptions.value = blocksWithIndex.map(({block, index}) => {
     const title = getBlockFuncs(block).getTitle(block);
     const optionTitle = `[${index + 1}] ${title} ...`; // Adding 1 to the index to start from 1 instead of 0
     return {'value': block.id, 'name': optionTitle};
   });
 }
 
-function updateAllBlocksDropdowns() {
+function updateAllNextBlocksDropdowns() {
   let blocksWithIndex = props.page.blocks
       .map((block, index) => ({block, index})) // Create an array of objects containing both block and index
-      .filter(({block}) => isFlowBlock(block.type));
+      .filter(({block, index}) => index >= props.blockNumber && isFlowBlock(block.type));
 
-  allBlockOptions.value = blocksWithIndex.map(({block, index}) => {
+  allNextBlockOptions.value = blocksWithIndex.map(({block, index}) => {
     const title = getBlockFuncs(block).getTitle(block);
     const optionTitle = `[${index + 1}] ${title} ...`; // Adding 1 to the index to start from 1 instead of 0
     return {'value': block.id, 'name': optionTitle};
@@ -177,13 +181,13 @@ function updateAllBlocksDropdowns() {
 }
 
 onBeforeMount(() => {
-  updateInputBlocksDropdowns()
-  updateAllBlocksDropdowns()
+  updatePreviousInputBlocksDropdowns()
+  updateAllNextBlocksDropdowns()
 })
 
 watch(() => props.page.blocks, (blocks) => {
-  updateInputBlocksDropdowns()
-  updateAllBlocksDropdowns()
+  updatePreviousInputBlocksDropdowns()
+  updateAllNextBlocksDropdowns()
   blocksHistoryKey.value += 1;
 }, {deep: true})
 

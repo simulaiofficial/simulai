@@ -39,6 +39,7 @@
       <!-- Actual content -->
       <component :is="BlockComponents[props.block.type].component" ref="content"
                  :block="block"
+                 :blockNumber="blockNumber"
                  :page="props.page"
                  @moveToPrevLine="emit('moveToPrevLine')"
                  @moveToNextLine="emit('moveToNextLine')"

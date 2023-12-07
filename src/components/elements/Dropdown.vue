@@ -65,6 +65,10 @@ onMounted(() => {
   if(modelValue) {
     const selected = options.find(option => option.value === modelValue)
     selectedOption.value = selected
+
+    if(!selected) {
+      emits('update:modelValue', selected);
+    }
   }
 });
 
