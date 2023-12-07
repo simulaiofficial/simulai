@@ -222,7 +222,7 @@ export const BlockComponents = {
         },
         funcs: {
             getTitle: (block: BlockOptions) => {
-                if(block.items.length > 0) {
+                if(block.items && block.items.length > 0) {
                     return block.items[0].label
                 } else {
                     return '-'
@@ -246,7 +246,7 @@ export const BlockComponents = {
         },
         funcs: {
             getTitle: (block: BlockRadio) => {
-                if(block.items.length > 0) {
+                if(block.items && block.items.length > 0) {
                     return block.items[0].label
                 } else {
                     return '-'

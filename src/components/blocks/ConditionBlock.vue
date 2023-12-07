@@ -12,6 +12,7 @@
                 optionValue="value"
                 placeholder="Select block"
                 class="w-32 md:w-64 h-full"
+                :key="blocksHistoryKey"
             />
           </div>
         </div>
@@ -28,6 +29,7 @@
                 optionValue="value"
                 placeholder="Select operator"
                 class="w-32 md:w-64 h-full"
+                :key="blocksHistoryKey"
             />
           </div>
           <!-- Input for the index to jump to -->
@@ -53,6 +55,7 @@
                 optionValue="value"
                 placeholder="Select action"
                 class="w-32 md:w-64 h-full"
+                :key="blocksHistoryKey"
             />
           </div>
           <!-- Input for the index to jump to -->
@@ -65,6 +68,7 @@
                   optionValue="value"
                   placeholder="Select block"
                   class="w-32 md:w-64 h-full ml-1"
+                  :key="blocksHistoryKey"
               />
             </div>
           </div>
@@ -95,6 +99,8 @@ import Dropdown from '../elements/Dropdown.vue';
 
 const inputBlockOptions = ref([])
 const allBlockOptions = ref([])
+
+const blocksHistoryKey = ref(0);
 
 const comparisonOptions = ref([
   {value: '=', name: 'Equal to'},
@@ -178,6 +184,7 @@ onBeforeMount(() => {
 watch(() => props.page.blocks, (blocks) => {
   updateInputBlocksDropdowns()
   updateAllBlocksDropdowns()
+  blocksHistoryKey.value += 1;
 }, {deep: true})
 
 defineExpose({
