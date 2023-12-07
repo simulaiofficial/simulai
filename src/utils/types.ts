@@ -21,6 +21,11 @@ export interface BlockAnswer extends Block {
 }
 
 export interface BlockCondition extends Block {
+    whenBlockSelectedId: string,
+    isOperatorSelectedId: string,
+    isOperatorValue: string,
+    actionSelectedId: string,
+    actionBlockSelectedId: string
 }
 
 export enum BlockType {
@@ -275,6 +280,10 @@ export const textBlockMap = [BlockType.Text, BlockType.Quote]
 
 export const isTextBlock = (type: string) => {
     return textBlockMap.some(textBlock => textBlock === type)
+}
+
+export const isFlowBlock = (type: string) => {
+    return type !== BlockType.Condition
 }
 
 export const getBlockOptions = (block: Block) => {

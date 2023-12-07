@@ -6,8 +6,8 @@
         <div class="flex items-center h-full"> <!-- Set the parent container's height to 100% -->
           <div class="relative">
             <Dropdown
-                v-model="selectedBlock"
-                :options="blockOptions"
+                v-model="selectedWhenBlock"
+                :options="inputBlockOptions"
                 optionLabel="name"
                 optionValue="value"
                 placeholder="Select block"
@@ -33,7 +33,7 @@
           <!-- Input for the index to jump to -->
           <div class="relative h-full">
             <input
-                v-model="comparisonValue"
+                v-model="props.block.isOperatorValue"
                 type="number"
                 class="w-full h-full bg-gray-700 placeholder-gray-200 text-gray-300 focus:outline-none p-2 rounded-md ml-1"
                 placeholder=""
@@ -57,12 +57,16 @@
           </div>
           <!-- Input for the index to jump to -->
           <div class="relative h-full">
-            <input
-                v-model="jumpIndex"
-                type="number"
-                class="w-full h-full bg-gray-700 placeholder-gray-200 text-gray-300 focus:outline-none p-2 rounded-md ml-1"
-                placeholder=""
-            />
+            <div class="relative">
+              <Dropdown
+                  v-model="selectedActionBlock"
+                  :options="allBlockOptions"
+                  optionLabel="name"
+                  optionValue="value"
+                  placeholder="Select block"
+                  class="w-32 md:w-64 h-full ml-1"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -73,17 +77,24 @@
 
 <script setup lang="ts">
 import {onMounted, PropType, ref, watch} from 'vue'
-import {Block, BlockCondition, BlockInputTextAnswer, getBlockFuncs, getBlockOptions, OptionItem} from '@/utils/types'
 import {
-  markdownToHtml,
+  Block,
+  BlockCondition,
+  BlockInputTextAnswer,
+  getBlockFuncs,
+  getBlockOptions,
+  isFlowBlock,
+  OptionItem
+} from '@/utils/types'
+import {
   setUpInitialValuesForBlock,
   setUpInitialValuesForBlockAnswer,
   unsetInitialValuesForBlockAnswer
 } from '@/utils/utils'
-import Editor from '../elements/Editor.vue'
 import Dropdown from '../elements/Dropdown.vue';
 
-const blockOptions = ref([])
+const inputBlockOptions = ref([])
+const allBlockOptions = ref([])
 
 const comparisonOptions = ref([
   {value: '=', name: 'Equal to'},
@@ -97,7 +108,8 @@ const actionOptions = ref([
   {value: 'hide', name: 'Hide block'},
 ]);
 
-const selectedBlock = ref(null);
+const selectedWhenBlock = ref(null);
+const selectedActionBlock = ref(null);
 const selectedComparison = ref('=');
 const comparisonValue = ref(null);
 const selectedAction = ref('jump');
@@ -134,25 +146,57 @@ function onUnset() {
   delete props.block.maxChars
 }
 
-function updateConditionDropdowns() {
+function updateInputBlocksDropdowns() {
   let blocksWithIndex = props.page.blocks
-    .map((block, index) => ({ block, index })) // Create an array of objects containing both block and index
-    .filter(({ block }) => getBlockOptions(block).conditionVisible);
+      .map((block, index) => ({block, index})) // Create an array of objects containing both block and index
+      .filter(({block}) => getBlockOptions(block).conditionVisible);
 
-  blockOptions.value = blocksWithIndex.map(({ block, index }) => {
+  inputBlockOptions.value = blocksWithIndex.map(({block, index}) => {
     const title = getBlockFuncs(block).getTitle(block);
     const optionTitle = `[${index + 1}] ${title} ...`; // Adding 1 to the index to start from 1 instead of 0
-    return { 'value': block.id, 'name': optionTitle };
+    return {'value': block.id, 'name': optionTitle};
+  });
+}
+
+function updateAllBlocksDropdowns() {
+  let blocksWithIndex = props.page.blocks
+      .map((block, index) => ({block, index})) // Create an array of objects containing both block and index
+      .filter(({block}) => isFlowBlock(block.type));
+
+  allBlockOptions.value = blocksWithIndex.map(({block, index}) => {
+    const title = getBlockFuncs(block).getTitle(block);
+    const optionTitle = `[${index + 1}] ${title} ...`; // Adding 1 to the index to start from 1 instead of 0
+    return {'value': block.id, 'name': optionTitle};
   });
 }
 
 onMounted(() => {
-  updateConditionDropdowns()
+  updateInputBlocksDropdowns()
+  updateAllBlocksDropdowns()
 })
 
 watch(() => props.page.blocks, (blocks) => {
-  updateConditionDropdowns()
+  updateInputBlocksDropdowns()
+  updateAllBlocksDropdowns()
 }, {deep: true})
+
+watch(() => selectedWhenBlock.value, (blockId) => {
+  props.block.whenBlockSelectedId = blockId
+})
+
+watch(() => selectedComparison.value, (compId) => {
+  debugger;
+  props.block.isOperatorSelectedId = compId
+})
+
+watch(() => selectedAction.value, (actionId) => {
+  debugger;
+  props.block.actionSelectedId = actionId
+})
+
+watch(() => selectedActionBlock.value, (blockId) => {
+  props.block.actionBlockSelectedId = blockId
+})
 
 defineExpose({
   onSet,
