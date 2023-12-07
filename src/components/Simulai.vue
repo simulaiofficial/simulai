@@ -195,7 +195,6 @@ function insertTextAtCursor(textToInsert) {
 }
 
 function onSelectEmoji(emoji) {
-  console.log(emoji)
   isEmojiPickerOpen.value = false;
   insertTextAtCursor(emoji.i)
   /*
@@ -215,7 +214,6 @@ function openEmoji() {
     top: mousePosition.y,
     left: mousePosition.x - 250,
   };
-  console.log(emojiPickerStyle.value.top)
   savedCaretPosition.value = getCaretPosition();
   isEmojiPickerOpen.value = true;
 }

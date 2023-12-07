@@ -75,7 +75,6 @@ function keyDownHandler(event) {
   const index = parseInt(event.target.getAttribute('data-index'))
 
   if (event.key === 'Enter') {
-    console.log(itemRefs.value)
     const cursorIsAtEnd: boolean = isCursorAtEnd(event.target)
     if (cursorIsAtEnd) {
       event.stopPropagation()

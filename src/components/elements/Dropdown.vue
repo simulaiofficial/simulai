@@ -26,7 +26,7 @@
 </template>
 
 <script setup>
-import {ref, defineProps, defineEmits, onMounted} from 'vue';
+import {ref, defineProps, defineEmits, onMounted, watch} from 'vue';
 
 const dropdownContainer = ref(null)
 
@@ -50,6 +50,7 @@ function toggleDropdown() {
 function selectOption(option) {
   selectedOption.value = option;
   isDropdownOpen.value = false;
+
   emits('update:modelValue', option[optionValue]);
 }
 
@@ -61,6 +62,10 @@ const closeDropdownOnOutsideClick = (event) => {
 
 onMounted(() => {
   window.addEventListener('mousedown', closeDropdownOnOutsideClick);
+  if(modelValue) {
+    const selected = options.find(option => option.value === modelValue)
+    selectedOption.value = selected
+  }
 });
 
 </script>

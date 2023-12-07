@@ -6,7 +6,7 @@
         <div class="flex items-center h-full"> <!-- Set the parent container's height to 100% -->
           <div class="relative">
             <Dropdown
-                v-model="selectedWhenBlock"
+                v-model="props.block.whenBlockSelectedId"
                 :options="inputBlockOptions"
                 optionLabel="name"
                 optionValue="value"
@@ -22,7 +22,7 @@
         <div class="flex items-center h-full"> <!-- Set the parent container's height to 100% -->
           <div class="relative">
             <Dropdown
-                v-model="selectedComparison"
+                v-model="props.block.isOperatorSelectedId"
                 :options="comparisonOptions"
                 optionLabel="name"
                 optionValue="value"
@@ -47,7 +47,7 @@
         <div class="flex items-center h-full"> <!-- Set the parent container's height to 100% -->
           <div class="relative">
             <Dropdown
-                v-model="selectedAction"
+                v-model="props.block.actionSelectedId"
                 :options="actionOptions"
                 optionLabel="name"
                 optionValue="value"
@@ -59,7 +59,7 @@
           <div class="relative h-full">
             <div class="relative">
               <Dropdown
-                  v-model="selectedActionBlock"
+                  v-model="props.block.actionBlockSelectedId"
                   :options="allBlockOptions"
                   optionLabel="name"
                   optionValue="value"
@@ -76,7 +76,7 @@
 
 
 <script setup lang="ts">
-import {onMounted, PropType, ref, watch} from 'vue'
+import {onMounted, onBeforeMount, PropType, ref, watch} from 'vue'
 import {
   Block,
   BlockCondition,
@@ -170,7 +170,7 @@ function updateAllBlocksDropdowns() {
   });
 }
 
-onMounted(() => {
+onBeforeMount(() => {
   updateInputBlocksDropdowns()
   updateAllBlocksDropdowns()
 })
@@ -179,24 +179,6 @@ watch(() => props.page.blocks, (blocks) => {
   updateInputBlocksDropdowns()
   updateAllBlocksDropdowns()
 }, {deep: true})
-
-watch(() => selectedWhenBlock.value, (blockId) => {
-  props.block.whenBlockSelectedId = blockId
-})
-
-watch(() => selectedComparison.value, (compId) => {
-  debugger;
-  props.block.isOperatorSelectedId = compId
-})
-
-watch(() => selectedAction.value, (actionId) => {
-  debugger;
-  props.block.actionSelectedId = actionId
-})
-
-watch(() => selectedActionBlock.value, (blockId) => {
-  props.block.actionBlockSelectedId = blockId
-})
 
 defineExpose({
   onSet,
