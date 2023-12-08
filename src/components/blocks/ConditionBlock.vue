@@ -194,6 +194,10 @@ function updateComparisonDropdownAndValue() {
         return {'value': item.label, 'name': item.label}
       })
     }
+  } else {
+    comparisonOptions.value = []
+    comparisonType.value = null
+    operatorOptions.value = []
   }
 }
 
