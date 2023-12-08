@@ -28,6 +28,12 @@ export interface BlockCondition extends Block {
     actionBlockSelectedId: string
 }
 
+export enum ComparisonType {
+    TextInput = 'TEXT',
+    Number = 'Number',
+    Dropdown = 'Dropdown'
+}
+
 export enum BlockType {
     Text = 'TEXT',
     H1 = 'H1',
@@ -93,7 +99,8 @@ export const BlockComponents = {
             maxVisible: false,
             nameVisible: false,
             conditionVisible: false,
-            comparisons: null
+            comparisons: null,
+            comparisonType: null
         },
         funcs: {
             getTitle: (block: BlockText) => block.details.value
@@ -112,7 +119,8 @@ export const BlockComponents = {
             maxVisible: false,
             nameVisible: false,
             conditionVisible: false,
-            comparisons: null
+            comparisons: null,
+            comparisonType: null
         },
         funcs: {
             getTitle: (block: BlockHeading) => block.details.value
@@ -131,7 +139,8 @@ export const BlockComponents = {
             maxVisible: false,
             nameVisible: false,
             conditionVisible: false,
-            comparisons: null
+            comparisons: null,
+            comparisonType: null
         },
         funcs: {
             getTitle: (block: BlockHeading) => block.details.value
@@ -150,7 +159,8 @@ export const BlockComponents = {
             maxVisible: false,
             nameVisible: false,
             conditionVisible: false,
-            comparisons: null
+            comparisons: null,
+            comparisonType: null
         },
         funcs: {
             getTitle: (block: BlockHeading) => block.details.value
@@ -169,7 +179,8 @@ export const BlockComponents = {
             maxVisible: false,
             nameVisible: false,
             conditionVisible: false,
-            comparisons: null
+            comparisons: null,
+            comparisonType: null
         },
         funcs: {
             getTitle: (block: BlockDivider) => '-'
@@ -188,7 +199,8 @@ export const BlockComponents = {
             maxVisible: false,
             nameVisible: false,
             conditionVisible: false,
-            comparisons: null
+            comparisons: null,
+            comparisonType: null
         },
         funcs: {
             getTitle: (block: BlockQuote) => block.details.value
@@ -207,7 +219,9 @@ export const BlockComponents = {
             maxVisible: false,
             nameVisible: false,
             conditionVisible: false,
-            comparisons: null
+            comparisons: null,
+            comparisonType: null
+
         },
         funcs: {
             getTitle: (block: BlockCondition) => '-'
@@ -228,7 +242,8 @@ export const BlockComponents = {
             conditionVisible: true,
             comparisons: [
                 {value: 'selected', name: 'Selected'},
-            ]
+            ],
+            comparisonType: ComparisonType.Dropdown
         },
         funcs: {
             getTitle: (block: BlockOptions) => {
@@ -255,7 +270,8 @@ export const BlockComponents = {
             conditionVisible: true,
             comparisons: [
                 {value: 'selected', name: 'Selected'},
-            ]
+            ],
+            comparisonType: ComparisonType.Dropdown
         },
         funcs: {
             getTitle: (block: BlockRadio) => {
@@ -284,7 +300,8 @@ export const BlockComponents = {
                 {value: '=', name: 'Equal to'},
                 {value: '!=', name: 'Not equal to'},
                 {value: 'contains', name: 'Contains'},
-            ]
+            ],
+            comparisonType: ComparisonType.TextInput
         },
         funcs: {
             getTitle: (block: BlockInputTextAnswer) => {

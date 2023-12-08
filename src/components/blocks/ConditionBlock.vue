@@ -35,10 +35,28 @@
           <!-- Input for the index to jump to -->
           <div class="relative h-full">
             <input
+                v-if="comparisonType === ComparisonType.Number"
                 v-model="props.block.isOperatorValue"
                 type="number"
                 class="w-full h-full bg-gray-700 placeholder-gray-200 text-gray-300 focus:outline-none p-2 rounded-md ml-1"
                 placeholder=""
+            />
+            <input
+                v-if="comparisonType === ComparisonType.TextInput"
+                v-model="props.block.isOperatorValue"
+                type="text"
+                class="w-full h-full bg-gray-700 placeholder-gray-200 text-gray-300 focus:outline-none p-2 rounded-md ml-1"
+                placeholder=""
+            />
+            <Dropdown
+                v-if="comparisonType === ComparisonType.Dropdown"
+                v-model="props.block.isOperatorValue"
+                :options="actionOptions"
+                optionLabel="name"
+                optionValue="value"
+                placeholder="Select action"
+                class="w-32 md:w-64 h-full ml-1"
+                :key="blocksHistoryKey"
             />
           </div>
         </div>
@@ -84,7 +102,7 @@ import {onMounted, onBeforeMount, PropType, ref, watch} from 'vue'
 import {
   Block,
   BlockCondition,
-  BlockInputTextAnswer,
+  BlockInputTextAnswer, ComparisonType,
   getBlockFuncs,
   getBlockOptions,
   isFlowBlock,
@@ -103,6 +121,7 @@ const allNextBlockOptions = ref([])
 const blocksHistoryKey = ref(0);
 
 const comparisonOptions = ref([]);
+const comparisonType = ref(ComparisonType.Number);
 
 const actionOptions = ref([
   {value: 'jump', name: 'Jump to block'},
@@ -171,10 +190,12 @@ function updateAllNextBlocksDropdowns() {
   });
 }
 
-function updateComparisonDropdown() {
+function updateComparisonDropdownAndValue() {
   const whenSelectedBlock = props.page.blocks.find((block) => block.id === props.block.whenBlockSelectedId)
   if(whenSelectedBlock) {
     comparisonOptions.value = getBlockOptions(whenSelectedBlock).comparisons
+    comparisonType.value = getBlockOptions(whenSelectedBlock).comparisonType
+    console.log(comparisonType.value)
   }
 }
 
@@ -186,12 +207,12 @@ onBeforeMount(() => {
 watch(() => props.page.blocks, () => {
   updatePreviousInputBlocksDropdowns()
   updateAllNextBlocksDropdowns()
-  updateComparisonDropdown()
+  updateComparisonDropdownAndValue()
   blocksHistoryKey.value += 1;
 }, {deep: true})
 
 watch(() => props.block.whenBlockSelectedId, () => {
-  updateComparisonDropdown()
+  updateComparisonDropdownAndValue()
 })
 
 defineExpose({
