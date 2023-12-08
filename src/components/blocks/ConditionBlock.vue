@@ -102,24 +102,12 @@ const allNextBlockOptions = ref([])
 
 const blocksHistoryKey = ref(0);
 
-const comparisonOptions = ref([
-  {value: '=', name: 'Equal to'},
-  {value: '!=', name: 'Not equal to'},
-  {value: '>', name: 'Greater than'},
-  {value: '<', name: 'Less than'},
-]);
+const comparisonOptions = ref([]);
 
 const actionOptions = ref([
   {value: 'jump', name: 'Jump to block'},
   {value: 'hide', name: 'Hide block'},
 ]);
-
-const selectedWhenBlock = ref(null);
-const selectedActionBlock = ref(null);
-const selectedComparison = ref('=');
-const comparisonValue = ref(null);
-const selectedAction = ref('jump');
-const jumpIndex = ref('');
 
 const props = defineProps({
   block: {
@@ -159,7 +147,10 @@ function onUnset() {
 function updatePreviousInputBlocksDropdowns() {
   let blocksWithIndex = props.page.blocks
       .map((block, index) => ({block, index})) // Create an array of objects containing both block and index
-      .filter(({block, index}) => index < props.blockNumber && getBlockOptions(block).conditionVisible && !block.isHidden);
+      .filter(({
+                 block,
+                 index
+               }) => index < props.blockNumber && getBlockOptions(block).conditionVisible && !block.isHidden);
 
   previousInputBlockOptions.value = blocksWithIndex.map(({block, index}) => {
     const title = getBlockFuncs(block).getTitle(block);
@@ -180,16 +171,28 @@ function updateAllNextBlocksDropdowns() {
   });
 }
 
+function updateComparisonDropdown() {
+  const whenSelectedBlock = props.page.blocks.find((block) => block.id === props.block.whenBlockSelectedId)
+  if(whenSelectedBlock) {
+    comparisonOptions.value = getBlockOptions(whenSelectedBlock).comparisons
+  }
+}
+
 onBeforeMount(() => {
   updatePreviousInputBlocksDropdowns()
   updateAllNextBlocksDropdowns()
 })
 
-watch(() => props.page.blocks, (blocks) => {
+watch(() => props.page.blocks, () => {
   updatePreviousInputBlocksDropdowns()
   updateAllNextBlocksDropdowns()
+  updateComparisonDropdown()
   blocksHistoryKey.value += 1;
 }, {deep: true})
+
+watch(() => props.block.whenBlockSelectedId, () => {
+  updateComparisonDropdown()
+})
 
 defineExpose({
   onSet,

@@ -93,6 +93,7 @@ export const BlockComponents = {
             maxVisible: false,
             nameVisible: false,
             conditionVisible: false,
+            comparisons: null
         },
         funcs: {
             getTitle: (block: BlockText) => block.details.value
@@ -111,6 +112,7 @@ export const BlockComponents = {
             maxVisible: false,
             nameVisible: false,
             conditionVisible: false,
+            comparisons: null
         },
         funcs: {
             getTitle: (block: BlockHeading) => block.details.value
@@ -129,6 +131,7 @@ export const BlockComponents = {
             maxVisible: false,
             nameVisible: false,
             conditionVisible: false,
+            comparisons: null
         },
         funcs: {
             getTitle: (block: BlockHeading) => block.details.value
@@ -147,6 +150,7 @@ export const BlockComponents = {
             maxVisible: false,
             nameVisible: false,
             conditionVisible: false,
+            comparisons: null
         },
         funcs: {
             getTitle: (block: BlockHeading) => block.details.value
@@ -165,6 +169,7 @@ export const BlockComponents = {
             maxVisible: false,
             nameVisible: false,
             conditionVisible: false,
+            comparisons: null
         },
         funcs: {
             getTitle: (block: BlockDivider) => '-'
@@ -183,6 +188,7 @@ export const BlockComponents = {
             maxVisible: false,
             nameVisible: false,
             conditionVisible: false,
+            comparisons: null
         },
         funcs: {
             getTitle: (block: BlockQuote) => block.details.value
@@ -201,6 +207,7 @@ export const BlockComponents = {
             maxVisible: false,
             nameVisible: false,
             conditionVisible: false,
+            comparisons: null
         },
         funcs: {
             getTitle: (block: BlockCondition) => '-'
@@ -219,10 +226,13 @@ export const BlockComponents = {
             maxVisible: false,
             nameVisible: true,
             conditionVisible: true,
+            comparisons: [
+                {value: 'selected', name: 'Selected'},
+            ]
         },
         funcs: {
             getTitle: (block: BlockOptions) => {
-                if(block.items && block.items.length > 0) {
+                if (block.items && block.items.length > 0) {
                     return block.items[0].label
                 } else {
                     return '-'
@@ -243,10 +253,13 @@ export const BlockComponents = {
             maxVisible: false,
             nameVisible: true,
             conditionVisible: true,
+            comparisons: [
+                {value: 'selected', name: 'Selected'},
+            ]
         },
         funcs: {
             getTitle: (block: BlockRadio) => {
-                if(block.items && block.items.length > 0) {
+                if (block.items && block.items.length > 0) {
                     return block.items[0].label
                 } else {
                     return '-'
@@ -267,12 +280,18 @@ export const BlockComponents = {
             maxVisible: true,
             nameVisible: true,
             conditionVisible: true,
+            comparisons: [
+                {value: '=', name: 'Equal to'},
+                {value: '!=', name: 'Not equal to'},
+                {value: 'contains', name: 'Contains'},
+            ]
         },
         funcs: {
             getTitle: (block: BlockInputTextAnswer) => {
                 return '-'
             }
-        }
+        },
+
     },
 }
 
