@@ -51,10 +51,10 @@
             <Dropdown
                 v-if="comparisonType === ComparisonType.Dropdown"
                 v-model="props.block.isOperatorValue"
-                :options="actionOptions"
+                :options="operatorOptions"
                 optionLabel="name"
                 optionValue="value"
-                placeholder="Select action"
+                placeholder="Select value"
                 class="w-32 md:w-64 h-full ml-1"
                 :key="blocksHistoryKey"
             />
@@ -98,16 +98,8 @@
 
 
 <script setup lang="ts">
-import {onMounted, onBeforeMount, PropType, ref, watch} from 'vue'
-import {
-  Block,
-  BlockCondition,
-  BlockInputTextAnswer, ComparisonType,
-  getBlockFuncs,
-  getBlockOptions,
-  isFlowBlock,
-  OptionItem
-} from '@/utils/types'
+import {onBeforeMount, PropType, ref, watch} from 'vue'
+import {Block, BlockCondition, ComparisonType, getBlockFuncs, getBlockOptions, isFlowBlock} from '@/utils/types'
 import {
   setUpInitialValuesForBlock,
   setUpInitialValuesForBlockAnswer,
@@ -122,6 +114,8 @@ const blocksHistoryKey = ref(0);
 
 const comparisonOptions = ref([]);
 const comparisonType = ref(ComparisonType.Number);
+
+const operatorOptions = ref([]);
 
 const actionOptions = ref([
   {value: 'jump', name: 'Jump to block'},
@@ -195,7 +189,11 @@ function updateComparisonDropdownAndValue() {
   if(whenSelectedBlock) {
     comparisonOptions.value = getBlockOptions(whenSelectedBlock).comparisons
     comparisonType.value = getBlockOptions(whenSelectedBlock).comparisonType
-    console.log(comparisonType.value)
+    if(comparisonType.value === ComparisonType.Dropdown) {
+      operatorOptions.value = whenSelectedBlock.items.map((item) => {
+        return {'value': item.label, 'name': item.label}
+      })
+    }
   }
 }
 
@@ -212,6 +210,7 @@ watch(() => props.page.blocks, () => {
 }, {deep: true})
 
 watch(() => props.block.whenBlockSelectedId, () => {
+  delete props.block.isOperatorValue;
   updateComparisonDropdownAndValue()
 })
 
