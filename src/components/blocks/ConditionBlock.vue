@@ -204,6 +204,7 @@ function updateComparisonDropdownAndValue() {
 onBeforeMount(() => {
   updatePreviousInputBlocksDropdowns()
   updateAllNextBlocksDropdowns()
+  updateComparisonDropdownAndValue()
 })
 
 watch(() => props.page.blocks, () => {
