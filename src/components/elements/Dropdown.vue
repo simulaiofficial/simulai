@@ -10,6 +10,7 @@
       <div
         v-if="isDropdownOpen"
         class="absolute z-10 top-full left-0 mt-2 w-full bg-gray-700 border border-gray-500 rounded-md shadow-lg"
+        style="max-height: 200px; overflow-y: auto;"
       >
         <div
           v-for="(option, index) in options"
