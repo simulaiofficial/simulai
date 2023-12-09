@@ -17,7 +17,8 @@ import {
     PrClone,
     CoTextSquare,
     GiLogicGateNor,
-    OiNumber
+    OiNumber,
+    MdAlternateemail
 } from "oh-vue-icons/icons"
 import App from './App.vue'
 import './index.css'
@@ -39,7 +40,8 @@ addIcons(
     PrClone,
     CoTextSquare,
     GiLogicGateNor,
-    OiNumber
+    OiNumber,
+    MdAlternateemail
 )
 
 const app = createApp(App)

@@ -44,6 +44,7 @@ export enum BlockType {
     Condition = 'CONDITION',
     Options = 'OPTIONS',
     Radio = 'RADIO',
+    InputEmailAnswer = 'INPUT_EMAIL_ANSWER',
     InputTextAnswer = 'INPUT_TEXT_ANSWER',
     InputNumberAnswer = 'INPUT_NUMBER_ANSWER',
 }
@@ -74,6 +75,10 @@ export interface BlockInputTextAnswer extends BlockAnswer {
     min?: number,
     maxRequired: boolean
     max?: number,
+}
+
+export interface BlockInputEmailAnswer extends BlockAnswer {
+    isCompany: boolean
 }
 
 export interface BlockInputNumberAnswer extends BlockAnswer {
@@ -291,6 +296,37 @@ export const BlockComponents = {
             }
         }
     },
+    [BlockType.InputEmailAnswer]: {
+        component: InputAnswerBlock,
+        options: {
+            icon: 'md-alternateemail',
+            label: 'Input Email',
+            canSplit: false,
+            emojiVisible: false,
+            requiredVisible: true,
+            hideVisible: true,
+            minVisible: true,
+            minLabel: 'Min characters',
+            maxVisible: true,
+            maxLabel: 'Max characters',
+            requiredWorkEmailVisible: true,
+            nameVisible: true,
+            conditionVisible: true,
+            comparisons: [
+                {value: '=', name: 'Equal to'},
+                {value: '!=', name: 'Not equal to'},
+                {value: 'contains', name: 'Contains'},
+            ],
+            comparisonType: ComparisonType.Text
+        },
+        funcs: {
+            getTitle: (block: BlockInputEmailAnswer) => {
+                return '-'
+            }
+        },
+
+
+    },
     [BlockType.InputTextAnswer]: {
         component: InputAnswerBlock,
         options: {
@@ -304,6 +340,7 @@ export const BlockComponents = {
             minLabel: 'Min characters',
             maxVisible: true,
             maxLabel: 'Max characters',
+            requiredWorkEmailVisible: false,
             nameVisible: true,
             conditionVisible: true,
             comparisons: [
@@ -334,6 +371,7 @@ export const BlockComponents = {
             minLabel: 'Min value',
             maxVisible: true,
             maxLabel: 'Max value',
+            requiredWorkEmailVisible: false,
             nameVisible: true,
             conditionVisible: true,
             comparisons: [
@@ -345,7 +383,7 @@ export const BlockComponents = {
             comparisonType: ComparisonType.Number
         },
         funcs: {
-            getTitle: (block: BlockInputTextAnswer) => {
+            getTitle: (block: BlockInputNumberAnswer) => {
                 return '-'
             }
         },

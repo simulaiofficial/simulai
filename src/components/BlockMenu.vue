@@ -56,6 +56,17 @@
                 </label>
               </div>
             </div>
+            <div v-if="BlockComponents[props.block.type].options.requiredWorkEmailVisible"
+                 class="px-2 py-1 rounded flex items-center gap-2 hover:bg-slate-600">
+              <span class="truncate">Work Email</span>
+              <div class="flex items-center ml-auto">
+                <!-- Added a container for the switch, using ml-auto to push it to the right -->
+                <label class="switch">
+                  <input type="checkbox" v-model="props.block.isWorkEmailRequired">
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
             <div v-if="BlockComponents[props.block.type].options.minVisible"
                  class="px-2 py-1 rounded flex items-center gap-2 hover:bg-slate-600">
               <span class="truncate flex-shrink-0">{{ BlockComponents[props.block.type].options.minLabel }}</span>
