@@ -71,9 +71,9 @@ export interface BlockRadio extends BlockAnswer {
 
 export interface BlockInputTextAnswer extends BlockAnswer {
     minRequired: boolean
-    minChars?: number,
+    min?: number,
     maxRequired: boolean
-    maxChars?: number,
+    max?: number,
 }
 
 export interface BlockInputNumberAnswer extends BlockAnswer {
@@ -301,7 +301,9 @@ export const BlockComponents = {
             requiredVisible: true,
             hideVisible: true,
             minVisible: true,
+            minLabel: 'Min characters',
             maxVisible: true,
+            maxLabel: 'Max characters',
             nameVisible: true,
             conditionVisible: true,
             comparisons: [
@@ -329,7 +331,9 @@ export const BlockComponents = {
             requiredVisible: true,
             hideVisible: true,
             minVisible: true,
+            minLabel: 'Min value',
             maxVisible: true,
+            maxLabel: 'Max value',
             nameVisible: true,
             conditionVisible: true,
             comparisons: [
