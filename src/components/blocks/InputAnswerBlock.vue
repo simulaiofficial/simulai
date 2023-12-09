@@ -2,6 +2,7 @@
   <div class="py-3.5">
     <div class="relative">
       <input
+          v-if="block.type === BlockType.InputTextAnswer"
         @input.prevent
         @keydown.enter.prevent
         @keydown.space.prevent
@@ -9,7 +10,21 @@
         @keydown.delete.prevent
         @keydown="disableInput"
         class="w-full h-full bg-gray-700 placeholder-gray-200 text-gray-300 border border-gray-500 focus:outline-none p-4 rounded-md cursor-not-allowed"
-        placeholder="Text answer..."
+        placeholder="Text input..."
+        type="text"
+        ref="input"
+      />
+      <input
+          v-if="block.type === BlockType.InputNumberAnswer"
+        @input.prevent
+        @keydown.enter.prevent
+        @keydown.space.prevent
+        @keydown.tab.prevent
+        @keydown.delete.prevent
+        @keydown="disableInput"
+        class="w-full h-full bg-gray-700 placeholder-gray-200 text-gray-300 border border-gray-500 focus:outline-none p-4 rounded-md cursor-not-allowed"
+        placeholder="Number input..."
+        type="number"
         ref="input"
       />
       <div
@@ -22,7 +37,7 @@
 
 <script setup lang="ts">
 import {PropType, ref} from 'vue'
-import {Block, BlockInputTextAnswer, OptionItem} from '@/utils/types'
+import {Block, BlockType, BlockAnswer, BlockInputTextAnswer, OptionItem} from '@/utils/types'
 import {
   markdownToHtml,
   setUpInitialValuesForBlock,
@@ -32,7 +47,7 @@ import {
 
 const props = defineProps({
   block: {
-    type: Object as PropType<BlockInputTextAnswer>,
+    type: Object as PropType<BlockAnswer>,
     required: true,
   }
 })

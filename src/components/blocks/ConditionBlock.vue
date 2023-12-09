@@ -42,7 +42,7 @@
                 placeholder=""
             />
             <input
-                v-if="comparisonType === ComparisonType.TextInput"
+                v-if="comparisonType === ComparisonType.Text"
                 v-model="props.block.isOperatorValue"
                 type="text"
                 class="w-full h-full bg-gray-700 placeholder-gray-200 text-gray-300 focus:outline-none p-2 rounded-md ml-1"

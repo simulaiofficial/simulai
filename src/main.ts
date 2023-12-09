@@ -16,7 +16,8 @@ import {
     BiEmojiSmile,
     PrClone,
     CoTextSquare,
-    GiLogicGateNor
+    GiLogicGateNor,
+    OiNumber
 } from "oh-vue-icons/icons"
 import App from './App.vue'
 import './index.css'
@@ -37,7 +38,8 @@ addIcons(
     BiEmojiSmile,
     PrClone,
     CoTextSquare,
-    GiLogicGateNor
+    GiLogicGateNor,
+    OiNumber
 )
 
 const app = createApp(App)

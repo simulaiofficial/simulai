@@ -116,7 +116,7 @@
             </div>
           </div>
           <!-- Turn into another block like Text, Heading or Divider -->
-          <div class="px-2 py-2" style="max-height: 320px; overflow-y: auto;" v-if="options.length">
+          <div class="px-2 py-2" style="max-height: 310px; overflow-y: auto;" v-if="options.length">
             <div class="px-2 pb-2 font-semibold uppercase text-xs text-neutral-400">Turn into</div>
             <div v-for="option, i in options"
                  class="px-2 py-1 rounded flex items-center gap-2"

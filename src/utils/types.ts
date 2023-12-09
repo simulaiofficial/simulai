@@ -5,7 +5,7 @@ import QuoteBlock from '@/components/blocks/QuoteBlock.vue'
 import ConditionBlock from '@/components/blocks/ConditionBlock.vue'
 import OptionsBlock from '@/components/blocks/OptionsBlock.vue'
 import RadioBlock from '@/components/blocks/RadioBlock.vue'
-import InputTextAnswerBlock from '@/components/blocks/InputTextAnswerBlock.vue'
+import InputAnswerBlock from '@/components/blocks/InputAnswerBlock.vue'
 
 export interface Block {
     id: string,
@@ -29,9 +29,9 @@ export interface BlockCondition extends Block {
 }
 
 export enum ComparisonType {
-    TextInput = 'TEXT',
-    Number = 'Number',
-    Dropdown = 'Dropdown'
+    Text = 'TEXT',
+    Number = 'NUMBER',
+    Dropdown = 'DROPDOWN'
 }
 
 export enum BlockType {
@@ -44,7 +44,8 @@ export enum BlockType {
     Condition = 'CONDITION',
     Options = 'OPTIONS',
     Radio = 'RADIO',
-    InputTextAnswer = 'INPUT_TEXT_ANSWER'
+    InputTextAnswer = 'INPUT_TEXT_ANSWER',
+    InputNumberAnswer = 'INPUT_NUMBER_ANSWER',
 }
 
 
@@ -70,9 +71,16 @@ export interface BlockRadio extends BlockAnswer {
 
 export interface BlockInputTextAnswer extends BlockAnswer {
     minRequired: boolean
-    minChars: number,
+    minChars?: number,
     maxRequired: boolean
-    maxChars: number,
+    maxChars?: number,
+}
+
+export interface BlockInputNumberAnswer extends BlockAnswer {
+    minRequired: boolean
+    min?: number,
+    maxRequired: boolean
+    max?: number,
 }
 
 export interface Details {
@@ -284,10 +292,10 @@ export const BlockComponents = {
         }
     },
     [BlockType.InputTextAnswer]: {
-        component: InputTextAnswerBlock,
+        component: InputAnswerBlock,
         options: {
             icon: 'co-text-square',
-            label: 'Input Text Answer',
+            label: 'Input Text',
             canSplit: false,
             emojiVisible: false,
             requiredVisible: true,
@@ -301,13 +309,43 @@ export const BlockComponents = {
                 {value: '!=', name: 'Not equal to'},
                 {value: 'contains', name: 'Contains'},
             ],
-            comparisonType: ComparisonType.TextInput
+            comparisonType: ComparisonType.Text
         },
         funcs: {
             getTitle: (block: BlockInputTextAnswer) => {
                 return '-'
             }
         },
+
+
+    },
+    [BlockType.InputNumberAnswer]: {
+        component: InputAnswerBlock,
+        options: {
+            icon: 'oi-number',
+            label: 'Input Number',
+            canSplit: false,
+            emojiVisible: false,
+            requiredVisible: true,
+            hideVisible: true,
+            minVisible: true,
+            maxVisible: true,
+            nameVisible: true,
+            conditionVisible: true,
+            comparisons: [
+                {value: '=', name: 'Equal to'},
+                {value: '!=', name: 'Not equal to'},
+                {value: '>', name: 'Greater than'},
+                {value: '<', name: 'Less than'},
+            ],
+            comparisonType: ComparisonType.Number
+        },
+        funcs: {
+            getTitle: (block: BlockInputTextAnswer) => {
+                return '-'
+            }
+        },
+
 
     },
 }
