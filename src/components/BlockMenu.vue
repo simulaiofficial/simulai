@@ -147,9 +147,9 @@
 </template>
 
 <script setup lang="ts">
-import {ref, computed, watch, PropType} from 'vue'
+import {computed, PropType, ref, watch} from 'vue'
 import Fuse from 'fuse.js'
-import {Block, BlockComponents, BlockDivider, BlockType} from '@/utils/types'
+import {Block, BlockComponents, BlockType} from '@/utils/types'
 import Tooltip from './elements/Tooltip.vue'
 
 const props = defineProps({

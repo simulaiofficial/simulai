@@ -49,10 +49,9 @@
 
 
 <script setup lang="ts">
-import {PropType, ref} from 'vue'
-import {Block, BlockType, BlockAnswer, BlockInputTextAnswer, OptionItem, BlockInputNumberAnswer} from '@/utils/types'
+import {PropType} from 'vue'
+import {BlockInputNumberAnswer, BlockInputTextAnswer, BlockType} from '@/utils/types'
 import {
-  markdownToHtml,
   setUpInitialValuesForBlock,
   setUpInitialValuesForBlockAnswer,
   unsetInitialValuesForBlockAnswer

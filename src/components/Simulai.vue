@@ -38,7 +38,7 @@
 </template>
 
 <script setup lang="ts">
-import {ref, onBeforeUpdate, PropType, onBeforeUnmount, onMounted} from 'vue'
+import {ref, onBeforeUpdate, PropType, onMounted} from 'vue'
 import {VueDraggableNext as draggable} from 'vue-draggable-next'
 import {v4 as uuidv4} from 'uuid'
 import {Block, BlockType, isTextBlock, BlockComponents} from '@/utils/types'

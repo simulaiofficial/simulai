@@ -4,8 +4,8 @@
 </template>
 
 <script setup lang="ts">
-import { PropType } from 'vue'
-import {Block, BlockDivider} from '@/utils/types'
+import {PropType} from 'vue'
+import {BlockDivider} from '@/utils/types'
 import {setUpInitialValuesForBlock} from "@/utils/utils";
 
 const props = defineProps({

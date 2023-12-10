@@ -27,7 +27,7 @@
 </template>
 
 <script setup>
-import {ref, defineProps, defineEmits, onMounted, watch} from 'vue';
+import {defineEmits, defineProps, onMounted, ref} from 'vue';
 
 const dropdownContainer = ref(null)
 

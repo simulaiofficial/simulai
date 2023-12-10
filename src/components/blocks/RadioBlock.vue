@@ -19,7 +19,7 @@
 
 <script setup lang="ts">
 import {PropType, ref, watch} from "vue";
-import {BlockRadio, isTextBlock, OptionItem} from "@/utils/types"
+import {BlockRadio, OptionItem} from "@/utils/types"
 import Editor from '../elements/Editor.vue'
 import {
   setUpInitialValuesForBlock,

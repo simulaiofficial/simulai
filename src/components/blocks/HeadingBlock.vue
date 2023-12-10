@@ -11,8 +11,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, PropType } from 'vue'
-import {Block, BlockHeading, BlockType} from '@/utils/types'
+import {PropType, ref} from 'vue'
+import {BlockHeading, BlockType} from '@/utils/types'
 import {setUpInitialValuesForBlock} from "@/utils/utils";
 
 const headingConfig = {

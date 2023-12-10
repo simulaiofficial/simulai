@@ -4,9 +4,9 @@
 </template>
 
 <script setup lang="ts">
-import { PropType } from 'vue'
-import {Block, BlockText} from '@/utils/types'
-import {markdownToHtml, setUpInitialValuesForBlock} from '@/utils/utils'
+import {PropType} from 'vue'
+import {BlockText} from '@/utils/types'
+import {setUpInitialValuesForBlock} from '@/utils/utils'
 import Editor from '../elements/Editor.vue'
 
 const props = defineProps({
