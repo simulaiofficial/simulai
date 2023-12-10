@@ -108,7 +108,7 @@
               <v-icon name="pr-clone"
                 class="w-6 h-6 p-0.5 rounded opacity-100 opacity-0"/><span class="truncate">Duplicate</span>
             </div>
-            <div v-if="BlockComponents[props.block.type].options.conditionVisible" @click="open = false; emit('duplicateBlock')"
+            <div v-if="BlockComponents[props.block.type].options.conditionVisible" @click="open = false; addConditionalLogic()"
                  class="px-2 py-1 rounded flex items-center gap-2 hover:bg-slate-600" data-test-id="turn-into-menu">
               <v-icon name="gi-logic-gate-nor"
                 class="w-6 h-6 p-0.5 rounded opacity-100 opacity-0"/><span class="truncate">Add Conditional Logic</span>
@@ -165,6 +165,7 @@ const props = defineProps({
 
 const emit = defineEmits([
   'setBlockType',
+  'addBlock',
   'deleteBlock',
   'duplicateBlock',
   'clearSearch',
@@ -280,6 +281,10 @@ function setBlockType(blockType: BlockType | string) {
 
   searchTerm.value = ''
   open.value = false
+}
+
+function addConditionalLogic() {
+  emit('addBlock', BlockType.Condition)
 }
 
 defineExpose({

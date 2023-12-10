@@ -21,6 +21,7 @@
                         @deleteBlock="deleteBlock(i)"
                         @duplicateBlock="duplicateBlock(i)"
                         @newBlock="insertBlock(i)"
+                        @addBlock="type => addBlock(i, type)"
                         @moveToPrevChar="blockElements[i-1]?.moveToEnd(); scrollIntoView();"
                         @moveToNextChar="blockElements[i+1]?.moveToStart(); scrollIntoView();"
                         @moveToPrevLine="handleMoveToPrevLine(i)"
@@ -323,6 +324,12 @@ async function setBlockType(blockIdx: number, type: BlockType) {
     }
     blockElements.value[blockIdx].moveToEnd()
   })
+}
+
+async function addBlock(blockIdx: number, type: BlockType) {
+  debugger;
+  insertBlock(blockIdx)
+  setBlockType(blockIdx+1, type)
 }
 
 function merge(blockIdx: number) {

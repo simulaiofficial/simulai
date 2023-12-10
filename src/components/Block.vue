@@ -25,6 +25,7 @@
       <BlockMenu ref="menu"
                  @setBlockType="setBlockType"
                  @deleteBlock="emit('deleteBlock')"
+                 @addBlock="addBlock"
                  @duplicateBlock="emit('duplicateBlock')"
                  :blockTypes="props.block.details.blockTypes || props.blockTypes"
                  :block="block"
@@ -96,6 +97,7 @@ const emit = defineEmits([
   'merge',
   'split',
   'setBlockType',
+  'addBlock',
   'openEmoji'
 ])
 
@@ -542,6 +544,10 @@ function setBlockType(blockType: BlockType, searchTermLength: number, openedWith
           else setCaretPos(caretPos)
         })
       })
+}
+
+function addBlock(blockType: BlockType) {
+  emit('addBlock', blockType)
 }
 
 async function clearSearch(searchTermLength: number, newBlockType: BlockType, openedWithSlash: boolean = false) {
