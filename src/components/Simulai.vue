@@ -327,7 +327,6 @@ async function setBlockType(blockIdx: number, type: BlockType) {
 }
 
 async function addBlock(blockIdx: number, type: BlockType) {
-  debugger;
   insertBlock(blockIdx)
   setBlockType(blockIdx+1, type)
 }
