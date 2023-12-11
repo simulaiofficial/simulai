@@ -2,6 +2,7 @@ import { mount } from '@vue/test-utils'
 import { documentKeydown, documentClick } from '../utils/vitest'
 import { describe, it, expect } from 'vitest' 
 import BlockMenu from '@/components/BlockMenu.vue'
+import {BlockType} from "../utils/testTypes";
 
 describe('BlockMenu.vue', () => {
 
@@ -12,6 +13,14 @@ describe('BlockMenu.vue', () => {
       },
       props: {
         blockTypes: ['TEXT', 'QUOTE'],
+        block: {
+          id: 'someId',
+          type: BlockType.Text,
+          details: {
+            value: "some text"
+          },
+          isHidden: false
+        }
       }
     })
     const handle = wrapper.find('.handle')
@@ -50,6 +59,14 @@ describe('BlockMenu.vue', () => {
       },
       props: {
         blockTypes: ['TEXT', 'QUOTE'],
+        block: {
+          id: 'someId',
+          type: BlockType.Text,
+          details: {
+            value: "some text"
+          },
+          isHidden: false
+        }
       }
     })
     const handle = wrapper.find('.handle')
@@ -95,6 +112,14 @@ describe('BlockMenu.vue', () => {
       },
       props: {
         blockTypes: ['TEXT', 'QUOTE'],
+        block: {
+          id: 'someId',
+          type: BlockType.Text,
+          details: {
+            value: "some text"
+          },
+          isHidden: false
+        }
       }
     })
     const handle = wrapper.find('.handle')
