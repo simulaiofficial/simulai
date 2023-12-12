@@ -1,8 +1,9 @@
 # main.py
 from fastapi import FastAPI
-from pydantic import BaseModel
-from uuid import uuid4
 from fastapi.middleware.cors import CORSMiddleware
+
+from api.model import BlockText, BlockType, Details, BlockHeading, BlockDivider, BlockQuote, BlockOptions, BlockRadio, \
+    BlockInputTextAnswer, BlockInputEmailAnswer, BlockInputNumberAnswer, OptionItem, Page
 
 app = FastAPI()
 
@@ -14,24 +15,29 @@ app.add_middleware(
     allow_headers=["*"],  # Allows all headers
 )
 
-class Block(BaseModel):
-    id: str
-    type: str
-    details: dict
 
-class Page(BaseModel):
-    name: str
-    blocks: list[Block]
+# Sample instances of each block type
+# block_text = BlockText(id='1', type=BlockType.Text, details=Details(value='Text Example'), isHidden=False)
+# block_heading = BlockHeading(id='2', type=BlockType.H1, details=Details(value='Heading Example'), isHidden=False)
+# block_divider = BlockDivider(id='3', type=BlockType.Divider, details=Details(), isHidden=False)
+# block_quote = BlockQuote(id='4', type=BlockType.Quote, details=Details(value='Quote Example'), isHidden=False)
+block_options = BlockOptions(id='5', type=BlockType.Options, details=Details(), isHidden=False, isRequired=True, setName=False, name='Options Block', items=[OptionItem(label='Option 1', isChecked=False), OptionItem(label='Option 2', isChecked=True)])
+# block_radio = BlockRadio(id='6', type=BlockType.Radio, details=Details(), isHidden=False, isRequired=False, setName=True, name='Radio Block', items=[OptionItem(label='Radio 1', isChecked=False), OptionItem(label='Radio 2', isChecked=True)])
+# block_input_text = BlockInputTextAnswer(id='7', type=BlockType.InputTextAnswer, details=Details(), isHidden=False, isRequired=True, setName=True, name='Text Input Block', minRequired=True, min=1, maxRequired=False, max=None)
+# block_input_email = BlockInputEmailAnswer(id='8', type=BlockType.InputEmailAnswer, details=Details(), isHidden=False, isRequired=False, setName=False, name='Email Input Block', isCompany=True)
+# block_input_number = BlockInputNumberAnswer(id='9', type=BlockType.InputNumberAnswer, details=Details(), isHidden=False, isRequired=True, setName=True, name='Number Input Block', minRequired=False, min=None, maxRequired=True, max=100)
 
-# Sample data to return
-sample_data = Page(
-    name='🤖 simulai',
+# Creating the sample page with all block types
+sample_page = Page(
+    name="🤖 simulai",
     blocks=[
-        {"id": str(uuid4()), "type": "H1", "details": {"value": 'Get Started'}},
-        # Add more blocks as needed
+        # block_text, block_heading, block_divider, block_quote,
+        block_options,
+        # block_radio, block_input_text, block_input_email, block_input_number
     ]
 )
 
-@app.post("/data")
+@app.post("/data", response_model=Page)
 async def get_data():
-    return sample_data
+    print(sample_page)
+    return sample_page
