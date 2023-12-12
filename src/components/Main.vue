@@ -11,10 +11,8 @@
 
 <script setup lang="ts">
 import {onMounted, ref} from 'vue'
-import {BlockType} from '@/utils/types'
 import Markdown from './Markdown.vue'
 import Simulai from './Simulai.vue'
-import {v4 as uuidv4} from 'uuid'
 
 const bgColor = "#343541"
 const textColor = "#ffffff"
