@@ -119,3 +119,8 @@ dist
 /test-results/
 /playwright-report/
 /playwright/.cache/
+
+#python
+
+venv/
+*.pyc

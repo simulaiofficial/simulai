@@ -23,15 +23,20 @@
 
 **1. Clone this repository, go to the root directory and install packages**
 
+Please use node >= v16.15.1, python >= 3.10.1
+
 ```bash
 git clone https://github.com/simulaiofficial/simulai
 cd simulai
 npm i
+virtualenv venv
+pip install -r requirements.txt
 ```
 
 **2. Run dev**
 
 ```bash
+uvicorn api.main:app --reload
 npm run dev
 ```
 
