@@ -40,7 +40,7 @@ uvicorn api.main:app --reload
 npm run dev
 ```
 
-If you head to http://localhost:5173 on your browser, you should see what looks like the screenshot above.
+If you head to http://127.0.0.1:5173/?config=http://127.0.0.1:8000/data on your browser, you should see what looks like the screenshot above.
 
 **3. Contribute!**
 

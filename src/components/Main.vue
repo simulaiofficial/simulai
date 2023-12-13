@@ -33,10 +33,12 @@ if (isTest !== '1') {
     blocks: []
   });
 
+  const configUrl = queryParams.get('config')
+
   // Function to fetch data
   async function fetchData() {
     try {
-      const response = await fetch('http://127.0.0.1:8000/data', {
+      const response = await fetch(configUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
