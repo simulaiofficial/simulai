@@ -3,7 +3,7 @@ import { BlockType } from '../utils/testTypes.ts'
 import { repeatKey, isBlockType } from '../utils/playwright.ts'
 
 test('basic typing and editing should work', async ({ page }) => {
-  await page.goto('/')
+  await page.goto('/?test=1')
 
   const block = await page.locator('p:has-text("Give these things a try:")')
   await block.click()
@@ -25,7 +25,7 @@ test('basic typing and editing should work', async ({ page }) => {
 })
 
 test('converting between types via mouse should work', async ({ page }) => {
-  await page.goto('/')
+  await page.goto('/?test=1')
 
   const block = await page.locator('text="Get Started"')
   // Convert to H2
@@ -68,7 +68,7 @@ test('converting between types via mouse should work', async ({ page }) => {
 test('converting between types via keyboard should work and maintain caret position', async ({ page, browserName }) => {
   test.skip(browserName === 'chromium', 'Chromium specific heading bug - to fix in the future')
 
-  await page.goto('/')
+  await page.goto('/?test=1')
 
   // Convert H1 to H2
   let block = await page.locator('text="Get Started"')
@@ -120,7 +120,7 @@ test('converting between types via keyboard should work and maintain caret posit
 })
 
 test('creating and breaking lines should work correctly', async ({ page }) => {
-  await page.goto('/')
+  await page.goto('/?test=1')
 
   let block = await page.locator('text="Get Started"')
   await block.click()
@@ -142,7 +142,7 @@ test('creating and breaking lines should work correctly', async ({ page }) => {
 })
 
 test('merging should work correctly', async ({ page, browserName }) => {
-  await page.goto('/')
+  await page.goto('/?test=1')
 
   let block = await page.locator('text="1. Hover on the left of each line for quick actions"')
   await block.click()
