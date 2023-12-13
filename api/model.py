@@ -45,9 +45,17 @@ class ActionSelectedType(str, Enum):
     Jump = 'jump'
     Hide = 'hide'
 
+class IsOperatorSelectedType(str, Enum):
+    Equal = '='
+    NotEqual = '!='
+    Greater = '>'
+    Less = '<'
+    Contains = 'contains'
+    Selected = 'selected'
+
 class BlockCondition(Block):
     whenBlockSelectedId: str
-    isOperatorSelectedId: str
+    isOperatorSelectedId: IsOperatorSelectedType
     isOperatorValue: str
     actionSelectedId: ActionSelectedType
     actionBlockSelectedId: str

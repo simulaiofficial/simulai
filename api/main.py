@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from api.model import BlockText, BlockType, Details, BlockHeading, BlockDivider, BlockQuote, BlockOptions, BlockRadio, \
     BlockInputTextAnswer, BlockInputEmailAnswer, BlockInputNumberAnswer, OptionItem, Page, BlockCondition, \
-    ActionSelectedType
+    ActionSelectedType, IsOperatorSelectedType
 
 app = FastAPI()
 
@@ -29,7 +29,7 @@ block_condition = BlockCondition(
     details=Details(),
     isHidden=False,
     whenBlockSelectedId='5',  # Assuming the condition depends on the BlockOptions with id '5'
-    isOperatorSelectedId='equals',  # This is a hypothetical operator ID, replace with actual if different
+    isOperatorSelectedId=IsOperatorSelectedType.Selected,  # This is a hypothetical operator ID, replace with actual if different
     isOperatorValue='Option 2',  # The value to compare against, in this case, it could be a selection from BlockOptions
     actionSelectedId=ActionSelectedType.Hide,  # This is a hypothetical action ID, replace with actual if different
     actionBlockSelectedId='7'  # The id of the block to show/hide, in this case, BlockInputTextAnswer with id '7'
