@@ -3,6 +3,21 @@
 @tailwind components;
 @tailwind utilities;
 
+html, body {
+    height: 100%; /* Full height for the root elements */
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+}
+
+#app {
+    height: 100%; /* Full height for the app container */
+    background-color: rgb(52, 53, 65); /* Set your desired background color */
+}
+
+.flex.flex-col.h-full {
+    min-height: 100%; /* Ensure the flex container takes at least the full height */
+}
+
 * {
   border-width: 0;
   box-sizing: border-box;

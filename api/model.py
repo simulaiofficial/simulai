@@ -41,9 +41,11 @@ class BlockAnswer(Block):
     setName: bool
     name: str
 
+
 class ActionSelectedType(str, Enum):
     Jump = 'jump'
     Hide = 'hide'
+
 
 class IsOperatorSelectedType(str, Enum):
     Equal = '='
@@ -52,6 +54,7 @@ class IsOperatorSelectedType(str, Enum):
     Less = '<'
     Contains = 'contains'
     Selected = 'selected'
+
 
 class BlockCondition(Block):
     whenBlockSelectedId: str
@@ -111,6 +114,7 @@ class BlockQuote(Block):
 
 class Page(BaseModel):
     name: str
+    isChat: bool
     blocks: List[Union[
         Block, BlockAnswer, BlockCondition, BlockOptions, BlockRadio, BlockInputTextAnswer,
         BlockInputEmailAnswer, BlockInputNumberAnswer, BlockText, BlockHeading, BlockDivider, BlockQuote]]

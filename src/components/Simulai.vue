@@ -12,25 +12,28 @@
     <draggable id="blocks" tag="div" :list="props.page.blocks" handle=".handle"
                v-bind="dragOptions" class="-ml-24 space-y-2 pb-4">
       <transition-group type="transition">
-        <BlockComponent :block="block" v-for="block, i in props.page.blocks" :key="i" :id="'block-'+block.id"
-                        :blockTypes="props.blockTypes"
-                        :blockNumber="i+1"
-                        :page="props.page"
-                        :ref="el => blockElements[i] = (el as unknown as typeof Block)"
-                        :style="{backgroundColor: props.bgColor}"
-                        @deleteBlock="deleteBlock(i)"
-                        @duplicateBlock="duplicateBlock(i)"
-                        @newBlock="insertBlock(i)"
-                        @addBlock="type => addBlock(i, type)"
-                        @moveToPrevChar="blockElements[i-1]?.moveToEnd(); scrollIntoView();"
-                        @moveToNextChar="blockElements[i+1]?.moveToStart(); scrollIntoView();"
-                        @moveToPrevLine="handleMoveToPrevLine(i)"
-                        @moveToNextLine="blockElements[i+1]?.moveToFirstLine(); scrollIntoView();"
-                        @merge="merge(i)"
-                        @split="split(i)"
-                        @setBlockType="type => setBlockType(i, type)"
-                        @openEmoji="openEmoji"
-        />
+        <div v-for="block, i in props.page.blocks" :key="i">
+          <BlockComponent :block="block" :id="'block-'+block.id"
+                          v-if="checkIfBlockShouldBeVisible(i)"
+                          :blockTypes="props.blockTypes"
+                          :blockNumber="i+1"
+                          :page="props.page"
+                          :ref="el => blockElements[i] = (el as unknown as typeof Block)"
+                          :style="{backgroundColor: props.bgColor}"
+                          @deleteBlock="deleteBlock(i)"
+                          @duplicateBlock="duplicateBlock(i)"
+                          @newBlock="insertBlock(i)"
+                          @addBlock="type => addBlock(i, type)"
+                          @moveToPrevChar="blockElements[i-1]?.moveToEnd(); scrollIntoView();"
+                          @moveToNextChar="blockElements[i+1]?.moveToStart(); scrollIntoView();"
+                          @moveToPrevLine="handleMoveToPrevLine(i)"
+                          @moveToNextLine="blockElements[i+1]?.moveToFirstLine(); scrollIntoView();"
+                          @merge="merge(i)"
+                          @split="split(i)"
+                          @setBlockType="type => setBlockType(i, type)"
+                          @openEmoji="openEmoji"
+          />
+        </div>
       </transition-group>
     </draggable>
   </div>
@@ -52,7 +55,7 @@ import {computed, watch} from 'vue'
 
 const props = defineProps({
   page: {
-    type: Object as PropType<{ name: string, blocks: Block[] }>,
+    type: Object as PropType<{ name: string, isChat: boolean, blocks: Block[] }>,
     required: true,
   },
   bgColor: {
@@ -88,6 +91,12 @@ const isEmojiPickerOpen = ref(false);
 const emojiPickerStyle = ref({top: 0, left: 0});
 const savedCaretPosition = ref(null);
 const mousePosition = {x: 0, y: 0}
+
+const currentVisibleBlock = ref(1);
+
+setInterval(() => {
+  currentVisibleBlock.value += 1
+}, 3000)
 
 document.addEventListener('mousemove', function (mouseMoveEvent) {
   mousePosition.x = mouseMoveEvent.pageX;
@@ -193,6 +202,10 @@ function insertTextAtCursor(textToInsert) {
     const emojiNode = document.createTextNode(textToInsert);
     range.insertNode(emojiNode);
   }
+}
+
+function checkIfBlockShouldBeVisible(index) {
+  return index < currentVisibleBlock.value
 }
 
 function onSelectEmoji(emoji) {
@@ -328,7 +341,7 @@ async function setBlockType(blockIdx: number, type: BlockType) {
 
 async function addBlock(blockIdx: number, type: BlockType) {
   insertBlock(blockIdx)
-  setBlockType(blockIdx+1, type)
+  setBlockType(blockIdx + 1, type)
 }
 
 function merge(blockIdx: number) {

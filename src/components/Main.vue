@@ -1,9 +1,12 @@
 <template>
-  <div class="flex flex-col" :style="{ color: textColor }">
-    <div class="w-full" :style="{ backgroundColor: bgColor }">
+  <div class="flex flex-col" :class="{
+          'h-full': page.isChat
+         }" :style="{ color: textColor }">
+    <div class="w-full"
+         :style="{ backgroundColor: bgColor }">
       <Simulai :bgColor="bgColor" :textColor="textColor" :page="page"/>
     </div>
-    <div class="w-full overflow-y-auto" style="background-color: #202123;">
+    <div v-if="!page.isChat" class="w-full overflow-y-auto" style="background-color: #202123;">
       <Markdown :page="page"/>
     </div>
   </div>
@@ -30,6 +33,7 @@ if (isTest !== '1') {
   page = ref({
     // Initial empty structure
     name: '',
+    isChat: false,
     blocks: []
   });
 
@@ -67,6 +71,7 @@ if (isTest !== '1') {
 } else {
   page = ref({
     name: '🤖 simulai',
+    isChat: false,
     blocks: [{
       id: uuidv4(),
       type: BlockType.H1,
