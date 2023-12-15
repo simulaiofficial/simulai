@@ -43,7 +43,7 @@ block_input_number = BlockInputNumberAnswer(id='9', type=BlockType.InputNumberAn
 # Creating the sample page with all block types
 sample_page = Page(
     name="🤖 simulai",
-    isChat=True,
+    isChat=False,
     blocks=[
         block_text, block_heading, block_divider, block_quote,
         block_options, block_condition,

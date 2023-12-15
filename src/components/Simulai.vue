@@ -205,7 +205,7 @@ function insertTextAtCursor(textToInsert) {
 }
 
 function checkIfBlockShouldBeVisible(index) {
-  return index < currentVisibleBlock.value
+  return !props.page.isChat || index < currentVisibleBlock.value
 }
 
 function onSelectEmoji(emoji) {
