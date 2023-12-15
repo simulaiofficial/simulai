@@ -36,6 +36,7 @@
         </div>
       </transition-group>
     </draggable>
+    <ChatInput />
   </div>
   <EmojiPicker v-if="isEmojiPickerOpen" ref="emojiPicker" :native="true" @select="onSelectEmoji"
                :style="{ top: emojiPickerStyle.top + 'px', left: emojiPickerStyle.left + 'px' }" class="absolute z-50"/>
@@ -48,6 +49,7 @@ import {v4 as uuidv4} from 'uuid'
 import {Block, BlockType, isTextBlock, BlockComponents} from '@/utils/types'
 import {htmlToMarkdown} from '@/utils/utils'
 import BlockComponent from './Block.vue'
+import ChatInput from './elements/ChatInput.vue'
 import EmojiPicker from 'vue3-emoji-picker'
 import 'vue3-emoji-picker/css'
 import cloneDeep from 'lodash/cloneDeep';
