@@ -1,5 +1,8 @@
 <template>
-  <div class="simulai max-w-screen-md mx-auto my-12 font-sans text-base p-5" v-if="props.page" ref="editor"
+  <div :class="{
+         'simulai max-w-screen-md mx-auto my-12 font-sans text-base p-5': !props.page.isChat,
+         'simulai max-w-screen-md mx-auto font-sans text-base p-5 h-screen flex flex-col justify-between': props.page.isChat
+       }" v-if="props.page" ref="editor"
        @keydown.ctrl.cmd.space.prevent="openEmojiPicker">
     <h1 id="title" ref="title" :contenteditable="true" spellcheck="false" data-ph="Untitled"
         @keydown.enter.prevent="splitTitle"
@@ -10,7 +13,12 @@
       {{ props.page.name || '' }}
     </h1>
     <draggable id="blocks" tag="div" :list="props.page.blocks" handle=".handle"
-               v-bind="dragOptions" class="-ml-24 space-y-2 pb-4">
+               v-bind="dragOptions"
+               :class="{
+         '-ml-24 space-y-2 pb-4': !props.page.isChat,
+         'flex-grow overflow-y-auto -ml-24 space-y-2 pb-4 max-h-[calc(100vh-5rem)]': props.page.isChat
+       }"
+    >
       <transition-group type="transition">
         <div v-for="block, i in props.page.blocks" :key="i">
           <BlockComponent :block="block" :id="'block-'+block.id"
@@ -36,7 +44,7 @@
         </div>
       </transition-group>
     </draggable>
-    <ChatInput />
+    <ChatInput v-if="page.isChat"/>
   </div>
   <EmojiPicker v-if="isEmojiPickerOpen" ref="emojiPicker" :native="true" @select="onSelectEmoji"
                :style="{ top: emojiPickerStyle.top + 'px', left: emojiPickerStyle.left + 'px' }" class="absolute z-50"/>
