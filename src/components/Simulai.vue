@@ -12,7 +12,7 @@
         :class="props.page.name ? '' : 'empty'">
       {{ props.page.name || '' }}
     </h1>
-    <draggable id="blocks" tag="div" :list="props.page.blocks" handle=".handle"
+    <draggable ref="blocks" id="blocks" tag="div" :list="props.page.blocks" handle=".handle"
                v-bind="dragOptions"
                :class="{
          '-ml-24 space-y-2 pb-4': !props.page.isChat,
@@ -51,7 +51,7 @@
 </template>
 
 <script setup lang="ts">
-import {ref, onBeforeUpdate, PropType, onMounted} from 'vue'
+import {ref, onBeforeUpdate, PropType, onMounted, nextTick} from 'vue'
 import {VueDraggableNext as draggable} from 'vue-draggable-next'
 import {v4 as uuidv4} from 'uuid'
 import {Block, BlockType, isTextBlock, BlockComponents} from '@/utils/types'
@@ -95,6 +95,7 @@ const props = defineProps({
 })
 
 const editor = ref<HTMLDivElement | null>(null)
+const blocks = ref<HTMLDivElement | null>(null)
 
 const emojiPicker = ref<HTMLDivElement | null>(null);
 const isEmojiPickerOpen = ref(false);
@@ -106,6 +107,7 @@ const currentVisibleBlock = ref(1);
 
 setInterval(() => {
   currentVisibleBlock.value += 1
+  scrollToBottom()
 }, 3000)
 
 document.addEventListener('mousemove', function (mouseMoveEvent) {
@@ -495,6 +497,15 @@ function keydownHandler(event) {
 function addStateToHistory(blocks) {
   const currentState = cloneDeep(blocks);
   blocksHistory.push(currentState);
+}
+
+// Method to scroll to bottom
+function scrollToBottom() {
+  setTimeout(() => {
+    if (blocks.value) {
+      blocks.value.$el.scrollTop = blocks.value.$el.scrollHeight;
+    }
+  }, 100)
 }
 
 watch(() => props.page.blocks, blocks => {
