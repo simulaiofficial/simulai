@@ -16,7 +16,7 @@
                v-bind="dragOptions"
                :class="{
          '-ml-24 space-y-2 pb-4': !props.page.isChat,
-         'flex-grow overflow-y-auto -ml-24 space-y-2 pb-4 max-h-[calc(100vh-5rem)]': props.page.isChat
+         'flex-grow overflow-y-auto space-y-2 pb-4 max-h-[calc(100vh-5rem)]': props.page.isChat
        }"
     >
       <transition-group type="transition">
@@ -47,7 +47,9 @@
         </div>
       </transition-group>
     </draggable>
-    <ChatInput v-if="page.isChat" :bgColor="props.bgColor" @nextBlock="goNextBlock"/>
+    <div>
+      <ChatInput v-if="page.isChat" :bgColor="props.bgColor" @nextBlock="goNextBlock"/>
+    </div>
   </div>
   <EmojiPicker v-if="isEmojiPickerOpen" ref="emojiPicker" :native="true" @select="onSelectEmoji"
                :style="{ top: emojiPickerStyle.top + 'px', left: emojiPickerStyle.left + 'px' }" class="absolute z-50"/>

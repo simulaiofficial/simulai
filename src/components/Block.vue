@@ -5,7 +5,7 @@
       'pt-12 first:pt-0': block.type === BlockType.H1,
       'pt-4 first:pt-0': block.type === BlockType.H2,
     }">
-    <div class="h-full pl-4 pr-2 text-center cursor-pointer transition-all duration-150 text-neutral-300 flex"
+    <div v-if="!props.page.isChat" class="h-full pl-4 pr-2 text-center cursor-pointer transition-all duration-150 text-neutral-300 flex"
          :class="{
         'py-3.5': block.type === BlockType.H1,
         'py-3': block.type === BlockType.H2,
