@@ -6,6 +6,7 @@
         :style="{ backgroundColor: props.bgColor }"
         placeholder="Your message..."
         type="text"
+        @keyup.enter="handleSubmit"
         v-model="textInput"
         ref="input"
       />
@@ -25,14 +26,15 @@
 import { ref, computed } from 'vue';
 
 const textInput = ref('');
+const input = ref(null);
 
 const buttonClass = computed(() => {
   return textInput.value ? 'bg-white' : 'bg-darker'; // 'bg-darker' is a custom class for darker background
 });
 
-const handleSubmit = () => {
-  alert('Button clicked!');
-};
+const emit = defineEmits([
+  'nextBlock'
+])
 
 const props = defineProps({
   bgColor: {
@@ -40,6 +42,11 @@ const props = defineProps({
     required: true
   }
 });
+
+const handleSubmit = () => {
+  textInput.value = ''
+  emit('nextBlock')
+};
 </script>
 
 

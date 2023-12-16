@@ -47,7 +47,7 @@
         </div>
       </transition-group>
     </draggable>
-    <ChatInput v-if="page.isChat" :bgColor="props.bgColor"/>
+    <ChatInput v-if="page.isChat" :bgColor="props.bgColor" @nextBlock="goNextBlock"/>
   </div>
   <EmojiPicker v-if="isEmojiPickerOpen" ref="emojiPicker" :native="true" @select="onSelectEmoji"
                :style="{ top: emojiPickerStyle.top + 'px', left: emojiPickerStyle.left + 'px' }" class="absolute z-50"/>
