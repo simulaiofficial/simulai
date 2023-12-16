@@ -54,7 +54,7 @@
 import {ref, onBeforeUpdate, PropType, onMounted, nextTick} from 'vue'
 import {VueDraggableNext as draggable} from 'vue-draggable-next'
 import {v4 as uuidv4} from 'uuid'
-import {Block, BlockType, isTextBlock, BlockComponents} from '@/utils/types'
+import {Block, BlockType, isTextBlock, BlockComponents, getBlockOptions} from '@/utils/types'
 import {htmlToMarkdown} from '@/utils/utils'
 import BlockComponent from './Block.vue'
 import ChatInput from './elements/ChatInput.vue'
@@ -103,12 +103,34 @@ const emojiPickerStyle = ref({top: 0, left: 0});
 const savedCaretPosition = ref(null);
 const mousePosition = {x: 0, y: 0}
 
-const currentVisibleBlock = ref(1);
+const currentVisibleBlock = ref(null);
 
-setInterval(() => {
-  currentVisibleBlock.value += 1
-  scrollToBottom()
-}, 3000)
+// setInterval(() => {
+//   currentVisibleBlock.value += 1
+//   scrollToBottom()
+// }, 3000)
+
+function showNextBlock() {
+  debugger;
+  if (props.page.blocks.length === 0 ||
+      (currentVisibleBlock.value !== null && currentVisibleBlock.value >= props.page.blocks.length)) {
+    setTimeout(() => showNextBlock(), 1000)
+    return
+  }
+  if (currentVisibleBlock.value === null) {
+    currentVisibleBlock.value = 0
+    scrollToBottom()
+  } else {
+    currentVisibleBlock.value += 1
+    scrollToBottom()
+  }
+  const currentBlock = props.page.blocks[currentVisibleBlock.value]
+  if (!getBlockOptions(currentBlock).isInput) {
+    setTimeout(() => {
+      showNextBlock()
+    }, 1000)
+  }
+}
 
 document.addEventListener('mousemove', function (mouseMoveEvent) {
   mousePosition.x = mouseMoveEvent.pageX;
@@ -217,7 +239,7 @@ function insertTextAtCursor(textToInsert) {
 }
 
 function checkIfBlockShouldBeVisible(index) {
-  return !props.page.isChat || index < currentVisibleBlock.value
+  return !props.page.isChat || index <= currentVisibleBlock.value
 }
 
 function onSelectEmoji(emoji) {
@@ -524,5 +546,6 @@ onMounted(() => {
   // Add the initial state to the history after mount
   addStateToHistory(props.page.blocks);
   currentHistoryIndex = null
+  showNextBlock()
 });
 </script>

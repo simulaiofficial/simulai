@@ -104,6 +104,7 @@ export const BlockComponents = {
         options: {
             icon: 'bi-text-left',
             label: 'Text',
+            isInput: false,
             setValueDuringTypeConversion: true,
             canSplit: true,
             emojiVisible: true,
@@ -125,6 +126,7 @@ export const BlockComponents = {
         options: {
             icon: 'bi-type-h1',
             label: 'Heading 1',
+            isInput: false,
             setValueDuringTypeConversion: true,
             canSplit: true,
             emojiVisible: true,
@@ -146,6 +148,7 @@ export const BlockComponents = {
         options: {
             icon: 'bi-type-h2',
             label: 'Heading 2',
+            isInput: false,
             setValueDuringTypeConversion: true,
             canSplit: true,
             emojiVisible: true,
@@ -167,6 +170,7 @@ export const BlockComponents = {
         options: {
             icon: 'bi-type-h3',
             label: 'Heading 3',
+            isInput: false,
             setValueDuringTypeConversion: true,
             canSplit: true,
             emojiVisible: true,
@@ -188,6 +192,7 @@ export const BlockComponents = {
         options: {
             icon: 'bi-hr',
             label: 'Divider',
+            isInput: false,
             setValueDuringTypeConversion: false,
             canSplit: false,
             emojiVisible: false,
@@ -209,6 +214,7 @@ export const BlockComponents = {
         options: {
             icon: 'bi-quote',
             label: 'Quote',
+            isInput: false,
             setValueDuringTypeConversion: true,
             canSplit: true,
             emojiVisible: true,
@@ -230,6 +236,7 @@ export const BlockComponents = {
         options: {
             icon: 'gi-logic-gate-nor',
             label: 'Condition',
+            isInput: false,
             setValueDuringTypeConversion: false,
             canSplit: false,
             emojiVisible: false,
@@ -252,6 +259,7 @@ export const BlockComponents = {
         options: {
             icon: 'md-checkbox-outlined',
             label: 'Options',
+            isInput: true,
             setValueDuringTypeConversion: true,
             canSplit: false,
             emojiVisible: true,
@@ -281,6 +289,7 @@ export const BlockComponents = {
         options: {
             icon: 'io-radio-button-on-outline',
             label: 'Radio',
+            isInput: true,
             setValueDuringTypeConversion: true,
             canSplit: false,
             emojiVisible: true,
@@ -310,6 +319,7 @@ export const BlockComponents = {
         options: {
             icon: 'md-alternateemail',
             label: 'Input Email',
+            isInput: true,
             setValueDuringTypeConversion: false,
             canSplit: false,
             emojiVisible: false,
@@ -342,6 +352,7 @@ export const BlockComponents = {
         options: {
             icon: 'co-text-square',
             label: 'Input Text',
+            isInput: true,
             setValueDuringTypeConversion: false,
             canSplit: false,
             emojiVisible: false,
@@ -374,6 +385,7 @@ export const BlockComponents = {
         options: {
             icon: 'oi-number',
             label: 'Input Number',
+            isInput: true,
             setValueDuringTypeConversion: false,
             canSplit: false,
             emojiVisible: false,
