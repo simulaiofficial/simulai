@@ -47,6 +47,7 @@
                  :block="block"
                  :blockNumber="blockNumber"
                  :page="props.page"
+                 :bgColor="props.bgColor"
                  @moveToPrevLine="emit('moveToPrevLine')"
                  @moveToNextLine="emit('moveToNextLine')"
                  @deleteBlock="emit('deleteBlock')"
@@ -82,6 +83,10 @@ const props = defineProps({
   page: {
     type: Object as PropType<{ name: string, isChat: boolean, blocks: Block[] }>,
     required: true,
+  },
+  bgColor: {
+    type: String,
+    required: true
   },
   blockTypes: {
     type: Object as PropType<null | (string | BlockType)[]>,

@@ -29,6 +29,7 @@
                           :page="props.page"
                           :ref="el => blockElements[i] = (el as unknown as typeof Block)"
                           :style="{backgroundColor: props.bgColor}"
+                          :bgColor="props.bgColor"
                           @deleteBlock="deleteBlock(i)"
                           @duplicateBlock="duplicateBlock(i)"
                           @newBlock="insertBlock(i)"
@@ -46,7 +47,7 @@
         </div>
       </transition-group>
     </draggable>
-    <ChatInput v-if="page.isChat"/>
+    <ChatInput v-if="page.isChat" :bgColor="props.bgColor"/>
   </div>
   <EmojiPicker v-if="isEmojiPickerOpen" ref="emojiPicker" :native="true" @select="onSelectEmoji"
                :style="{ top: emojiPickerStyle.top + 'px', left: emojiPickerStyle.left + 'px' }" class="absolute z-50"/>

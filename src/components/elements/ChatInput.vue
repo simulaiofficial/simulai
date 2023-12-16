@@ -2,14 +2,13 @@
   <div class="py-3.5">
     <div class="relative">
       <input
-        class="w-full h-full bg-gray-700 placeholder-gray-200 text-gray-300 border border-gray-500 focus:outline-none p-4 rounded-md"
+        class="w-full h-full bg-gray-700 placeholder-gray-200 text-gray-300 focus:outline-none p-4 rounded-md"
+        style="border: 1px solid #706161;"
+        :style="{backgroundColor: props.bgColor}"
         placeholder="Your message..."
         type="text"
         ref="input"
       />
-      <div
-        class="absolute inset-0 bg-gradient-to-t from-gray-700 to-transparent rounded-md pointer-events-none"
-      ></div>
     </div>
   </div>
 </template>
@@ -21,5 +20,10 @@ import Editor from './Editor.vue'
 
 const textInput = ref('')
 
-const props = defineProps({})
+const props = defineProps({
+  bgColor: {
+    type: String,
+    required: true
+  }
+})
 </script>

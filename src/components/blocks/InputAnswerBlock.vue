@@ -3,46 +3,49 @@
     <div class="relative">
       <input
           v-if="block.type === BlockType.InputEmailAnswer"
-        @input.prevent
-        @keydown.enter.prevent
-        @keydown.space.prevent
-        @keydown.tab.prevent
-        @keydown.delete.prevent
-        @keydown="disableInput"
-        class="w-full h-full bg-gray-700 placeholder-gray-200 text-gray-300 border border-gray-500 focus:outline-none p-4 rounded-md cursor-not-allowed"
-        placeholder="Email input..."
-        type="email"
-        ref="input"
+          @input.prevent
+          @keydown.enter.prevent
+          @keydown.space.prevent
+          @keydown.tab.prevent
+          @keydown.delete.prevent
+          @keydown="disableInput"
+          class="w-full h-full bg-gray-700 placeholder-gray-200 text-gray-300 focus:outline-none p-4 rounded-md cursor-not-allowed"
+          style="border: 1px solid #706161;"
+          :style="{backgroundColor: props.bgColor}"
+          placeholder="Email input..."
+          type="email"
+          ref="input"
       />
       <input
           v-if="block.type === BlockType.InputTextAnswer"
-        @input.prevent
-        @keydown.enter.prevent
-        @keydown.space.prevent
-        @keydown.tab.prevent
-        @keydown.delete.prevent
-        @keydown="disableInput"
-        class="w-full h-full bg-gray-700 placeholder-gray-200 text-gray-300 border border-gray-500 focus:outline-none p-4 rounded-md cursor-not-allowed"
-        placeholder="Text input..."
-        type="text"
-        ref="input"
+          @input.prevent
+          @keydown.enter.prevent
+          @keydown.space.prevent
+          @keydown.tab.prevent
+          @keydown.delete.prevent
+          @keydown="disableInput"
+          class="w-full h-full bg-gray-700 placeholder-gray-200 text-gray-300 focus:outline-none p-4 rounded-md cursor-not-allowed"
+          style="border: 1px solid #706161;"
+          :style="{backgroundColor: props.bgColor}"
+          placeholder="Text input..."
+          type="text"
+          ref="input"
       />
       <input
           v-if="block.type === BlockType.InputNumberAnswer"
-        @input.prevent
-        @keydown.enter.prevent
-        @keydown.space.prevent
-        @keydown.tab.prevent
-        @keydown.delete.prevent
-        @keydown="disableInput"
-        class="w-full h-full bg-gray-700 placeholder-gray-200 text-gray-300 border border-gray-500 focus:outline-none p-4 rounded-md cursor-not-allowed"
-        placeholder="Number input..."
-        type="number"
-        ref="input"
+          @input.prevent
+          @keydown.enter.prevent
+          @keydown.space.prevent
+          @keydown.tab.prevent
+          @keydown.delete.prevent
+          @keydown="disableInput"
+          class="w-full h-full bg-gray-700 placeholder-gray-200 text-gray-300 focus:outline-none p-4 rounded-md cursor-not-allowed"
+          style="border: 1px solid #706161;"
+          :style="{backgroundColor: props.bgColor}"
+          placeholder="Number input..."
+          type="number"
+          ref="input"
       />
-      <div
-        class="absolute inset-0 bg-gradient-to-t from-gray-700 to-transparent rounded-md pointer-events-none"
-      ></div>
     </div>
   </div>
 </template>
@@ -61,6 +64,10 @@ const props = defineProps({
   block: {
     type: Object as PropType<BlockInputTextAnswer | BlockInputNumberAnswer>,
     required: true,
+  },
+  bgColor: {
+    type: String,
+    required: true
   }
 })
 
