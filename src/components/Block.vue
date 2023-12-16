@@ -56,7 +56,7 @@
       <div v-if="currentBlockNumber === blockNumber-1 && page.isChat && BlockComponents[props.block.type].options.isNextButton">
         <button
             @click="goNextBlock()"
-            class="mt-2 mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 transition duration-300">
+            class="mt-2 mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 transition duration-300 cursor-pointer">
           Next
         </button>
       </div>
