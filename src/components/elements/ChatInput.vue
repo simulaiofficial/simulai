@@ -2,7 +2,7 @@
   <div class="py-3.5">
     <div class="relative">
       <input
-        class="w-full h-full bg-gray-700 placeholder-gray-200 text-gray-300 border border-gray-500 focus:outline-none p-4 rounded-md cursor-not-allowed"
+        class="w-full h-full bg-gray-700 placeholder-gray-200 text-gray-300 border border-gray-500 focus:outline-none p-4 rounded-md"
         placeholder="Your message..."
         type="text"
         ref="input"
