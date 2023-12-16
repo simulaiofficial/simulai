@@ -108,7 +108,6 @@ const mousePosition = {x: 0, y: 0}
 const currentVisibleBlock = ref(null);
 
 function showNextBlock() {
-  debugger;
   if (props.page.blocks.length === 0 ||
       (currentVisibleBlock.value !== null && currentVisibleBlock.value >= props.page.blocks.length)) {
     setTimeout(() => showNextBlock(), 1000)
@@ -123,9 +122,10 @@ function showNextBlock() {
   }
   const currentBlock = props.page.blocks[currentVisibleBlock.value]
   if (!getBlockOptions(currentBlock).isInput) {
+    const timeout = getBlockOptions(currentBlock).isVirtualBlock ? 0 : 1000;
     setTimeout(() => {
       showNextBlock()
-    }, 1000)
+    }, timeout)
   }
 }
 
@@ -240,7 +240,8 @@ function insertTextAtCursor(textToInsert) {
 }
 
 function checkIfBlockShouldBeVisible(index) {
-  return !props.page.isChat || index <= currentVisibleBlock.value
+  const currentBlock = props.page.blocks[index]
+  return !props.page.isChat || (index <= currentVisibleBlock.value && !getBlockOptions(currentBlock).isVirtualBlock)
 }
 
 function onSelectEmoji(emoji) {
