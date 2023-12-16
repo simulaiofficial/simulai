@@ -13,7 +13,9 @@
         'py-1.5': ![BlockType.H1, BlockType.H2, BlockType.H3].includes(block.type),
       }">
       <span
-          class="w-6 h-6 hover:bg-slate-800 hover:text-neutral-400 p-0.5 rounded group-hover:opacity-100 opacity-0">{{ props.blockNumber }}</span>
+          class="w-6 h-6 hover:bg-slate-800 hover:text-neutral-400 p-0.5 rounded group-hover:opacity-100 opacity-0">{{
+          props.blockNumber
+        }}</span>
       <Tooltip value="<span class='text-neutral-400'><span class='text-white'>Click</span> to delete block</span>">
         <v-icon name="hi-trash" @click="emit('deleteBlock')"
                 class="w-6 h-6 hover:bg-slate-800 hover:text-neutral-400 p-0.5 rounded group-hover:opacity-100 opacity-0"/>
@@ -50,6 +52,14 @@
                  @deleteBlock="emit('deleteBlock')"
                  @keydown="keyDownHandler"
                  @keyup="parseMarkdown"/>
+      <div>
+        <button
+            @click="goNextBlock()"
+            v-if="currentBlockNumber === blockNumber-1"
+            class="mt-2 mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 transition duration-300">
+          Next
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -81,6 +91,10 @@ const props = defineProps({
   blockNumber: {
     type: Number,
     default: null
+  },
+  currentBlockNumber: {
+    type: Number,
+    default: null
   }
 })
 
@@ -98,11 +112,16 @@ const emit = defineEmits([
   'split',
   'setBlockType',
   'addBlock',
-  'openEmoji'
+  'openEmoji',
+  'nextBlock'
 ])
 
 function openEmoji() {
   setTimeout(() => emit('openEmoji'), 100)
+}
+
+function goNextBlock() {
+  emit('nextBlock')
 }
 
 function getFirstChild() {

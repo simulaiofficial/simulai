@@ -25,6 +25,7 @@
                           v-if="checkIfBlockShouldBeVisible(i)"
                           :blockTypes="props.blockTypes"
                           :blockNumber="i+1"
+                          :currentBlockNumber="currentVisibleBlock"
                           :page="props.page"
                           :ref="el => blockElements[i] = (el as unknown as typeof Block)"
                           :style="{backgroundColor: props.bgColor}"
@@ -40,6 +41,7 @@
                           @split="split(i)"
                           @setBlockType="type => setBlockType(i, type)"
                           @openEmoji="openEmoji"
+                          @nextBlock="goNextBlock"
           />
         </div>
       </transition-group>
@@ -105,11 +107,6 @@ const mousePosition = {x: 0, y: 0}
 
 const currentVisibleBlock = ref(null);
 
-// setInterval(() => {
-//   currentVisibleBlock.value += 1
-//   scrollToBottom()
-// }, 3000)
-
 function showNextBlock() {
   debugger;
   if (props.page.blocks.length === 0 ||
@@ -130,6 +127,10 @@ function showNextBlock() {
       showNextBlock()
     }, 1000)
   }
+}
+
+function goNextBlock() {
+  showNextBlock()
 }
 
 document.addEventListener('mousemove', function (mouseMoveEvent) {
