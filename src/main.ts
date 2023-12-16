@@ -18,7 +18,8 @@ import {
     CoTextSquare,
     GiLogicGateNor,
     OiNumber,
-    MdAlternateemail
+    MdAlternateemail,
+    BiArrowUp
 } from "oh-vue-icons/icons"
 import App from './App.vue'
 import './index.css'
@@ -41,7 +42,8 @@ addIcons(
     CoTextSquare,
     GiLogicGateNor,
     OiNumber,
-    MdAlternateemail
+    MdAlternateemail,
+    BiArrowUp
 )
 
 const app = createApp(App)
