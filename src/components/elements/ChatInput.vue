@@ -2,7 +2,7 @@
   <div class="py-3.5">
     <div class="relative">
       <input
-        class="chat-input w-full h-full bg-gray-700 placeholder-gray-200 text-gray-300 focus:outline-none p-4 rounded-md"
+        class="chat-input w-full h-full bg-gray-700 placeholder-gray-500 text-gray-300 focus:outline-none p-4 rounded-md"
         :style="{ backgroundColor: props.bgColor }"
         placeholder="Your message..."
         type="text"
