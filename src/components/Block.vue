@@ -35,7 +35,7 @@
     </div>
     <div :block-index="blockNumber" class="flex-1 relative"
          :class="{ 'px-0': block.type !== BlockType.Divider, 'opacity-50 pointer-events-none': props.block.isHidden }">
-      <div v-if="BlockComponents[props.block.type].options.emojiVisible" class="flex justify-end w-full">
+      <div v-if="BlockComponents[props.block.type].options.emojiVisible && !props.page.isChat" class="flex justify-end w-full">
         <Tooltip :style="{maxHeight: '10px'}"
                  value="<span class='text-neutral-400'><span class='text-white'>Click</span> to add emoji</span>">
           <v-icon name="bi-emoji-smile" @mousedown.stop.prevent="openEmoji()"

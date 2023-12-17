@@ -1,6 +1,6 @@
 <template>
   <div ref="content" :key="props.block.type"
-    :contenteditable="true" spellcheck="false"
+    :contenteditable="!props.page.isChat" spellcheck="false"
     @blur="props.block.details.value=content?.innerText"
     class="focus:outline-none focus-visible:outline-none w-full py-1.5 font-semibold"
     :class="headingConfig[props.block.type]?.class"
@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
 import {PropType, ref} from 'vue'
-import {BlockHeading, BlockType} from '@/utils/types'
+import {Block, BlockHeading, BlockType} from '@/utils/types'
 import {setUpInitialValuesForBlock} from "@/utils/utils";
 
 const headingConfig = {
@@ -37,6 +37,10 @@ const headingConfig = {
 const props = defineProps({
   block: {
     type: Object as PropType<BlockHeading>,
+    required: true,
+  },
+  page: {
+    type: Object as PropType<{ name: string, blocks: Block[] }>,
     required: true,
   }
 })

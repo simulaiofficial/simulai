@@ -53,7 +53,7 @@
 
 <script setup lang="ts">
 import {PropType} from 'vue'
-import {BlockInputNumberAnswer, BlockInputTextAnswer, BlockType} from '@/utils/types'
+import {Block, BlockInputNumberAnswer, BlockInputTextAnswer, BlockType} from '@/utils/types'
 import {
   setUpInitialValuesForBlock,
   setUpInitialValuesForBlockAnswer,
@@ -68,6 +68,10 @@ const props = defineProps({
   bgColor: {
     type: String,
     required: true
+  },
+  page: {
+    type: Object as PropType<{ name: string, blocks: Block[] }>,
+    required: true,
   }
 })
 

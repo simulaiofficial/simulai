@@ -9,6 +9,7 @@
         <Editor v-model="item.label" :data-index="i"
                 :contenteditable="true" spellcheck="false"
                 :showPlaceholder="false"
+                :readonly="props.page.isChat"
                 @input="updateItemLabel"
                 @keydown="keyDownHandler"
                 class=""/>
@@ -19,7 +20,7 @@
 
 <script setup lang="ts">
 import {PropType, ref, watch} from "vue";
-import {BlockOptions, isTextBlock, OptionItem} from "@/utils/types"
+import {Block, BlockOptions, isTextBlock, OptionItem} from "@/utils/types"
 import Editor from '../elements/Editor.vue'
 import {
   setUpInitialValuesForBlock,
@@ -30,6 +31,10 @@ import {
 const props = defineProps({
   block: {
     type: Object as PropType<BlockOptions>,
+    required: true,
+  },
+  page: {
+    type: Object as PropType<{ name: string, blocks: Block[] }>,
     required: true,
   }
 });

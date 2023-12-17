@@ -30,6 +30,10 @@ const props = defineProps({
   showPlaceholder: {
     type: Boolean,
     default: true
+  },
+  readonly: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -80,6 +84,7 @@ const editor = useEditor({
   onUpdate: () => {
     value.value = htmlToMarkdown(editor.value?.getHTML() || '')
   },
+  editable: !props.readonly
 })
 
 watch(() => props.modelValue, value => {
