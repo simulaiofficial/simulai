@@ -131,7 +131,7 @@ function showNextBlock() {
     scrollToBottom()
   }
   const currentBlock = props.page.blocks[currentVisibleBlock.value]
-  if (!getBlockOptions(currentBlock).isInput) {
+  if (currentBlock && !getBlockOptions(currentBlock).isInput) {
     const timeout = getBlockOptions(currentBlock).isVirtualBlock ? 0 : 1000;
     setTimeout(() => {
       showNextBlock()
@@ -215,7 +215,7 @@ document.addEventListener('mouseup', (event: MouseEvent) => {
       && event.clientY > (lastBlockRect as DOMRect).bottom) {
     const lastBlock = props.page.blocks[props.page.blocks.length - 1]
     const lastBlockComponent = blockElements.value[props.page.blocks.length - 1]
-    if (lastBlock.type === BlockType.Text && lastBlockComponent.getTextContent() === '') {
+    if (lastBlock.type === BlockType.Text && lastBlockComponent && lastBlockComponent.getTextContent() === '') {
       // If last block is empty Text, focus on last block
       setTimeout(lastBlockComponent.moveToEnd)
     } else {
@@ -346,7 +346,10 @@ function insertBlock(blockIdx: number) {
   props.page.blocks.splice(blockIdx + 1, 0, newBlock)
   if (props.onCreateBlock) props.onCreateBlock(props.page.blocks[blockIdx + 1])
   setTimeout(() => {
-    blockElements.value[blockIdx + 1].moveToStart()
+    const bl = blockElements.value[blockIdx + 1]
+    if(bl) {
+      blockElements.value[blockIdx + 1].moveToStart()
+    }
     scrollIntoView()
   })
 }
