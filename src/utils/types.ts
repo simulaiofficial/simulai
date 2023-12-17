@@ -454,6 +454,11 @@ export const getBlockOptions = (block: Block) => {
     return BlockComponents[block.type].options
 }
 
+export const shouldWaitForValueFromInput = (block: Block) => {
+    const options = BlockComponents[block.type].options
+    return options.isInput && !options.isNextButton
+}
+
 export const getBlockFuncs = (block: Block) => {
     return BlockComponents[block.type].funcs
 }

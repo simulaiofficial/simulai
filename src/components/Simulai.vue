@@ -59,7 +59,14 @@
 import {ref, onBeforeUpdate, PropType, onMounted, nextTick} from 'vue'
 import {VueDraggableNext as draggable} from 'vue-draggable-next'
 import {v4 as uuidv4} from 'uuid'
-import {Block, BlockType, isTextBlock, BlockComponents, getBlockOptions} from '@/utils/types'
+import {
+  Block,
+  BlockType,
+  isTextBlock,
+  BlockComponents,
+  getBlockOptions,
+  shouldWaitForValueFromInput
+} from '@/utils/types'
 import {htmlToMarkdown} from '@/utils/utils'
 import BlockComponent from './Block.vue'
 import ChatInput from './elements/ChatInput.vue'
@@ -244,7 +251,10 @@ function insertTextAtCursor(textToInsert) {
 
 function checkIfBlockShouldBeVisible(index) {
   const currentBlock = props.page.blocks[index]
-  return !props.page.isChat || (index <= currentVisibleBlock.value && !getBlockOptions(currentBlock).isVirtualBlock)
+  return !props.page.isChat ||
+      (index <= currentVisibleBlock.value && !getBlockOptions(currentBlock).isVirtualBlock
+          && !shouldWaitForValueFromInput(currentBlock)
+      )
 }
 
 function onSelectEmoji(emoji) {

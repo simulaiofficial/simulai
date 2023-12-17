@@ -38,7 +38,7 @@ block_radio = BlockRadio(id='6', type=BlockType.Radio, details=Details(), isHidd
 block_input_text = BlockInputTextAnswer(id='7', type=BlockType.InputTextAnswer, details=Details(), isHidden=False, isRequired=True, setName=True, name='Text Input Block', minRequired=True, min=1, maxRequired=False, max=None)
 block_input_email = BlockInputEmailAnswer(id='8', type=BlockType.InputEmailAnswer, details=Details(), isHidden=False, isRequired=False, setName=False, name='Email Input Block', isCompany=True)
 block_input_number = BlockInputNumberAnswer(id='9', type=BlockType.InputNumberAnswer, details=Details(), isHidden=False, isRequired=True, setName=True, name='Number Input Block', minRequired=False, min=None, maxRequired=True, max=100)
-
+block_text_finish = BlockText(id='10', type=BlockType.Text, details=Details(value='Finish'), isHidden=False)
 
 # Creating the sample page with all block types
 sample_page = Page(
@@ -47,7 +47,7 @@ sample_page = Page(
     blocks=[
         block_text, block_heading, block_divider, block_quote,
         block_options, block_condition,
-        block_radio, block_input_text, block_input_email, block_input_number
+        block_radio, block_input_text, block_input_email, block_input_number, block_text_finish
     ]
 )
 
