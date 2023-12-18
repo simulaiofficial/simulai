@@ -27,6 +27,7 @@
                           :blockNumber="i+1"
                           :currentBlockNumber="currentVisibleBlock"
                           :page="props.page"
+                          :readonly="checkIfBlockShouldBeReadonly(i)"
                           :ref="el => blockElements[i] = (el as unknown as typeof Block)"
                           :style="{backgroundColor: props.bgColor}"
                           :bgColor="props.bgColor"
@@ -255,6 +256,10 @@ function checkIfBlockShouldBeVisible(index) {
       (index <= currentVisibleBlock.value && !getBlockOptions(currentBlock).isVirtualBlock
           && !shouldWaitForValueFromInput(currentBlock)
       )
+}
+
+function checkIfBlockShouldBeReadonly(index) {
+  return index < currentVisibleBlock.value
 }
 
 function onSelectEmoji(emoji) {

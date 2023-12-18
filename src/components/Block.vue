@@ -34,7 +34,7 @@
       />
     </div>
     <div :block-index="blockNumber" class="flex-1 relative"
-         :class="{ 'px-0': block.type !== BlockType.Divider, 'opacity-50 pointer-events-none': props.block.isHidden }">
+         :class="{ 'px-0': block.type !== BlockType.Divider, 'opacity-50 pointer-events-none': props.block.isHidden || readonly }">
       <div v-if="BlockComponents[props.block.type].options.emojiVisible && !props.page.isChat" class="flex justify-end w-full">
         <Tooltip :style="{maxHeight: '10px'}"
                  value="<span class='text-neutral-400'><span class='text-white'>Click</span> to add emoji</span>">
@@ -99,6 +99,10 @@ const props = defineProps({
   currentBlockNumber: {
     type: Number,
     default: null
+  },
+  readonly: {
+    type: Boolean,
+    default: false
   }
 })
 
