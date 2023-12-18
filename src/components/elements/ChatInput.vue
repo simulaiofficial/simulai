@@ -47,6 +47,14 @@ const handleSubmit = () => {
   textInput.value = ''
   emit('nextBlock')
 };
+
+function focusInput() {
+  input.value.focus()
+}
+
+defineExpose({
+  focusInput,
+})
 </script>
 
 

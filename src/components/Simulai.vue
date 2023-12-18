@@ -49,7 +49,7 @@
       </transition-group>
     </draggable>
     <div>
-      <ChatInput v-if="page.isChat" :bgColor="props.bgColor" @nextBlock="goNextBlock"/>
+      <ChatInput ref="chatInput" v-if="page.isChat" :bgColor="props.bgColor" @nextBlock="goNextBlock"/>
     </div>
   </div>
   <EmojiPicker v-if="isEmojiPickerOpen" ref="emojiPicker" :native="true" @select="onSelectEmoji"
@@ -114,6 +114,7 @@ const emojiPicker = ref<HTMLDivElement | null>(null);
 const isEmojiPickerOpen = ref(false);
 const emojiPickerStyle = ref({top: 0, left: 0});
 const savedCaretPosition = ref(null);
+const chatInput = ref(null);
 const mousePosition = {x: 0, y: 0}
 
 const currentVisibleBlock = ref(null);
@@ -142,6 +143,10 @@ function showNextBlock() {
 
 function goNextBlock() {
   showNextBlock()
+  const currentBlock = props.page.blocks[currentVisibleBlock.value]
+  if(chatInput.value && shouldWaitForValueFromInput(currentBlock)) {
+    chatInput.value.focusInput()
+  }
 }
 
 document.addEventListener('mousemove', function (mouseMoveEvent) {
