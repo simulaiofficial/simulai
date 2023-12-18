@@ -1,4 +1,5 @@
 import TextBlock from '@/components/blocks/TextBlock.vue'
+import ConversationBlock from '@/components/blocks/ConversationBlock.vue'
 import DividerBlock from '@/components/blocks/DividerBlock.vue'
 import HeadingBlock from '@/components/blocks/HeadingBlock.vue'
 import QuoteBlock from '@/components/blocks/QuoteBlock.vue'
@@ -36,6 +37,7 @@ export enum ComparisonType {
 
 export enum BlockType {
     Text = 'TEXT',
+    Conversation = 'CONVERSATION',
     H1 = 'H1',
     H2 = 'H2',
     H3 = 'H3',
@@ -51,6 +53,9 @@ export enum BlockType {
 
 
 export interface BlockText extends Block {
+}
+
+export interface BlockConversationText extends Block {
 }
 
 export interface BlockHeading extends Block {
@@ -104,6 +109,30 @@ export const BlockComponents = {
         options: {
             icon: 'bi-text-left',
             label: 'Text',
+            isInput: false,
+            isNextButton: false,
+            isVirtualBlock: false,
+            setValueDuringTypeConversion: true,
+            canSplit: true,
+            emojiVisible: true,
+            requiredVisible: false,
+            hideVisible: true,
+            minVisible: false,
+            maxVisible: false,
+            nameVisible: false,
+            conditionVisible: false,
+            comparisons: null,
+            comparisonType: null
+        },
+        funcs: {
+            getTitle: (block: BlockText) => block.details.value
+        }
+    },
+    [BlockType.Conversation]: {
+        component: ConversationBlock,
+        options: {
+            icon: 'bi-text-left',
+            label: 'Conversation',
             isInput: false,
             isNextButton: false,
             isVirtualBlock: false,

@@ -141,10 +141,18 @@ function showNextBlock() {
   }
 }
 
-function goNextBlock() {
+function goNextBlock(inputValue) {
+  const conversationBlock = {
+    id: uuidv4(),
+    type: BlockType.Conversation,
+    details: {
+      value: inputValue
+    },
+  }
+  props.page.blocks.splice(currentVisibleBlock.value + 1, 0, conversationBlock);
   showNextBlock()
   const currentBlock = props.page.blocks[currentVisibleBlock.value]
-  if(chatInput.value && shouldWaitForValueFromInput(currentBlock)) {
+  if (chatInput.value && shouldWaitForValueFromInput(currentBlock)) {
     chatInput.value.focusInput()
   }
 }
@@ -357,7 +365,7 @@ function insertBlock(blockIdx: number) {
   if (props.onCreateBlock) props.onCreateBlock(props.page.blocks[blockIdx + 1])
   setTimeout(() => {
     const bl = blockElements.value[blockIdx + 1]
-    if(bl) {
+    if (bl) {
       blockElements.value[blockIdx + 1].moveToStart()
     }
     scrollIntoView()

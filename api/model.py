@@ -5,6 +5,7 @@ from typing import Optional, List, Union
 
 class BlockType(str, Enum):
     Text = 'TEXT'
+    Conversation = 'CONVERSATION'
     H1 = 'H1'
     H2 = 'H2'
     H3 = 'H3'
@@ -95,7 +96,10 @@ class BlockInputNumberAnswer(BlockAnswer):
     max: Optional[int]
 
 
-# Other Block types
+class BlockConversation(Block):
+    pass
+
+
 class BlockText(Block):
     pass
 

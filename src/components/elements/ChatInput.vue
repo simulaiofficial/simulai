@@ -44,8 +44,8 @@ const props = defineProps({
 });
 
 const handleSubmit = () => {
+  emit('nextBlock', textInput.value)
   textInput.value = ''
-  emit('nextBlock')
 };
 
 function focusInput() {
