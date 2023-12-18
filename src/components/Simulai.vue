@@ -21,30 +21,38 @@
     >
       <transition-group type="transition">
         <div v-for="block, i in props.page.blocks" :key="i">
-          <BlockComponent :block="block" :id="'block-'+block.id"
-                          v-if="checkIfBlockShouldBeVisible(i)"
-                          :blockTypes="props.blockTypes"
-                          :blockNumber="i+1"
-                          :currentBlockNumber="currentVisibleBlock"
-                          :page="props.page"
-                          :readonly="checkIfBlockShouldBeReadonly(i)"
-                          :ref="el => blockElements[i] = (el as unknown as typeof Block)"
-                          :style="{backgroundColor: props.bgColor}"
-                          :bgColor="props.bgColor"
-                          @deleteBlock="deleteBlock(i)"
-                          @duplicateBlock="duplicateBlock(i)"
-                          @newBlock="insertBlock(i)"
-                          @addBlock="type => addBlock(i, type)"
-                          @moveToPrevChar="blockElements[i-1]?.moveToEnd(); scrollIntoView();"
-                          @moveToNextChar="blockElements[i+1]?.moveToStart(); scrollIntoView();"
-                          @moveToPrevLine="handleMoveToPrevLine(i)"
-                          @moveToNextLine="blockElements[i+1]?.moveToFirstLine(); scrollIntoView();"
-                          @merge="merge(i)"
-                          @split="split(i)"
-                          @setBlockType="type => setBlockType(i, type)"
-                          @openEmoji="openEmoji"
-                          @nextBlock="goNextBlock"
-          />
+          <div v-if="checkIfBlockShouldBeVisible(i)" :class="{ 'pt-6': props.page.isChat }">
+            <div v-if="props.page.isChat" class="flex align-items-start rounded-md mb-2"
+                 :class="{ 'opacity-50 pointer-events-none': checkIfBlockShouldBeReadonly(i) }">
+              <span class="text-xl mr-2">🤖</span><span class="text-sm font-bold">simulai</span>
+            </div>
+
+            <div :class="{ 'pl-7': props.page.isChat }">
+              <BlockComponent :block="block" :id="'block-'+block.id"
+                              :blockTypes="props.blockTypes"
+                              :blockNumber="i+1"
+                              :currentBlockNumber="currentVisibleBlock"
+                              :page="props.page"
+                              :readonly="checkIfBlockShouldBeReadonly(i)"
+                              :ref="el => blockElements[i] = (el as unknown as typeof Block)"
+                              :style="{backgroundColor: props.bgColor}"
+                              :bgColor="props.bgColor"
+                              @deleteBlock="deleteBlock(i)"
+                              @duplicateBlock="duplicateBlock(i)"
+                              @newBlock="insertBlock(i)"
+                              @addBlock="type => addBlock(i, type)"
+                              @moveToPrevChar="blockElements[i-1]?.moveToEnd(); scrollIntoView();"
+                              @moveToNextChar="blockElements[i+1]?.moveToStart(); scrollIntoView();"
+                              @moveToPrevLine="handleMoveToPrevLine(i)"
+                              @moveToNextLine="blockElements[i+1]?.moveToFirstLine(); scrollIntoView();"
+                              @merge="merge(i)"
+                              @split="split(i)"
+                              @setBlockType="type => setBlockType(i, type)"
+                              @openEmoji="openEmoji"
+                              @nextBlock="goNextBlock"
+              />
+            </div>
+          </div>
         </div>
       </transition-group>
     </draggable>
