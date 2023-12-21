@@ -136,11 +136,15 @@ const visibleBlocksSeq = [];
 
 function showNextBlock() {
   debugger;
-  if (props.page.blocks.length === 0 ||
-      (currentVisibleBlock.value !== null && currentVisibleBlock.value >= props.page.blocks.length)) {
+  if (props.page.blocks.length === 0) {
     setTimeout(() => showNextBlock(), 1000)
     return
   }
+
+  if(currentVisibleBlock.value == props.page.blocks.length - 1) {
+    return
+  }
+
   if (currentVisibleBlock.value === null) {
     currentVisibleBlock.value = 0
     scrollToBottom()
@@ -148,6 +152,7 @@ function showNextBlock() {
     currentVisibleBlock.value += 1
     scrollToBottom()
   }
+
   const currentBlock = props.page.blocks[currentVisibleBlock.value]
 
   if(!currentBlock) {
