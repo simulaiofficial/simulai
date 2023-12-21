@@ -6,7 +6,7 @@
          :style="{ backgroundColor: bgColor }">
       <Simulai :bgColor="bgColor" :textColor="textColor" :page="page"/>
     </div>
-    <div v-if="!page.isChat" class="w-full overflow-y-auto" style="background-color: #202123;">
+    <div v-if="page.isChat" class="w-full overflow-y-auto" style="background-color: #202123;">
       <Markdown :page="page"/>
     </div>
   </div>

@@ -22,12 +22,17 @@
       <transition-group type="transition">
         <div v-for="block, i in props.page.blocks" :key="i">
           <div v-if="checkIfBlockShouldBeVisible(i)" :class="{ 'pt-6': props.page.isChat }">
-            <div v-if="props.page.isChat" class="flex align-items-start rounded-md mb-2"
+            <div v-if="props.page.isChat && isBotVisibleBlock(block, i)"
+                 class="flex align-items-start rounded-md mb-2"
                  :class="{ 'opacity-50 pointer-events-none': checkIfBlockShouldBeReadonly(i) }">
-              <span class="text-xl mr-2">🤖</span><span class="text-sm font-bold">simulai</span>
+              <span class="text-4xl mr-2">🤖</span><span class="text-sm font-bold">simulai</span>
             </div>
-
-            <div :class="{ 'pl-7': props.page.isChat }">
+            <div v-if="props.page.isChat && isYouVisibleBlock(block, i)"
+                 class="flex align-items-start rounded-md mb-2"
+                 :class="{ 'opacity-50 pointer-events-none': checkIfBlockShouldBeReadonly(i) }">
+              <span class="text-4xl mr-2">👀</span><span class="text-sm font-bold">You</span>
+            </div>
+            <div :class="{ 'pl-11': props.page.isChat }">
               <BlockComponent :block="block" :id="'block-'+block.id"
                               :blockTypes="props.blockTypes"
                               :blockNumber="i+1"
@@ -72,9 +77,10 @@ import {
   Block,
   BlockType,
   isTextBlock,
+  isConversationBlock,
   BlockComponents,
   getBlockOptions,
-  shouldWaitForValueFromInput
+  shouldWaitForValueFromInput, isVisibleBlock
 } from '@/utils/types'
 import {htmlToMarkdown} from '@/utils/utils'
 import BlockComponent from './Block.vue'
@@ -126,6 +132,7 @@ const chatInput = ref(null);
 const mousePosition = {x: 0, y: 0}
 
 const currentVisibleBlock = ref(null);
+const visibleBlocksSeq = [];
 
 function showNextBlock() {
   if (props.page.blocks.length === 0 ||
@@ -141,6 +148,11 @@ function showNextBlock() {
     scrollToBottom()
   }
   const currentBlock = props.page.blocks[currentVisibleBlock.value]
+
+  if (isVisibleBlock(currentBlock)) {
+    visibleBlocksSeq.push(currentBlock)
+  }
+
   if (currentBlock && !getBlockOptions(currentBlock).isInput) {
     const timeout = getBlockOptions(currentBlock).isVirtualBlock ? 0 : 1000;
     setTimeout(() => {
@@ -149,15 +161,44 @@ function showNextBlock() {
   }
 }
 
-function goNextBlock(inputValue) {
-  const conversationBlock = {
-    id: uuidv4(),
-    type: BlockType.Conversation,
-    details: {
-      value: inputValue
-    },
+function getPreviousVisibleBlock(block: Block) {
+  const indexOfBlock = visibleBlocksSeq.indexOf(block)
+  if (indexOfBlock === -1 || indexOfBlock === 0) {
+    return null
+  } else {
+    return visibleBlocksSeq[indexOfBlock - 1]
   }
-  props.page.blocks.splice(currentVisibleBlock.value + 1, 0, conversationBlock);
+}
+
+function isBotVisibleBlock(block: Block, i: number) {
+  const previousBlock = getPreviousVisibleBlock(block)
+  if (!previousBlock) {
+    return true
+  }
+  const isVisible = isVisibleBlock(block) && !isConversationBlock(block.type) && (i === 0 || isConversationBlock(previousBlock.type))
+  return isVisible
+}
+
+function isYouVisibleBlock(block: Block, i: number) {
+  const previousBlock = getPreviousVisibleBlock(block)
+  if (!previousBlock) {
+    return false
+  }
+  const isVisible = isVisibleBlock(block) && isConversationBlock(block.type) && (i === 0 || !isConversationBlock(previousBlock.type))
+  return isVisible
+}
+
+function goNextBlock(inputValue) {
+  if (inputValue) {
+    const conversationBlock = {
+      id: uuidv4(),
+      type: BlockType.Conversation,
+      details: {
+        value: inputValue
+      },
+    }
+    props.page.blocks.splice(currentVisibleBlock.value + 1, 0, conversationBlock);
+  }
   showNextBlock()
   const currentBlock = props.page.blocks[currentVisibleBlock.value]
   if (chatInput.value && shouldWaitForValueFromInput(currentBlock)) {

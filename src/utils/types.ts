@@ -479,6 +479,14 @@ export const isFlowBlock = (type: string) => {
     return type !== BlockType.Condition
 }
 
+export const isConversationBlock = (type: string) => {
+    return type === BlockType.Conversation
+}
+
+export const isVisibleBlock = (block: Block) => {
+    return isFlowBlock(block.type) && !shouldWaitForValueFromInput(block)
+}
+
 export const getBlockOptions = (block: Block) => {
     return BlockComponents[block.type].options
 }
