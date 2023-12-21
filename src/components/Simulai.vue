@@ -24,12 +24,12 @@
           <div v-if="checkIfBlockShouldBeVisible(i)" :class="{ 'pt-1': props.page.isChat }">
             <div v-if="props.page.isChat && isBotVisibleBlock(block, i)"
                  class="flex align-items-start rounded-md mt-1"
-                 :class="{ 'opacity-50 pointer-events-none': checkIfBlockShouldBeReadonly(i) }">
+                 :class="{ 'opacity-50 pointer-events-none': false }">
               <span class="text-xl mr-2">🤖</span><span class="text-sm font-bold">simulai</span>
             </div>
             <div v-if="props.page.isChat && isYouVisibleBlock(block, i)"
                  class="flex align-items-start rounded-md mt-1"
-                 :class="{ 'opacity-50 pointer-events-none': checkIfBlockShouldBeReadonly(i) }">
+                 :class="{ 'opacity-50 pointer-events-none': false }">
               <span class="text-xl mr-2">👀</span><span class="text-sm font-bold">You</span>
             </div>
             <div :class="{ 'pl-7': props.page.isChat }">
@@ -38,7 +38,7 @@
                               :blockNumber="i+1"
                               :currentBlockNumber="currentVisibleBlock"
                               :page="props.page"
-                              :readonly="checkIfBlockShouldBeReadonly(i)"
+                              :readonly="checkIfBlockShouldBeReadonly(block, i)"
                               :ref="el => blockElements[i] = (el as unknown as typeof Block)"
                               :style="{backgroundColor: props.bgColor}"
                               :bgColor="props.bgColor"
@@ -135,7 +135,6 @@ const currentVisibleBlock = ref(null);
 const visibleBlocksSeq = [];
 
 function showNextBlock() {
-  debugger;
   if (props.page.blocks.length === 0 ||
       (currentVisibleBlock.value !== null && currentVisibleBlock.value >= props.page.blocks.length)) {
     setTimeout(() => showNextBlock(), 1000)
@@ -322,8 +321,8 @@ function checkIfBlockShouldBeVisible(index) {
       )
 }
 
-function checkIfBlockShouldBeReadonly(index) {
-  return index < currentVisibleBlock.value
+function checkIfBlockShouldBeReadonly(block: Block, index) {
+  return getBlockOptions(block).isInput && index < currentVisibleBlock.value
 }
 
 function onSelectEmoji(emoji) {
