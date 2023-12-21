@@ -135,6 +135,7 @@ const currentVisibleBlock = ref(null);
 const visibleBlocksSeq = [];
 
 function showNextBlock() {
+  debugger;
   if (props.page.blocks.length === 0 ||
       (currentVisibleBlock.value !== null && currentVisibleBlock.value >= props.page.blocks.length)) {
     setTimeout(() => showNextBlock(), 1000)
@@ -148,6 +149,10 @@ function showNextBlock() {
     scrollToBottom()
   }
   const currentBlock = props.page.blocks[currentVisibleBlock.value]
+
+  if(!currentBlock) {
+    return
+  }
 
   if (isVisibleBlock(currentBlock)) {
     visibleBlocksSeq.push(currentBlock)
@@ -314,7 +319,6 @@ function insertTextAtCursor(textToInsert) {
 
 function checkIfBlockShouldBeVisible(index) {
   const currentBlock = props.page.blocks[index]
-  debugger;
   return !props.page.isChat ||
       (currentVisibleBlock.value !== null && index <= currentVisibleBlock.value && !getBlockOptions(currentBlock).isVirtualBlock
           && !shouldWaitForValueFromInput(currentBlock)
@@ -404,6 +408,9 @@ function handleMoveToPrevLine(blockIdx: number) {
 }
 
 function insertBlock(blockIdx: number) {
+  if(props.page.isChat) {
+    return;
+  }
   const newBlock = {
     id: uuidv4(),
     type: BlockType.Text,

@@ -6,7 +6,8 @@
         :style="{ backgroundColor: props.bgColor }"
         placeholder="Your message..."
         type="text"
-        @keyup.enter="handleSubmit"
+        @keyup.enter.prevent.stop="handleSubmit"
+        @keydown.enter.prevent.stop="() => {}"
         v-model="textInput"
         ref="input"
       />
