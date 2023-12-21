@@ -16,23 +16,23 @@
                v-bind="dragOptions"
                :class="{
          '-ml-24 space-y-2 pb-4': !props.page.isChat,
-         'flex-grow overflow-y-auto space-y-2 pb-4 max-h-[calc(100vh-5rem)]': props.page.isChat
+         'flex-grow overflow-y-auto space-y-1 pb-4 max-h-[calc(100vh-5rem)]': props.page.isChat
        }"
     >
       <transition-group type="transition">
         <div v-for="block, i in props.page.blocks" :key="i">
-          <div v-if="checkIfBlockShouldBeVisible(i)" :class="{ 'pt-6': props.page.isChat }">
+          <div v-if="checkIfBlockShouldBeVisible(i)" :class="{ 'pt-1': props.page.isChat }">
             <div v-if="props.page.isChat && isBotVisibleBlock(block, i)"
-                 class="flex align-items-start rounded-md mb-2"
+                 class="flex align-items-start rounded-md mt-1"
                  :class="{ 'opacity-50 pointer-events-none': checkIfBlockShouldBeReadonly(i) }">
-              <span class="text-4xl mr-2">🤖</span><span class="text-sm font-bold">simulai</span>
+              <span class="text-xl mr-2">🤖</span><span class="text-sm font-bold">simulai</span>
             </div>
             <div v-if="props.page.isChat && isYouVisibleBlock(block, i)"
-                 class="flex align-items-start rounded-md mb-2"
+                 class="flex align-items-start rounded-md mt-1"
                  :class="{ 'opacity-50 pointer-events-none': checkIfBlockShouldBeReadonly(i) }">
-              <span class="text-4xl mr-2">👀</span><span class="text-sm font-bold">You</span>
+              <span class="text-xl mr-2">👀</span><span class="text-sm font-bold">You</span>
             </div>
-            <div :class="{ 'pl-11': props.page.isChat }">
+            <div :class="{ 'pl-7': props.page.isChat }">
               <BlockComponent :block="block" :id="'block-'+block.id"
                               :blockTypes="props.blockTypes"
                               :blockNumber="i+1"

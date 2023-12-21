@@ -2,7 +2,7 @@
   <Editor
     v-model="props.block.details.value"
     :readonly="props.page.isChat"
-    class="py-1.5 border-l-3 border-black border-solid px-3"
+    class="py-1.5 mt-2 border-l-3 border-black border-solid px-3"
   />
 </template>
 
