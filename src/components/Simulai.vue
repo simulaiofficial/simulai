@@ -135,6 +135,7 @@ const currentVisibleBlock = ref(null);
 const visibleBlocksSeq = [];
 
 function showNextBlock() {
+  debugger;
   if (props.page.blocks.length === 0 ||
       (currentVisibleBlock.value !== null && currentVisibleBlock.value >= props.page.blocks.length)) {
     setTimeout(() => showNextBlock(), 1000)
@@ -314,8 +315,9 @@ function insertTextAtCursor(textToInsert) {
 
 function checkIfBlockShouldBeVisible(index) {
   const currentBlock = props.page.blocks[index]
+  debugger;
   return !props.page.isChat ||
-      (index <= currentVisibleBlock.value && !getBlockOptions(currentBlock).isVirtualBlock
+      (currentVisibleBlock.value !== null && index <= currentVisibleBlock.value && !getBlockOptions(currentBlock).isVirtualBlock
           && !shouldWaitForValueFromInput(currentBlock)
       )
 }
