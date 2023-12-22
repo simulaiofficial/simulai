@@ -62,7 +62,9 @@
       </transition-group>
     </draggable>
     <div>
-      <ChatInput ref="chatInput" v-if="page.isChat" :bgColor="props.bgColor" @nextBlock="goNextBlock"/>
+      <transition name="fade">
+        <ChatInput ref="chatInput" v-if="page.isChat && !isConversationFinished" :bgColor="props.bgColor" @nextBlock="handleChatInput"/>
+      </transition>
     </div>
   </div>
   <EmojiPicker v-if="isEmojiPickerOpen" ref="emojiPicker" :native="true" @select="onSelectEmoji"
@@ -133,6 +135,7 @@ const mousePosition = {x: 0, y: 0}
 
 const currentVisibleBlock = ref(null);
 const visibleBlocksSeq = [];
+const isConversationFinished = ref(false);
 
 function showNextBlock() {
   debugger;
@@ -141,7 +144,8 @@ function showNextBlock() {
     return
   }
 
-  if(currentVisibleBlock.value == props.page.blocks.length - 1) {
+  if (currentVisibleBlock.value == props.page.blocks.length - 1) {
+    isConversationFinished.value = true;
     return
   }
 
@@ -155,7 +159,7 @@ function showNextBlock() {
 
   const currentBlock = props.page.blocks[currentVisibleBlock.value]
 
-  if(!currentBlock) {
+  if (!currentBlock) {
     return
   }
 
@@ -198,17 +202,23 @@ function isYouVisibleBlock(block: Block, i: number) {
   return isVisible
 }
 
-function goNextBlock(inputValue) {
-  if (inputValue) {
-    const conversationBlock = {
-      id: uuidv4(),
-      type: BlockType.Conversation,
-      details: {
-        value: inputValue
-      },
-    }
-    props.page.blocks.splice(currentVisibleBlock.value + 1, 0, conversationBlock);
+function goNextBlock() {
+  showNextBlock()
+  const currentBlock = props.page.blocks[currentVisibleBlock.value]
+  if (chatInput.value && shouldWaitForValueFromInput(currentBlock)) {
+    chatInput.value.focusInput()
   }
+}
+
+function handleChatInput(inputValue) {
+  const conversationBlock = {
+    id: uuidv4(),
+    type: BlockType.ConversationHuman,
+    details: {
+      value: inputValue
+    },
+  }
+  props.page.blocks.splice(currentVisibleBlock.value + 1, 0, conversationBlock);
   showNextBlock()
   const currentBlock = props.page.blocks[currentVisibleBlock.value]
   if (chatInput.value && shouldWaitForValueFromInput(currentBlock)) {
@@ -413,7 +423,7 @@ function handleMoveToPrevLine(blockIdx: number) {
 }
 
 function insertBlock(blockIdx: number) {
-  if(props.page.isChat) {
+  if (props.page.isChat) {
     return;
   }
   const newBlock = {
@@ -647,3 +657,12 @@ onMounted(() => {
   showNextBlock()
 });
 </script>
+
+<style scoped>
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+</style>

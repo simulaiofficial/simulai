@@ -37,7 +37,8 @@ export enum ComparisonType {
 
 export enum BlockType {
     Text = 'TEXT',
-    Conversation = 'CONVERSATION',
+    ConversationHuman = 'CONVERSATION_HUMAN',
+    ConversationBot = 'CONVERSATION_BOT',
     H1 = 'H1',
     H2 = 'H2',
     H3 = 'H3',
@@ -55,7 +56,10 @@ export enum BlockType {
 export interface BlockText extends Block {
 }
 
-export interface BlockConversationText extends Block {
+export interface BlockConversationBotText extends Block {
+}
+
+export interface BlockConversationHumanText extends Block {
 }
 
 export interface BlockHeading extends Block {
@@ -128,11 +132,35 @@ export const BlockComponents = {
             getTitle: (block: BlockText) => block.details.value
         }
     },
-    [BlockType.Conversation]: {
+    [BlockType.ConversationHuman]: {
         component: ConversationBlock,
         options: {
             icon: 'bi-text-left',
-            label: 'Conversation',
+            label: 'Conversation Human',
+            isInput: false,
+            isNextButton: false,
+            isVirtualBlock: false,
+            setValueDuringTypeConversion: true,
+            canSplit: true,
+            emojiVisible: true,
+            requiredVisible: false,
+            hideVisible: true,
+            minVisible: false,
+            maxVisible: false,
+            nameVisible: false,
+            conditionVisible: false,
+            comparisons: null,
+            comparisonType: null
+        },
+        funcs: {
+            getTitle: (block: BlockText) => block.details.value
+        }
+    },
+    [BlockType.ConversationBot]: {
+        component: ConversationBlock,
+        options: {
+            icon: 'bi-text-left',
+            label: 'Conversation Bot',
             isInput: false,
             isNextButton: false,
             isVirtualBlock: false,
@@ -480,7 +508,7 @@ export const isFlowBlock = (type: string) => {
 }
 
 export const isConversationBlock = (type: string) => {
-    return type === BlockType.Conversation
+    return type === BlockType.ConversationHuman
 }
 
 export const isVisibleBlock = (block: Block) => {
