@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import {computed, watch} from 'vue'
+import {computed, onMounted, watch} from 'vue'
 import BulletList from '@tiptap/extension-bullet-list'
 import Document from '@tiptap/extension-document'
 import ListItem from '@tiptap/extension-list-item'
@@ -80,10 +80,10 @@ const editor = useEditor({
     // Removing default behavior for drop event
     handleDrop: () => true
   },
-  content: value.value,
-  onUpdate: () => {
-    value.value = htmlToMarkdown(editor.value?.getHTML() || '')
-  },
+  // content: value.value,
+  // onUpdate: () => {
+  //   value.value = htmlToMarkdown(editor.value?.getHTML() || '')
+  // },
   editable: !props.readonly
 })
 
@@ -92,4 +92,19 @@ watch(() => props.modelValue, value => {
   if (isSame) return
   editor.value?.commands.setContent(markdownToHtml(value), false)
 })
+
+// Typing effect function
+function typeWriter(text, index = 0) {
+  if (index < text.length) {
+    editor.value?.commands.insertContent(text.charAt(index));
+    setTimeout(() => typeWriter(text, index + 1), 100); // Adjust the delay to control speed
+  }
+}
+
+// Trigger the typing effect on component mount or based on a specific condition
+onMounted(() => {
+  // const initialText = 'Your initial text here...'; // Replace with your initial text
+  console.log(value.value)
+  typeWriter(value.value)
+});
 </script>
