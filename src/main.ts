@@ -19,7 +19,8 @@ import {
     GiLogicGateNor,
     OiNumber,
     MdAlternateemail,
-    BiArrowUp
+    BiArrowUp,
+    RiAttachment2
 } from "oh-vue-icons/icons"
 import App from './App.vue'
 import './index.css'
@@ -43,7 +44,8 @@ addIcons(
     GiLogicGateNor,
     OiNumber,
     MdAlternateemail,
-    BiArrowUp
+    BiArrowUp,
+    RiAttachment2
 )
 
 const app = createApp(App)

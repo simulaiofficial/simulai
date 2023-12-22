@@ -1,6 +1,15 @@
 <template>
   <div class="py-3.5">
     <div class="relative">
+      <!-- File Attachment Button -->
+      <button
+        @click="handleFileAttachment"
+        class="file-attach-button absolute left-3 top-3 bottom-3 rounded-md p-1 cursor-pointer"
+      >
+        <v-icon name="ri-attachment-2" class="w-5 h-5 icon-white"/> <!-- Adjust icon name as needed -->
+      </button>
+
+      <!-- Chat Input -->
       <input
         class="chat-input w-full h-full bg-gray-700 placeholder-gray-500 text-gray-300 focus:outline-none p-4 rounded-md"
         :style="{ backgroundColor: props.bgColor }"
@@ -11,6 +20,8 @@
         v-model="textInput"
         ref="input"
       />
+
+      <!-- Send Button -->
       <button
         @click="handleSubmit"
         :class="['absolute right-3 top-3 bottom-3 text-gray-700 rounded-md p-1 cursor-pointer', buttonClass]"
@@ -20,6 +31,7 @@
     </div>
   </div>
 </template>
+
 
 
 
@@ -49,6 +61,10 @@ const handleSubmit = () => {
   textInput.value = ''
 };
 
+const handleFileAttachment = () => {
+  alert('attach')
+};
+
 function focusInput() {
   input.value.focus()
 }
@@ -58,15 +74,24 @@ defineExpose({
 })
 </script>
 
-
 <style lang="scss" scoped>
 .chat-input {
   border: 1px solid rgb(88, 76, 76);
-  padding-right: 80px;
+  padding-right: 50px;
+  padding-left: 50px; /* Adjust padding for the file attachment button */
 }
 
 .chat-input:focus {
   border-color: rgb(100 95 96); /* Replace with your desired color */
+}
+
+.file-attach-button {
+  background-color: transparent; /* Transparent background */
+  border: none; /* Remove default button border */
+}
+
+.icon-white {
+  color: white; /* White color for the icon */
 }
 
 .bg-darker {

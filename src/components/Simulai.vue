@@ -137,7 +137,6 @@ const visibleBlocksSeq = [];
 const isConversationFinished = ref(false);
 
 function showNextBlock() {
-  debugger;
   if (props.page.blocks.length === 0) {
     setTimeout(() => showNextBlock(), 1000)
     return
