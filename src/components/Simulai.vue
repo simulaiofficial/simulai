@@ -19,7 +19,6 @@
          'flex-grow overflow-y-auto space-y-1 pb-4 max-h-[calc(100vh-5rem)]': props.page.isChat
        }"
     >
-      <transition-group type="transition">
         <div v-for="block, i in props.page.blocks" :key="i">
           <div v-if="checkIfBlockShouldBeVisible(i)" :class="{ 'pt-1': props.page.isChat }">
             <div v-if="props.page.isChat && isBotVisibleBlock(block, i)"
@@ -27,6 +26,7 @@
                  :class="{ 'opacity-50 pointer-events-none': false }">
               <span class="text-xl mr-2">🤖</span><span class="text-sm font-bold">simulai</span>
             </div>
+
             <div v-if="props.page.isChat && isYouVisibleBlock(block, i)"
                  class="flex align-items-start rounded-md mt-1"
                  :class="{ 'opacity-50 pointer-events-none': false }">
@@ -59,7 +59,6 @@
             </div>
           </div>
         </div>
-      </transition-group>
     </draggable>
     <div>
       <transition name="fade">
