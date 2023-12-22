@@ -18,7 +18,7 @@ app.add_middleware(
 
 
 # Sample instances of each block type
-block_text = BlockText(id='1', type=BlockType.Text, details=Details(value='Text *Example*'), isHidden=False)
+block_text = BlockText(id='1', type=BlockType.Text, details=Details(value='Text *Example* **Example 1**'), isHidden=False)
 block_heading = BlockHeading(id='2', type=BlockType.H1, details=Details(value='Heading Example'), isHidden=False)
 block_divider = BlockDivider(id='3', type=BlockType.Divider, details=Details(), isHidden=False)
 block_quote = BlockQuote(id='4', type=BlockType.Quote, details=Details(value='Quote Example'), isHidden=False)

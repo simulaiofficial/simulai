@@ -81,9 +81,9 @@ const editor = useEditor({
     handleDrop: () => true
   },
   // content: value.value,
-  // onUpdate: () => {
-  //   value.value = htmlToMarkdown(editor.value?.getHTML() || '')
-  // },
+  onUpdate: () => {
+    value.value = htmlToMarkdown(editor.value?.getHTML() || '')
+  },
   editable: !props.readonly
 })
 
@@ -93,18 +93,23 @@ watch(() => props.modelValue, value => {
   editor.value?.commands.setContent(markdownToHtml(value), false)
 })
 
-// Typing effect function
-function typeWriter(text, index = 0) {
-  if (index < text.length) {
-    editor.value?.commands.insertContent(text.charAt(index));
-    setTimeout(() => typeWriter(text, index + 1), 100); // Adjust the delay to control speed
+
+// Typing effect function for HTML as text
+function typeHtml(markdown, index = 0) {
+  if (index < markdown.length) {
+    editor.value?.commands.insertContent(markdown.charAt(index), { updateSelection: false });
+    // const subHtml = html.substring(0, index+1)
+    // console.log(subHtml)
+    // editor.value?.commands.setContent(subHtml, false);
+    setTimeout(() => typeHtml(markdown, index + 1), 50); // Adjust delay for typing speed
+  } else {
+    // After typing out the entire string, replace it with actual HTML
+    editor.value?.commands.setContent(markdownToHtml(markdown), false);
   }
 }
 
 // Trigger the typing effect on component mount or based on a specific condition
 onMounted(() => {
-  // const initialText = 'Your initial text here...'; // Replace with your initial text
-  console.log(value.value)
-  typeWriter(value.value)
+  typeHtml(htmlToMarkdown(value.value));
 });
 </script>
