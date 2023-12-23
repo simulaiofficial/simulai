@@ -1,19 +1,16 @@
 <template>
-  <div ref="content" :key="props.block.type"
-    :contenteditable="!props.page.isChat" spellcheck="false"
-    @blur="props.block.details.value=content?.innerText"
-    class="focus:outline-none focus-visible:outline-none w-full py-1.5 font-semibold"
-    :class="headingConfig[props.block.type]?.class"
-    :block-type="props.block.type"
-    :data-ph="headingConfig[props.block.type]?.placeholder">
-    {{ props.block.details.value }}
-  </div>
+  <Editor v-model="props.block.details.value"
+          :readonly="props.page.isChat"
+          :typing="props.page.isChat"
+          :class="headingConfig[props.block.type]?.class"
+    class="focus:outline-none focus-visible:outline-none w-full py-1.5 font-semibold" />
 </template>
 
 <script setup lang="ts">
 import {PropType, ref} from 'vue'
 import {Block, BlockHeading, BlockType} from '@/utils/types'
 import {setUpInitialValuesForBlock} from "@/utils/utils";
+import Editor from '../elements/Editor.vue'
 
 const headingConfig = {
   [BlockType.H1]: {
@@ -47,8 +44,12 @@ const props = defineProps({
 
 const content = ref<HTMLDivElement>()
 
-function onSet () {
-  if (content.value && props.block.details.value) content.value.innerText = props.block.details.value
+// function onSet () {
+//   if (content.value && props.block.details.value) content.value.innerText = props.block.details.value
+//   setUpInitialValuesForBlock(props.block)
+// }
+
+function onSet() {
   setUpInitialValuesForBlock(props.block)
 }
 
