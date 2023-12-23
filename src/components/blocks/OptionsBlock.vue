@@ -10,6 +10,7 @@
                 :contenteditable="true" spellcheck="false"
                 :showPlaceholder="false"
                 :readonly="props.page.isChat"
+                :typing="props.page.isChat"
                 @input="updateItemLabel"
                 @keydown="keyDownHandler"
                 class=""/>

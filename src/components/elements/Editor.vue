@@ -34,6 +34,10 @@ const props = defineProps({
   readonly: {
     type: Boolean,
     default: false
+  },
+  typing: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -98,9 +102,6 @@ watch(() => props.modelValue, value => {
 function typeHtml(markdown, index = 0) {
   if (index < markdown.length) {
     editor.value?.commands.insertContent(markdown.charAt(index), { updateSelection: false });
-    // const subHtml = html.substring(0, index+1)
-    // console.log(subHtml)
-    // editor.value?.commands.setContent(subHtml, false);
     setTimeout(() => typeHtml(markdown, index + 1), 50); // Adjust delay for typing speed
   } else {
     // After typing out the entire string, replace it with actual HTML
@@ -110,6 +111,10 @@ function typeHtml(markdown, index = 0) {
 
 // Trigger the typing effect on component mount or based on a specific condition
 onMounted(() => {
-  typeHtml(htmlToMarkdown(value.value));
+  if(props.typing) {
+    typeHtml(htmlToMarkdown(value.value));
+  } else {
+    editor.value?.commands.setContent(value.value, false);
+  }
 });
 </script>

@@ -1,6 +1,7 @@
 <template>
   <Editor v-model="props.block.details.value"
           :readonly="props.page.isChat"
+          :typing="props.page.isChat"
     class="py-1.5" />
 </template>
 
