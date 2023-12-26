@@ -12,7 +12,7 @@ export interface Block {
     id: string,
     type: BlockType,
     details: Details,
-    isHidden: boolean;
+    isHidden?: boolean;
 }
 
 export interface BlockAnswer extends Block {

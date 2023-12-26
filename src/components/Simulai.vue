@@ -19,50 +19,51 @@
          'flex-grow overflow-y-auto space-y-1 pb-4 max-h-[calc(100vh-5rem)]': props.page.isChat
        }"
     >
-        <div v-for="block, i in props.page.blocks" :key="i">
-          <div v-if="checkIfBlockShouldBeVisible(i)" :class="{ 'pt-1': props.page.isChat }">
-            <div v-if="props.page.isChat && isBotVisibleBlock(block, i)"
-                 class="flex align-items-start rounded-md mt-1"
-                 :class="{ 'opacity-50 pointer-events-none': false }">
-              <span class="text-xl mr-2">🤖</span><span class="text-sm font-bold">simulai</span>
-            </div>
+      <div v-for="block, i in props.page.blocks" :key="i">
+        <div v-if="checkIfBlockShouldBeVisible(i)" :class="{ 'pt-1': props.page.isChat }">
+          <div v-if="props.page.isChat && isBotVisibleBlock(block, i)"
+               class="flex align-items-start rounded-md mt-1"
+               :class="{ 'opacity-50 pointer-events-none': false }">
+            <span class="text-xl mr-2">🤖</span><span class="text-sm font-bold">simulai</span>
+          </div>
 
-            <div v-if="props.page.isChat && isYouVisibleBlock(block, i)"
-                 class="flex align-items-start rounded-md mt-1"
-                 :class="{ 'opacity-50 pointer-events-none': false }">
-              <span class="text-xl mr-2">👀</span><span class="text-sm font-bold">You</span>
-            </div>
-            <div :class="{ 'pl-7': props.page.isChat }">
-              <BlockComponent :block="block" :id="'block-'+block.id"
-                              :blockTypes="props.blockTypes"
-                              :blockNumber="i+1"
-                              :currentBlockNumber="currentVisibleBlock"
-                              :page="props.page"
-                              :readonly="checkIfBlockShouldBeReadonly(block, i)"
-                              :ref="el => blockElements[i] = (el as unknown as typeof Block)"
-                              :style="{backgroundColor: props.bgColor}"
-                              :bgColor="props.bgColor"
-                              @deleteBlock="deleteBlock(i)"
-                              @duplicateBlock="duplicateBlock(i)"
-                              @newBlock="insertBlock(i)"
-                              @addBlock="type => addBlock(i, type)"
-                              @moveToPrevChar="blockElements[i-1]?.moveToEnd(); scrollIntoView();"
-                              @moveToNextChar="blockElements[i+1]?.moveToStart(); scrollIntoView();"
-                              @moveToPrevLine="handleMoveToPrevLine(i)"
-                              @moveToNextLine="blockElements[i+1]?.moveToFirstLine(); scrollIntoView();"
-                              @merge="merge(i)"
-                              @split="split(i)"
-                              @setBlockType="type => setBlockType(i, type)"
-                              @openEmoji="openEmoji"
-                              @nextBlock="goNextBlock"
-              />
-            </div>
+          <div v-if="props.page.isChat && isYouVisibleBlock(block, i)"
+               class="flex align-items-start rounded-md mt-1"
+               :class="{ 'opacity-50 pointer-events-none': false }">
+            <span class="text-xl mr-2">👀</span><span class="text-sm font-bold">You</span>
+          </div>
+          <div :class="{ 'pl-7': props.page.isChat }">
+            <BlockComponent :block="block" :id="'block-'+block.id"
+                            :blockTypes="props.blockTypes"
+                            :blockNumber="i+1"
+                            :currentBlockNumber="currentVisibleBlock"
+                            :page="props.page"
+                            :readonly="checkIfBlockShouldBeReadonly(block, i)"
+                            :ref="el => blockElements[i] = (el as unknown as typeof Block)"
+                            :style="{backgroundColor: props.bgColor}"
+                            :bgColor="props.bgColor"
+                            @deleteBlock="deleteBlock(i)"
+                            @duplicateBlock="duplicateBlock(i)"
+                            @newBlock="insertBlock(i)"
+                            @addBlock="type => addBlock(i, type)"
+                            @moveToPrevChar="blockElements[i-1]?.moveToEnd(); scrollIntoView();"
+                            @moveToNextChar="blockElements[i+1]?.moveToStart(); scrollIntoView();"
+                            @moveToPrevLine="handleMoveToPrevLine(i)"
+                            @moveToNextLine="blockElements[i+1]?.moveToFirstLine(); scrollIntoView();"
+                            @merge="merge(i)"
+                            @split="split(i)"
+                            @setBlockType="type => setBlockType(i, type)"
+                            @openEmoji="openEmoji"
+                            @nextBlock="goNextBlock"
+            />
           </div>
         </div>
+      </div>
     </draggable>
     <div>
       <transition name="fade">
-        <ChatInput ref="chatInput" v-if="page.isChat && !isConversationFinished" :bgColor="props.bgColor" @nextBlock="handleChatInput"/>
+        <ChatInput ref="chatInput" v-if="page.isChat && !isConversationFinished" :bgColor="props.bgColor"
+                   @nextBlock="handleChatInput"/>
       </transition>
     </div>
   </div>
@@ -134,10 +135,11 @@ const chatInput = ref(null);
 const mousePosition = {x: 0, y: 0}
 
 const currentVisibleBlock = ref(null);
+const lastInputBlock = ref(null);
 const visibleBlocksSeq = [];
 const isConversationFinished = ref(false);
 
-function showNextBlock() {
+function showNextBlock(showUntilAndWait = null) {
   if (props.page.blocks.length === 0) {
     setTimeout(() => showNextBlock(), 1000)
     return
@@ -151,6 +153,9 @@ function showNextBlock() {
   if (currentVisibleBlock.value === null) {
     currentVisibleBlock.value = 0
     scrollToBottom()
+  } else if(showUntilAndWait && currentVisibleBlock.value === showUntilAndWait) {
+    chatInput.value.focusInput()
+    return
   } else {
     currentVisibleBlock.value += 1
     scrollToBottom()
@@ -169,8 +174,10 @@ function showNextBlock() {
   if (currentBlock && !getBlockOptions(currentBlock).isInput) {
     const timeout = getBlockOptions(currentBlock).isVirtualBlock ? 0 : 1000;
     setTimeout(() => {
-      showNextBlock()
+      showNextBlock(showUntilAndWait)
     }, timeout)
+  } else if(getBlockOptions(currentBlock).isInput) {
+    lastInputBlock.value = currentVisibleBlock.value
   }
 }
 
@@ -209,6 +216,18 @@ function goNextBlock() {
   }
 }
 
+function addBlockAfterCurrent(block: Block, from?: Number) {
+  if(from) {
+    const putIndex = from + 1
+    props.page.blocks.splice(putIndex, 0, block);
+    return putIndex
+  } else {
+    const putIndex = currentVisibleBlock.value + 1
+    props.page.blocks.splice(putIndex, 0, block);
+    return putIndex
+  }
+}
+
 function handleChatInput(inputValue) {
   const conversationBlock = {
     id: uuidv4(),
@@ -217,8 +236,7 @@ function handleChatInput(inputValue) {
       value: inputValue
     },
   }
-  props.page.blocks.splice(currentVisibleBlock.value + 1, 0, conversationBlock);
-  showNextBlock()
+  const putIndex = addBlockAfterCurrent(conversationBlock)
 
   const schema = Joi.object({
     value: Joi.string()
@@ -228,9 +246,21 @@ function handleChatInput(inputValue) {
         .required()
   })
 
-  const validationResult = schema.validate({ value: inputValue });
+  const validationResult = schema.validate({value: inputValue});
 
-  console.log(validationResult)
+  if (validationResult.error) {
+    const conversationBotBlock = {
+      id: uuidv4(),
+      type: BlockType.ConversationBot,
+      details: {
+        value: validationResult.error.toString()
+      },
+    }
+    const lastBotIndex = addBlockAfterCurrent(conversationBotBlock, putIndex)
+    showNextBlock(lastBotIndex)
+  } else {
+    showNextBlock()
+  }
 
   const currentBlock = props.page.blocks[currentVisibleBlock.value]
   if (chatInput.value && shouldWaitForValueFromInput(currentBlock)) {
@@ -674,6 +704,7 @@ onMounted(() => {
 .fade-enter-active, .fade-leave-active {
   transition: opacity 0.5s;
 }
+
 .fade-enter, .fade-leave-to {
   opacity: 0;
 }
