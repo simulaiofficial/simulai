@@ -92,6 +92,7 @@ import 'vue3-emoji-picker/css'
 import cloneDeep from 'lodash/cloneDeep';
 import {computed, watch} from 'vue'
 import Joi from 'joi'
+import {validateBlock} from "@/utils/validation";
 
 const props = defineProps({
   page: {
@@ -238,15 +239,13 @@ function handleChatInput(inputValue) {
   }
   const putIndex = addBlockAfterCurrent(conversationBlock)
 
-  const schema = Joi.object({
-    value: Joi.string()
-        .alphanum()
-        .min(3)
-        .max(30)
-        .required()
-  })
+  let inputBlock = null
 
-  const validationResult = schema.validate({value: inputValue});
+  if(lastInputBlock.value !== null && props.page.blocks.length > lastInputBlock.value) {
+    inputBlock = props.page.blocks[lastInputBlock.value]
+  }
+
+  const validationResult = validateBlock(inputValue, inputBlock)
 
   if (validationResult.error) {
     const conversationBotBlock = {
