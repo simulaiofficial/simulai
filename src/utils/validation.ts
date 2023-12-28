@@ -2,9 +2,9 @@ import {Block, BlockType} from './types'
 import Joi from 'joi'
 
 function validateInputNumberAnswer(joiValidation, inputValue: string, block: Block) {
-    if(joiValidation !== null) return joiValidation
+    if (joiValidation !== null) return joiValidation
 
-    if(block.type === BlockType.InputNumberAnswer) {
+    if (block.type === BlockType.InputNumberAnswer) {
         const joiValidation = Joi.number().integer()
         return joiValidation
     }
@@ -13,9 +13,9 @@ function validateInputNumberAnswer(joiValidation, inputValue: string, block: Blo
 }
 
 function validateInputTextAnswer(joiValidation, inputValue: string, block: Block) {
-    if(joiValidation !== null) return joiValidation
+    if (joiValidation !== null) return joiValidation
 
-    if(block.type === BlockType.InputTextAnswer) {
+    if (block.type === BlockType.InputTextAnswer) {
         const joiValidation = Joi.string()
         return joiValidation
     }
@@ -24,9 +24,9 @@ function validateInputTextAnswer(joiValidation, inputValue: string, block: Block
 }
 
 function validateInputEmailAnswer(joiValidation, inputValue: string, block: Block) {
-    if(joiValidation !== null) return joiValidation
+    if (joiValidation !== null) return joiValidation
 
-    if(block.type === BlockType.InputEmailAnswer) {
+    if (block.type === BlockType.InputEmailAnswer) {
         const joiValidation = Joi.string().email({tlds: false})
         return joiValidation
     }
@@ -35,7 +35,7 @@ function validateInputEmailAnswer(joiValidation, inputValue: string, block: Bloc
 }
 
 export function validateBlock(inputValue: string, block: Block | null) {
-    if(block === null) {
+    if (block === null) {
         return {}
     }
 
@@ -45,15 +45,15 @@ export function validateBlock(inputValue: string, block: Block | null) {
     joiValidation = validateInputNumberAnswer(joiValidation, inputValue, block)
     joiValidation = validateInputEmailAnswer(joiValidation, inputValue, block)
 
-    if(block.isRequired) {
+    if (block.isRequired) {
         joiValidation = joiValidation.required()
     }
 
-    if(block.minRequired && block.min) {
+    if (block.minRequired && block.min) {
         joiValidation = joiValidation.min(block.min)
     }
 
-    if(block.maxRequired && block.max) {
+    if (block.maxRequired && block.max) {
         joiValidation = joiValidation.max(block.max)
     }
 
@@ -62,6 +62,10 @@ export function validateBlock(inputValue: string, block: Block | null) {
     })
 
     const validationResult = schema.validate({value: inputValue});
+
+    if (validationResult.error) {
+        validationResult.error = validationResult.error.toString().replace('ValidationError: "value" ', 'Please try again, your answer ')
+    }
 
     return validationResult
 }

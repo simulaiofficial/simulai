@@ -252,7 +252,7 @@ function handleChatInput(inputValue) {
       id: uuidv4(),
       type: BlockType.ConversationBot,
       details: {
-        value: validationResult.error.toString()
+        value: validationResult.error
       },
     }
     const lastBotIndex = addBlockAfterCurrent(conversationBotBlock, putIndex)
