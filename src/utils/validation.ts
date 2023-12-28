@@ -1,21 +1,49 @@
 import {Block, BlockType} from './types'
 import Joi from 'joi'
 
+function validateInputNumberAnswer(joiValidation, inputValue: string, block: Block) {
+    if(joiValidation !== null) return joiValidation
+
+    if(block.type === BlockType.InputNumberAnswer) {
+        const joiValidation = Joi.number().integer()
+        return joiValidation
+    }
+
+    return null;
+}
+
+function validateInputTextAnswer(joiValidation, inputValue: string, block: Block) {
+    if(joiValidation !== null) return joiValidation
+
+    if(block.type === BlockType.InputTextAnswer) {
+        const joiValidation = Joi.string()
+        return joiValidation
+    }
+
+    return null;
+}
+
+function validateInputEmailAnswer(joiValidation, inputValue: string, block: Block) {
+    if(joiValidation !== null) return joiValidation
+
+    if(block.type === BlockType.InputEmailAnswer) {
+        const joiValidation = Joi.string().email({tlds: false})
+        return joiValidation
+    }
+
+    return null;
+}
+
 export function validateBlock(inputValue: string, block: Block | null) {
-    debugger;
     if(block === null) {
         return {}
     }
 
-    let joiValidation = Joi.string()
+    let joiValidation = null;
 
-    if(block.type === BlockType.InputNumberAnswer) {
-        joiValidation = Joi.number().integer()
-    }
-
-    if(block.type === BlockType.InputEmailAnswer) {
-        joiValidation = joiValidation.email({tlds: false})
-    }
+    joiValidation = validateInputTextAnswer(joiValidation, inputValue, block)
+    joiValidation = validateInputNumberAnswer(joiValidation, inputValue, block)
+    joiValidation = validateInputEmailAnswer(joiValidation, inputValue, block)
 
     if(block.isRequired) {
         joiValidation = joiValidation.required()
