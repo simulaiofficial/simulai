@@ -3,7 +3,6 @@ import Joi from 'joi'
 
 export function validateBlock(inputValue: string, block: Block | null) {
     debugger;
-
     if(block === null) {
         return {}
     }
@@ -11,7 +10,7 @@ export function validateBlock(inputValue: string, block: Block | null) {
     let joiValidation = Joi.string()
 
     if(block.type === BlockType.InputNumberAnswer) {
-        joiValidation = joiValidation.pattern(/^[0-9]+$/)
+        joiValidation = Joi.number().integer()
     }
 
     if(block.type === BlockType.InputEmailAnswer) {
