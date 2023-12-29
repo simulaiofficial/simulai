@@ -56,3 +56,8 @@ pre.simulai-md {
   pointer-events: none;
   height: 0;
 }
+
+a {
+  color: #aaa;
+  cursor: pointer;
+}
