@@ -55,6 +55,7 @@
                             @setBlockType="type => setBlockType(i, type)"
                             @openEmoji="openEmoji"
                             @nextBlock="goNextBlock"
+                            @typingCompleted="goNextBlock"
             />
           </div>
         </div>
@@ -154,7 +155,7 @@ function showNextBlock(showUntilAndWait = null) {
   if (currentVisibleBlock.value === null) {
     currentVisibleBlock.value = 0
     scrollToBottom()
-  } else if(showUntilAndWait && currentVisibleBlock.value === showUntilAndWait) {
+  } else if (showUntilAndWait && currentVisibleBlock.value === showUntilAndWait) {
     chatInput.value.focusInput()
     return
   } else {
@@ -173,11 +174,13 @@ function showNextBlock(showUntilAndWait = null) {
   }
 
   if (currentBlock && !getBlockOptions(currentBlock).isInput) {
-    const timeout = getBlockOptions(currentBlock).isVirtualBlock ? 0 : 1000;
-    setTimeout(() => {
-      showNextBlock(showUntilAndWait)
-    }, timeout)
-  } else if(getBlockOptions(currentBlock).isInput) {
+    // const timeout = getBlockOptions(currentBlock).isVirtualBlock ? 0 : 1000;
+    if (getBlockOptions(currentBlock).isVirtualBlock) {
+      setTimeout(() => {
+        showNextBlock(showUntilAndWait)
+      }, 0)
+    }
+  } else if (getBlockOptions(currentBlock).isInput) {
     lastInputBlock.value = currentVisibleBlock.value
   }
 }
@@ -210,6 +213,7 @@ function isYouVisibleBlock(block: Block, i: number) {
 }
 
 function goNextBlock() {
+  debugger;
   showNextBlock()
   const currentBlock = props.page.blocks[currentVisibleBlock.value]
   if (chatInput.value && shouldWaitForValueFromInput(currentBlock)) {
@@ -218,7 +222,7 @@ function goNextBlock() {
 }
 
 function addBlockAfterCurrent(block: Block, from?: Number) {
-  if(from) {
+  if (from) {
     const putIndex = from + 1
     props.page.blocks.splice(putIndex, 0, block);
     return putIndex
@@ -241,7 +245,7 @@ function handleChatInput(inputValue) {
 
   let inputBlock = null
 
-  if(lastInputBlock.value !== null && props.page.blocks.length > lastInputBlock.value) {
+  if (lastInputBlock.value !== null && props.page.blocks.length > lastInputBlock.value) {
     inputBlock = props.page.blocks[lastInputBlock.value]
   }
 

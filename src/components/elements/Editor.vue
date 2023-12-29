@@ -41,7 +41,7 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'typingCompleted'])
 
 const value = computed({
   get() {
@@ -106,6 +106,7 @@ function typeHtml(markdown, index = 0) {
   } else {
     // After typing out the entire string, replace it with actual HTML
     editor.value?.commands.setContent(markdownToHtml(markdown), false);
+    emit('typingCompleted')
   }
 }
 

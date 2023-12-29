@@ -7,6 +7,7 @@
 import {PropType} from 'vue'
 import {BlockDivider} from '@/utils/types'
 import {setUpInitialValuesForBlock} from "@/utils/utils";
+import {onMounted} from "vue";
 
 const props = defineProps({
   block: {
@@ -15,6 +16,8 @@ const props = defineProps({
   }
 })
 
+const emit = defineEmits(['typingCompleted'])
+
 function onSet() {
   setUpInitialValuesForBlock(props.block)
 }
@@ -22,4 +25,8 @@ function onSet() {
 defineExpose({
   onSet,
 })
+
+onMounted(() => {
+  emit('typingCompleted')
+});
 </script>

@@ -5,7 +5,8 @@
       'pt-12 first:pt-0': block.type === BlockType.H1,
       'pt-4 first:pt-0': block.type === BlockType.H2,
     }">
-    <div v-if="!props.page.isChat" class="h-full pl-4 pr-2 text-center cursor-pointer transition-all duration-150 text-neutral-300 flex"
+    <div v-if="!props.page.isChat"
+         class="h-full pl-4 pr-2 text-center cursor-pointer transition-all duration-150 text-neutral-300 flex"
          :class="{
         'py-3.5': block.type === BlockType.H1,
         'py-3': block.type === BlockType.H2,
@@ -35,7 +36,8 @@
     </div>
     <div :block-index="blockNumber" class="flex-1 relative"
          :class="{ 'px-0': block.type !== BlockType.Divider, 'opacity-50 pointer-events-none': props.block.isHidden || readonly }">
-      <div v-if="BlockComponents[props.block.type].options.emojiVisible && !props.page.isChat" class="flex justify-end w-full">
+      <div v-if="BlockComponents[props.block.type].options.emojiVisible && !props.page.isChat"
+           class="flex justify-end w-full">
         <Tooltip :style="{maxHeight: '10px'}"
                  value="<span class='text-neutral-400'><span class='text-white'>Click</span> to add emoji</span>">
           <v-icon name="bi-emoji-smile" @mousedown.stop.prevent="openEmoji()"
@@ -52,8 +54,11 @@
                  @moveToNextLine="emit('moveToNextLine')"
                  @deleteBlock="emit('deleteBlock')"
                  @keydown="keyDownHandler"
-                 @keyup="parseMarkdown"/>
-      <div v-if="currentBlockNumber === blockNumber-1 && page.isChat && BlockComponents[props.block.type].options.isNextButton">
+                 @keyup="parseMarkdown"
+                 @typingCompleted="emit('typingCompleted')"
+      />
+      <div
+          v-if="currentBlockNumber === blockNumber-1 && page.isChat && BlockComponents[props.block.type].options.isNextButton">
         <button
             @click="goNextBlock()"
             class="mt-2 mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 transition duration-300 cursor-pointer">
@@ -121,7 +126,8 @@ const emit = defineEmits([
   'setBlockType',
   'addBlock',
   'openEmoji',
-  'nextBlock'
+  'nextBlock',
+  'typingCompleted'
 ])
 
 function openEmoji() {
