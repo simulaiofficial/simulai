@@ -140,8 +140,9 @@ const currentVisibleBlock = ref(null);
 const lastInputBlock = ref(null);
 const visibleBlocksSeq = [];
 const isConversationFinished = ref(false);
+let showUntilAndWait = null
 
-function showNextBlock(showUntilAndWait = null) {
+function showNextBlock() {
   if (props.page.blocks.length === 0) {
     setTimeout(() => showNextBlock(), 1000)
     return
@@ -260,8 +261,10 @@ function handleChatInput(inputValue) {
       },
     }
     const lastBotIndex = addBlockAfterCurrent(conversationBotBlock, putIndex)
-    showNextBlock(lastBotIndex)
+    showUntilAndWait = lastBotIndex
+    showNextBlock()
   } else {
+    showUntilAndWait = null
     showNextBlock()
   }
 

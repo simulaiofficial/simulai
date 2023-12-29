@@ -102,7 +102,7 @@ watch(() => props.modelValue, value => {
 function typeHtml(markdown, index = 0) {
   if (index < markdown.length) {
     editor.value?.commands.insertContent(markdown.charAt(index), { updateSelection: false });
-    setTimeout(() => typeHtml(markdown, index + 1), 50); // Adjust delay for typing speed
+    setTimeout(() => typeHtml(markdown, index + 1), 20); // Adjust delay for typing speed
   } else {
     // After typing out the entire string, replace it with actual HTML
     editor.value?.commands.setContent(markdownToHtml(markdown), false);
