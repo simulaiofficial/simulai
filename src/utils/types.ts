@@ -35,6 +35,20 @@ export enum ComparisonType {
     Dropdown = 'DROPDOWN'
 }
 
+export enum ComparisonsValue {
+    EqualTo = '=',
+    NotEqualTo = '!=',
+    Greater = '>',
+    Less = '<',
+    Contains = 'contains',
+    Selected = 'selected'
+}
+
+export enum ComparisonsAction {
+    Hide = 'hide',
+    Jump = 'jump',
+}
+
 export enum BlockType {
     Text = 'TEXT',
     ConversationHuman = 'CONVERSATION_HUMAN',
@@ -343,7 +357,7 @@ export const BlockComponents = {
             nameVisible: true,
             conditionVisible: true,
             comparisons: [
-                {value: 'selected', name: 'Selected'},
+                {value: ComparisonsValue.Selected, name: 'Selected'},
             ],
             comparisonType: ComparisonType.Dropdown
         },
@@ -375,7 +389,7 @@ export const BlockComponents = {
             nameVisible: true,
             conditionVisible: true,
             comparisons: [
-                {value: 'selected', name: 'Selected'},
+                {value: ComparisonsValue.Selected, name: 'Selected'},
             ],
             comparisonType: ComparisonType.Dropdown
         },
@@ -410,9 +424,9 @@ export const BlockComponents = {
             nameVisible: true,
             conditionVisible: true,
             comparisons: [
-                {value: '=', name: 'Equal to'},
-                {value: '!=', name: 'Not equal to'},
-                {value: 'contains', name: 'Contains'},
+                {value: ComparisonsValue.EqualTo, name: 'Equal to'},
+                {value: ComparisonsValue.NotEqualTo, name: 'Not equal to'},
+                {value: ComparisonsValue.Contains, name: 'Contains'},
             ],
             comparisonType: ComparisonType.Text
         },
@@ -445,9 +459,9 @@ export const BlockComponents = {
             nameVisible: true,
             conditionVisible: true,
             comparisons: [
-                {value: '=', name: 'Equal to'},
-                {value: '!=', name: 'Not equal to'},
-                {value: 'contains', name: 'Contains'},
+                {value: ComparisonsValue.EqualTo, name: 'Equal to'},
+                {value: ComparisonsValue.NotEqualTo, name: 'Not equal to'},
+                {value: ComparisonsValue.Contains, name: 'Contains'},
             ],
             comparisonType: ComparisonType.Text
         },
@@ -480,10 +494,10 @@ export const BlockComponents = {
             nameVisible: true,
             conditionVisible: true,
             comparisons: [
-                {value: '=', name: 'Equal to'},
-                {value: '!=', name: 'Not equal to'},
-                {value: '>', name: 'Greater than'},
-                {value: '<', name: 'Less than'},
+                {value: ComparisonsValue.EqualTo, name: 'Equal to'},
+                {value: ComparisonsValue.NotEqualTo, name: 'Not equal to'},
+                {value: ComparisonsValue.Greater, name: 'Greater than'},
+                {value: ComparisonsValue.Less, name: 'Less than'},
             ],
             comparisonType: ComparisonType.Number
         },

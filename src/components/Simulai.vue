@@ -26,7 +26,6 @@
                :class="{ 'opacity-50 pointer-events-none': false }">
             <span class="text-xl mr-2">🤖</span><span class="text-sm font-bold">simulai</span>
           </div>
-
           <div v-if="props.page.isChat && isYouVisibleBlock(block, i)"
                class="flex align-items-start rounded-md mt-1"
                :class="{ 'opacity-50 pointer-events-none': false }">
@@ -94,6 +93,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import {computed, watch} from 'vue'
 import Joi from 'joi'
 import {validateBlock} from "@/utils/validation";
+import {calculateConditionAction} from "@/utils/conditions";
 
 const props = defineProps({
   page: {
@@ -170,15 +170,22 @@ function showNextBlock() {
     return
   }
 
+  if (currentBlock.isHidden) {
+    setTimeout(() => {
+      showNextBlock()
+    }, 0)
+  }
+
   if (isVisibleBlock(currentBlock)) {
     visibleBlocksSeq.push(currentBlock)
   }
 
   if (currentBlock && !getBlockOptions(currentBlock).isInput) {
     // const timeout = getBlockOptions(currentBlock).isVirtualBlock ? 0 : 1000;
-    if (getBlockOptions(currentBlock).isVirtualBlock) {
+    if (currentBlock.type === BlockType.Condition) {
+      const resultAction = calculateConditionAction(currentBlock, props.page.blocks)
       setTimeout(() => {
-        showNextBlock(showUntilAndWait)
+        showNextBlock()
       }, 0)
     }
   } else if (getBlockOptions(currentBlock).isInput) {

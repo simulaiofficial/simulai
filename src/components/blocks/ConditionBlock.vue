@@ -99,7 +99,15 @@
 
 <script setup lang="ts">
 import {onBeforeMount, PropType, ref, watch} from 'vue'
-import {Block, BlockCondition, ComparisonType, getBlockFuncs, getBlockOptions, isFlowBlock} from '@/utils/types'
+import {
+  Block,
+  BlockCondition,
+  ComparisonsAction,
+  ComparisonType,
+  getBlockFuncs,
+  getBlockOptions,
+  isFlowBlock
+} from '@/utils/types'
 import {
   setUpInitialValuesForBlock,
   setUpInitialValuesForBlockAnswer,
@@ -118,8 +126,8 @@ const comparisonType = ref(ComparisonType.Number);
 const operatorOptions = ref([]);
 
 const actionOptions = ref([
-  {value: 'jump', name: 'Jump to block'},
-  {value: 'hide', name: 'Hide block'},
+  {value: ComparisonsAction.Jump, name: 'Jump to block'},
+  {value: ComparisonsAction.Hide, name: 'Hide block'},
 ]);
 
 const props = defineProps({

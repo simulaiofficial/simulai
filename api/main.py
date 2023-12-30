@@ -33,7 +33,7 @@ block_condition = BlockCondition(
     isHidden=False,
     whenBlockSelectedId='5',  # Assuming the condition depends on the BlockOptions with id '5'
     isOperatorSelectedId=IsOperatorSelectedType.Selected,  # This is a hypothetical operator ID, replace with actual if different
-    isOperatorValue='Option 2',  # The value to compare against, in this case, it could be a selection from BlockOptions
+    isOperatorValue='Conversational Form',  # The value to compare against, in this case, it could be a selection from BlockOptions
     actionSelectedId=ActionSelectedType.Hide,  # This is a hypothetical action ID, replace with actual if different
     actionBlockSelectedId='7'  # The id of the block to show/hide, in this case, BlockInputTextAnswer with id '7'
 )
