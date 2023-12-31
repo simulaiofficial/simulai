@@ -10,16 +10,29 @@ export function calculateConditionAction(
         jump: null
     }
     let isConditionSatisifed = false
+    if(!whenSelectedBlock) {
+        return resultAction
+    }
     if (condition.isOperatorSelectedId === ComparisonsValue.EqualTo) {
-
+        if(whenSelectedBlock.details.value == condition.isOperatorValue) {
+            isConditionSatisifed = true
+        }
     } else if (condition.isOperatorSelectedId === ComparisonsValue.NotEqualTo) {
-
+        if(whenSelectedBlock.details.value != condition.isOperatorValue) {
+            isConditionSatisifed = true
+        }
     } else if (condition.isOperatorSelectedId === ComparisonsValue.Greater) {
-
+        if(whenSelectedBlock.details.value > condition.isOperatorValue) {
+            isConditionSatisifed = true
+        }
     } else if (condition.isOperatorSelectedId === ComparisonsValue.Less) {
-
+        if(whenSelectedBlock.details.value < condition.isOperatorValue) {
+            isConditionSatisifed = true
+        }
     } else if (condition.isOperatorSelectedId === ComparisonsValue.Contains) {
-
+        if(whenSelectedBlock.details.value && whenSelectedBlock.details.value.includes(condition.isOperatorValue)) {
+            isConditionSatisifed = true
+        }
     } else if (condition.isOperatorSelectedId === ComparisonsValue.Selected) {
         const foundItem = whenSelectedBlock.items.find(item => item.label === condition.isOperatorValue && item.isChecked === true)
         if (foundItem) {
