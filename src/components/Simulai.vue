@@ -97,7 +97,7 @@ import {calculateConditionAction} from "@/utils/conditions";
 
 const props = defineProps({
   page: {
-    type: Object as PropType<{ name: string, isChat: boolean, blocks: Block[] }>,
+    type: Object as PropType<{ name: string, isChat: boolean, blocks: Block[], saveUrl: string }>,
     required: true,
   },
   bgColor: {
@@ -142,6 +142,33 @@ const visibleBlocksSeq = [];
 const isConversationFinished = ref(false);
 let showUntilAndWait = null
 
+// Function to fetch data
+async function saveData() {
+  try {
+    const response = await fetch(props.page.saveUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        // Add any other headers you need
+      },
+      body: JSON.stringify({
+        'blocks': props.page.blocks
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    const data = await response.json();
+
+    // Update the page variable with the response data
+    console.log(data);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+}
+
 function showNextBlock() {
   if (props.page.blocks.length === 0) {
     setTimeout(() => showNextBlock(), 1000)
@@ -150,6 +177,7 @@ function showNextBlock() {
 
   if (currentVisibleBlock.value == props.page.blocks.length - 1) {
     isConversationFinished.value = true;
+    saveData();
     return
   }
 
@@ -187,22 +215,22 @@ function showNextBlock() {
       const resultAction = calculateConditionAction(currentBlock, props.page.blocks)
       const hide = resultAction.hide
       const jump = resultAction.jump
-      if(hide.length > 0) {
+      if (hide.length > 0) {
         hide.forEach(hideId => {
           const foundItem = props.page.blocks.find(block => block.id === hideId)
-          if(foundItem) {
+          if (foundItem) {
             foundItem.isHidden = true
           }
         })
       }
 
-      if(jump !== null) {
+      if (jump !== null) {
         // const foundItem = props.page.blocks.find(block => block.id === jump)
         let i = currentVisibleBlock.value + 1
-        while(true) {
+        while (true) {
           const block = props.page.blocks[i]
-          if(block.id === jump) {
-            currentVisibleBlock.value = i-1
+          if (block.id === jump) {
+            currentVisibleBlock.value = i - 1
             break;
           } else {
             block.isHidden = true
@@ -298,7 +326,7 @@ function handleChatInput(inputValue) {
     showUntilAndWait = lastBotIndex
     showNextBlock()
   } else {
-    if(lastInputBlock.value) {
+    if (lastInputBlock.value) {
       const lastInput = props.page.blocks[lastInputBlock.value]
       lastInput.details.value = inputValue
     }

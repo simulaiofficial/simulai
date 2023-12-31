@@ -5,7 +5,8 @@ from typing import Optional, List, Union
 
 class BlockType(str, Enum):
     Text = 'TEXT'
-    Conversation = 'CONVERSATION'
+    ConversationHuman = 'CONVERSATION_HUMAN'
+    ConversationBot = 'CONVERSATION_BOT'
     H1 = 'H1'
     H2 = 'H2'
     H3 = 'H3'
@@ -96,7 +97,11 @@ class BlockInputNumberAnswer(BlockAnswer):
     max: Optional[int]
 
 
-class BlockConversation(Block):
+class BlockHumanConversation(Block):
+    pass
+
+
+class BlockBotConversation(Block):
     pass
 
 
@@ -121,4 +126,6 @@ class Page(BaseModel):
     isChat: bool
     blocks: List[Union[
         Block, BlockAnswer, BlockCondition, BlockOptions, BlockRadio, BlockInputTextAnswer,
-        BlockInputEmailAnswer, BlockInputNumberAnswer, BlockText, BlockHeading, BlockDivider, BlockQuote]]
+        BlockInputEmailAnswer, BlockInputNumberAnswer, BlockText, BlockHeading, BlockDivider, BlockQuote,
+        BlockHumanConversation, BlockBotConversation]]
+    saveUrl: str

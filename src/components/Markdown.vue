@@ -10,7 +10,7 @@ import { Block } from '@/utils/types'
 
 const props = defineProps({
   page: {
-    type: Object as PropType<{ name:string, blocks:Block[] }>,
+    type: Object as PropType<{ name: string, isChat: boolean, blocks: Block[], saveUrl: string }>,
     required: true,
   }
 })

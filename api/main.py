@@ -87,17 +87,24 @@ block_text_finish = BlockText(id='10', type=BlockType.Text, details=Details(valu
 # Creating the sample page with all block types
 sample_page = Page(
     name="🤖 simulai",
-    isChat=False,
+    isChat=True,
     blocks=[
         block_text0, block_input_number0, block_condition0,
         block_text, block_heading, block_divider, block_quote, block_text1,
         block_radio, block_text2, block_options, block_condition, block_text3, block_input_text, block_text4,
         block_input_email, block_text5, block_input_number, block_text_finish
-    ]
+    ],
+    saveUrl='http://127.0.0.1:8000/save'
 )
 
 
 @app.post("/data", response_model=Page)
 async def get_data():
+    print(sample_page)
+    return sample_page
+
+
+@app.post("/save", response_model=Page)
+async def save_data():
     print(sample_page)
     return sample_page
