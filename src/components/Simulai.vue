@@ -142,7 +142,7 @@ const visibleBlocksSeq = [];
 const isConversationFinished = ref(false);
 let showUntilAndWait = null
 
-// Function to fetch data
+// Function to save data
 async function saveData() {
   try {
     const response = await fetch(props.page.saveUrl, {

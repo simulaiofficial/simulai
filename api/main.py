@@ -1,10 +1,12 @@
 # main.py
-from fastapi import FastAPI
+from typing import List
+
+from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 
 from api.model import BlockText, BlockType, Details, BlockHeading, BlockDivider, BlockQuote, BlockOptions, BlockRadio, \
     BlockInputTextAnswer, BlockInputEmailAnswer, BlockInputNumberAnswer, OptionItem, Page, BlockCondition, \
-    ActionSelectedType, IsOperatorSelectedType
+    ActionSelectedType, IsOperatorSelectedType, Block, get_blocks
 
 app = FastAPI()
 
@@ -104,7 +106,7 @@ async def get_data():
     return sample_page
 
 
-@app.post("/save", response_model=Page)
-async def save_data():
-    print(sample_page)
-    return sample_page
+@app.post("/save")
+async def save_data(blocks: List[Block] = Depends(get_blocks)):
+    print(blocks)
+    return
