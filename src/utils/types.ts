@@ -124,6 +124,7 @@ export interface OptionItem {
 export const BlockComponents = {
     [BlockType.Text]: {
         component: TextBlock,
+        isMenuVisible: true,
         options: {
             icon: 'bi-text-left',
             label: 'Text',
@@ -148,6 +149,7 @@ export const BlockComponents = {
     },
     [BlockType.ConversationHuman]: {
         component: ConversationBlock,
+        isMenuVisible: false,
         options: {
             icon: 'bi-text-left',
             label: 'Conversation Human',
@@ -172,6 +174,7 @@ export const BlockComponents = {
     },
     [BlockType.ConversationBot]: {
         component: ConversationBlock,
+        isMenuVisible: false,
         options: {
             icon: 'bi-text-left',
             label: 'Conversation Bot',
@@ -196,6 +199,7 @@ export const BlockComponents = {
     },
     [BlockType.H1]: {
         component: HeadingBlock,
+        isMenuVisible: true,
         options: {
             icon: 'bi-type-h1',
             label: 'Heading 1',
@@ -220,6 +224,7 @@ export const BlockComponents = {
     },
     [BlockType.H2]: {
         component: HeadingBlock,
+        isMenuVisible: true,
         options: {
             icon: 'bi-type-h2',
             label: 'Heading 2',
@@ -244,6 +249,7 @@ export const BlockComponents = {
     },
     [BlockType.H3]: {
         component: HeadingBlock,
+        isMenuVisible: true,
         options: {
             icon: 'bi-type-h3',
             label: 'Heading 3',
@@ -268,6 +274,7 @@ export const BlockComponents = {
     },
     [BlockType.Divider]: {
         component: DividerBlock,
+        isMenuVisible: true,
         options: {
             icon: 'bi-hr',
             label: 'Divider',
@@ -292,6 +299,7 @@ export const BlockComponents = {
     },
     [BlockType.Quote]: {
         component: QuoteBlock,
+        isMenuVisible: true,
         options: {
             icon: 'bi-quote',
             label: 'Quote',
@@ -316,6 +324,7 @@ export const BlockComponents = {
     },
     [BlockType.Condition]: {
         component: ConditionBlock,
+        isMenuVisible: true,
         options: {
             icon: 'gi-logic-gate-nor',
             label: 'Condition',
@@ -341,6 +350,7 @@ export const BlockComponents = {
     },
     [BlockType.Options]: {
         component: OptionsBlock,
+        isMenuVisible: true,
         options: {
             icon: 'md-checkbox-outlined',
             label: 'Options',
@@ -373,6 +383,7 @@ export const BlockComponents = {
     },
     [BlockType.Radio]: {
         component: RadioBlock,
+        isMenuVisible: true,
         options: {
             icon: 'io-radio-button-on-outline',
             label: 'Radio',
@@ -405,6 +416,7 @@ export const BlockComponents = {
     },
     [BlockType.InputEmailAnswer]: {
         component: InputAnswerBlock,
+        isMenuVisible: true,
         options: {
             icon: 'md-alternateemail',
             label: 'Input Email',
@@ -440,6 +452,7 @@ export const BlockComponents = {
     },
     [BlockType.InputTextAnswer]: {
         component: InputAnswerBlock,
+        isMenuVisible: true,
         options: {
             icon: 'co-text-square',
             label: 'Input Text',
@@ -475,6 +488,7 @@ export const BlockComponents = {
     },
     [BlockType.InputNumberAnswer]: {
         component: InputAnswerBlock,
+        isMenuVisible: true,
         options: {
             icon: 'oi-number',
             label: 'Input Number',
