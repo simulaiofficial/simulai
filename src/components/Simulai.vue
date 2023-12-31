@@ -298,6 +298,10 @@ function handleChatInput(inputValue) {
     showUntilAndWait = lastBotIndex
     showNextBlock()
   } else {
+    if(lastInputBlock.value) {
+      const lastInput = props.page.blocks[lastInputBlock.value]
+      lastInput.details.value = inputValue
+    }
     showUntilAndWait = null
     showNextBlock()
   }
