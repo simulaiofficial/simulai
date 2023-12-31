@@ -183,7 +183,34 @@ function showNextBlock() {
   if (currentBlock && !getBlockOptions(currentBlock).isInput) {
     // const timeout = getBlockOptions(currentBlock).isVirtualBlock ? 0 : 1000;
     if (currentBlock.type === BlockType.Condition) {
+      debugger;
       const resultAction = calculateConditionAction(currentBlock, props.page.blocks)
+      const hide = resultAction.hide
+      const jump = resultAction.jump
+      if(hide.length > 0) {
+        hide.forEach(hideId => {
+          const foundItem = props.page.blocks.find(block => block.id === hideId)
+          if(foundItem) {
+            foundItem.isHidden = true
+          }
+        })
+      }
+
+      if(jump !== null) {
+        // const foundItem = props.page.blocks.find(block => block.id === jump)
+        let i = currentVisibleBlock.value + 1
+        while(true) {
+          const block = props.page.blocks[i]
+          if(block.id === jump) {
+            currentVisibleBlock.value = i-1
+            break;
+          } else {
+            block.isHidden = true
+          }
+          i++;
+        }
+      }
+
       setTimeout(() => {
         showNextBlock()
       }, 0)
@@ -390,7 +417,7 @@ function insertTextAtCursor(textToInsert) {
 function checkIfBlockShouldBeVisible(index) {
   const currentBlock = props.page.blocks[index]
   return !props.page.isChat ||
-      (currentVisibleBlock.value !== null && index <= currentVisibleBlock.value && !getBlockOptions(currentBlock).isVirtualBlock
+      (currentVisibleBlock.value !== null && index <= currentVisibleBlock.value && !currentBlock.isHidden && !getBlockOptions(currentBlock).isVirtualBlock
           && !shouldWaitForValueFromInput(currentBlock)
       )
 }

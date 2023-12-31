@@ -34,8 +34,8 @@ block_condition = BlockCondition(
     whenBlockSelectedId='5',  # Assuming the condition depends on the BlockOptions with id '5'
     isOperatorSelectedId=IsOperatorSelectedType.Selected,  # This is a hypothetical operator ID, replace with actual if different
     isOperatorValue='Conversational Form',  # The value to compare against, in this case, it could be a selection from BlockOptions
-    actionSelectedId=ActionSelectedType.Hide,  # This is a hypothetical action ID, replace with actual if different
-    actionBlockSelectedId='7'  # The id of the block to show/hide, in this case, BlockInputTextAnswer with id '7'
+    actionSelectedId=ActionSelectedType.Jump,  # This is a hypothetical action ID, replace with actual if different
+    actionBlockSelectedId='text5'  # The id of the block to show/hide, in this case, BlockInputTextAnswer with id '7'
 )
 block_text3 = BlockText(id='text3', type=BlockType.Text, details=Details(value='Btw. what is your name?'), isHidden=False)
 block_input_text = BlockInputTextAnswer(id='7', type=BlockType.InputTextAnswer, details=Details(), isHidden=False, isRequired=True, setName=True, name='Text Input Block', minRequired=True, min=2, maxRequired=False, max=None)
