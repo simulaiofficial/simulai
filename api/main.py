@@ -2,11 +2,12 @@
 from typing import List
 
 from fastapi import FastAPI, Depends
+from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
 
 from api.model import BlockText, BlockType, Details, BlockHeading, BlockDivider, BlockQuote, BlockOptions, BlockRadio, \
     BlockInputTextAnswer, BlockInputEmailAnswer, BlockInputNumberAnswer, OptionItem, Page, BlockCondition, \
-    ActionSelectedType, IsOperatorSelectedType, Block, get_blocks
+    ActionSelectedType, IsOperatorSelectedType, Block, get_blocks, PageBlocks
 
 app = FastAPI()
 
@@ -102,8 +103,25 @@ sample_page = Page(
 
 @app.post("/data", response_model=Page)
 async def get_data():
-    print(sample_page)
-    return sample_page
+    # Serialize the Page object to JSON
+    json_page = jsonable_encoder(sample_page)
+
+    page_object = deserialize_page(json_page)
+
+    return page_object
+
+
+def deserialize_page(json_page):
+    # Extract the blocks JSON
+    blocks_json = json_page.get('blocks', [])
+    # Create a PageBlocks instance from the blocks JSON
+    page_blocks = PageBlocks(blocks=blocks_json)
+    # Use get_blocks to deserialize the blocks
+    deserialized_blocks = get_blocks(page_blocks)
+    # Replace the blocks list in json_page with the deserialized blocks
+    json_page['blocks'] = deserialized_blocks
+    page_object = Page(**json_page)
+    return page_object
 
 
 @app.post("/save")
