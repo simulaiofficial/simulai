@@ -2,8 +2,11 @@
 from typing import List
 
 from fastapi import FastAPI, Depends
+from fastapi import Query
 from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
+
+from pydantic import BaseModel
 
 from api.model import BlockText, BlockType, Details, BlockHeading, BlockDivider, BlockQuote, BlockOptions, BlockRadio, \
     BlockInputTextAnswer, BlockInputEmailAnswer, BlockInputNumberAnswer, OptionItem, Page, BlockCondition, \
@@ -100,17 +103,6 @@ sample_page = Page(
     saveUrl='http://127.0.0.1:8000/save'
 )
 
-
-@app.post("/data", response_model=Page)
-async def get_data():
-    # Serialize the Page object to JSON
-    json_page = jsonable_encoder(sample_page)
-
-    page_object = deserialize_page(json_page)
-
-    return page_object
-
-
 def deserialize_page(json_page):
     # Extract the blocks JSON
     blocks_json = json_page.get('blocks', [])
@@ -121,6 +113,27 @@ def deserialize_page(json_page):
     # Replace the blocks list in json_page with the deserialized blocks
     json_page['blocks'] = deserialized_blocks
     page_object = Page(**json_page)
+    return page_object
+
+class CoreRequest(BaseModel):
+    src: str
+    dst: str
+
+@app.post("/core", response_model=Page)
+async def get_core(request_data: CoreRequest):
+    # Access 'src' and 'dst' from the request body
+    src = request_data.src
+    dst = request_data.dst
+
+    # You can now use 'src' and 'dst' in your logic
+    print("Source URL:", src)
+    print("Destination URL:", dst)
+
+    # Serialize the Page object to JSON
+    json_page = jsonable_encoder(sample_page)
+
+    page_object = deserialize_page(json_page)
+
     return page_object
 
 

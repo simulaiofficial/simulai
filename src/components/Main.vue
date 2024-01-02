@@ -37,19 +37,22 @@ if (isTest !== '1') {
     blocks: []
   });
 
-  const configUrl = queryParams.get('config')
+  const coreUrl = queryParams.get('core')
+  const srcUrl = queryParams.get('src')
+  const dstUrl = queryParams.get('dst')
 
   // Function to fetch data
   async function fetchData() {
     try {
-      const response = await fetch(configUrl, {
+      const response = await fetch(coreUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           // Add any other headers you need
         },
         body: JSON.stringify({
-          // Your request payload
+          'src': srcUrl,
+          'dst': dstUrl
         }),
       });
 

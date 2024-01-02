@@ -40,11 +40,14 @@ uvicorn api.main:app --reload
 npm run dev
 ```
 
-If you head to http://127.0.0.1:5173/?config=http://127.0.0.1:8000/data on your browser, you should see what looks like the screenshot above.
+If you head
+to http://127.0.0.1:5173/?core=http%3A//127.0.0.1%3A8000/core&src=http%3A//127.0.0.1%3A8000/src&dst=http%3A//127.0.0.1%3A8000/dst on
+your browser, you should see what looks like the screenshot above.
 
 **3. Contribute!**
 
-Simulai is quite limited for now but we hope it serves as a good starting point for other folks looking to build their own chatbot editors.
+Simulai is quite limited for now but we hope it serves as a good starting point for other folks looking to build their
+own chatbot editors.
 
 We would love to make Simulai more extensible and welcome any suggestions or contributions!
 
