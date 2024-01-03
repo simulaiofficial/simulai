@@ -37,22 +37,20 @@ if (isTest !== '1') {
     blocks: []
   });
 
-  const coreUrl = queryParams.get('core')
+  const createPageUrl = queryParams.get('page')
   const srcUrl = queryParams.get('src')
-  const dstUrl = queryParams.get('dst')
 
   // Function to fetch data
   async function fetchData() {
     try {
-      const response = await fetch(coreUrl, {
+      const response = await fetch(createPageUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           // Add any other headers you need
         },
         body: JSON.stringify({
-          'src': srcUrl,
-          'dst': dstUrl
+          'src': srcUrl
         }),
       });
 

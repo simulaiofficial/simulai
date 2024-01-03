@@ -41,7 +41,7 @@ npm run dev
 ```
 
 If you head
-to http://127.0.0.1:5173/?core=http%3A//127.0.0.1%3A8000/core&src=http%3A//127.0.0.1%3A8000/src&dst=http%3A//127.0.0.1%3A8000/dst on
+to http://127.0.0.1:5173/?page=http%3A//127.0.0.1%3A8000/page&src=http%3A//127.0.0.1%3A8000/src on
 your browser, you should see what looks like the screenshot above.
 
 **3. Contribute!**
