@@ -1,7 +1,9 @@
 # main.py
 from typing import List
+import httpx
 
 from fastapi import FastAPI, Depends
+from fastapi import HTTPException
 from fastapi import Query
 from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
@@ -103,6 +105,7 @@ sample_page = Page(
     saveUrl='http://127.0.0.1:8000/save'
 )
 
+
 def deserialize_page(json_page):
     # Extract the blocks JSON
     blocks_json = json_page.get('blocks', [])
@@ -115,23 +118,41 @@ def deserialize_page(json_page):
     page_object = Page(**json_page)
     return page_object
 
+
 class CoreRequest(BaseModel):
     src: str
     dst: str
 
+
 @app.post("/core", response_model=Page)
 async def get_core(request_data: CoreRequest):
-    # Access 'src' and 'dst' from the request body
     src = request_data.src
     dst = request_data.dst
 
-    # You can now use 'src' and 'dst' in your logic
     print("Source URL:", src)
     print("Destination URL:", dst)
 
-    # Serialize the Page object to JSON
-    json_page = jsonable_encoder(sample_page)
+    try:
+        # Set a timeout for the request
+        timeout = httpx.Timeout(10.0, connect=5.0)
+        async with httpx.AsyncClient(timeout=timeout) as client:
+            response = await client.get(src)
 
+        # Check if the response was successful
+        if response.status_code != 200:
+            raise HTTPException(status_code=500, detail=f"Failed to fetch data from src URL: {src}")
+
+        json_page = response.json()
+
+    except httpx.RequestError as e:
+        # Handle connection errors
+        raise HTTPException(status_code=500, detail=f"An error occurred while requesting {src}: {str(e)}")
+
+    except httpx.HTTPStatusError as e:
+        # Handle HTTP status errors
+        raise HTTPException(status_code=e.response.status_code, detail=f"Error response {e.response.status_code} while requesting {src}")
+
+    # Deserialize the JSON page
     page_object = deserialize_page(json_page)
 
     return page_object
@@ -141,3 +162,17 @@ async def get_core(request_data: CoreRequest):
 async def save_data(blocks: List[Block] = Depends(get_blocks)):
     print(blocks)
     return
+
+
+@app.get("/src")
+async def get_src():
+    # Sample response data
+    json_page = jsonable_encoder(sample_page)
+    return json_page
+
+
+@app.get("/dst")
+async def get_dst():
+    # Sample response data
+    response_data = {"message": "This is the src endpoint", "data": "Sample data from src"}
+    return response_data
