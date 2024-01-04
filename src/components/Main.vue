@@ -38,20 +38,19 @@ if (isTest !== '1') {
   });
 
   const createPageUrl = queryParams.get('page')
-  const srcUrl = queryParams.get('src')
 
   // Function to fetch data
   async function fetchData() {
     try {
       const response = await fetch(createPageUrl, {
-        method: 'POST',
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json',
           // Add any other headers you need
         },
-        body: JSON.stringify({
-          'src': srcUrl
-        }),
+        // body: JSON.stringify({
+        //   'src': srcUrl
+        // }),
       });
 
       if (!response.ok) {
