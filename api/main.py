@@ -35,11 +35,6 @@ def deserialize_page(json_page):
     page_object = Page(**json_page)
     return page_object
 
-
-# class CoreRequest(BaseModel):
-#     src: str
-
-
 @app.get("/page", response_model=Page)
 async def get_page(src: str):
     print("Source URL:", src)
