@@ -66,14 +66,14 @@ async def get_page(src: str):
     return page_object
 
 
-class BlocksData(BaseModel):
+class SaveData(BaseModel):
     blocks: List[Block]
 
 
 @app.post("/save")
 async def save_data(dst: str, blocks: List[Block] = Depends(get_blocks)):
     print("Destination URL:", dst)
-    blocks_data = BlocksData(blocks=blocks)
+    blocks_data = SaveData(blocks=blocks)
     json_blocks = blocks_data.json()
     print(json_blocks)
 
