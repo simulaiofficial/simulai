@@ -75,8 +75,8 @@ def get_sample_page():
     # Creating the sample page with all block types
     sample_page = Page(
         name="🤖 simulai",
-        isChat=True,
-        isPreview=True,
+        isChat=False,
+        isPreview=False,
         blocks=[
             block_text0, block_input_number0, block_condition0,
             block_text, block_heading, block_divider, block_quote, block_text1,

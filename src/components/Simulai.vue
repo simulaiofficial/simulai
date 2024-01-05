@@ -84,17 +84,16 @@
   </div>
   <EmojiPicker v-if="isEmojiPickerOpen" ref="emojiPicker" :native="true" @select="onSelectEmoji"
                :style="{ top: emojiPickerStyle.top + 'px', left: emojiPickerStyle.left + 'px' }" class="absolute z-50"/>
-  <!-- Modal for displaying publishUrl -->
-  <div v-if="showModal" class="modal fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-    <div class="modal-content p-4 rounded" :style="{ backgroundColor: props.bgColor }">
-      <h2 class="text-xl mb-2 mt-1">Publish URL</h2>
-      <input type="text" readonly :value="publishUrl" class="w-full p-2 border rounded mb-2" ref="publishUrlInput">
+  <div v-if="showModal" class="modal fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center">
+    <div class="modal-content p-4 rounded shadow-lg border border-solid border-gray-600" :style="{ backgroundColor: props.bgColor }">
+      <h2 class="text-gray-200 text-lg mb-2 mt-0">Share following URL address</h2>
+      <input type="text" readonly :value="publishUrl" class="w-full p-2 border-2 border-gray-300 rounded mb-2" ref="publishUrlInput">
       <button @click="copyPublishUrl"
-              class="copy-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer">
+              class="copy-button bg-blue-400 hover:bg-blue-500 text-white py-2 px-4 rounded cursor-pointer">
         Copy URL
       </button>
       <button @click="showModal = false"
-              class="close-button ml-2 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded cursor-pointer">
+              class="close-button ml-2 bg-red-400 hover:bg-red-500 text-white py-2 px-4 rounded cursor-pointer">
         Close
       </button>
     </div>
