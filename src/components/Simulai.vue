@@ -5,6 +5,10 @@
        }" v-if="props.page" ref="editor"
        @keydown.ctrl.cmd.space.prevent="openEmojiPicker">
     <div v-if="!props.page.isChat" class="buttons-container fixed top-0 right-0 mt-4 mr-4" style="z-index:9999;">
+      <button @click="previewPage"
+              class="preview-button bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 mr-2 rounded cursor-pointer">
+        Preview
+      </button>
       <button @click="saveData"
               class="save-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2 cursor-pointer">
         {{ isDataSaved ? 'Saved!' : 'Save' }}
@@ -201,17 +205,18 @@ async function saveData() {
 
     const data = await response.json();
     console.log("Data saved", data);
-    return data.publishUrl; // Return publishUrl for further use
+    return {
+      publishUrl: data.publishUrl,
+      previewUrl: data.previewUrl
+    };
   } catch (error) {
     console.error('Error fetching data:', error);
   }
 }
 
-
-// Function to publish page
 async function publishPage() {
   try {
-    const publishUrl = await saveData(); // Await the result of saveData
+    const {publishUrl} = await saveData(); // Await the result of saveData
     if (publishUrl) {
       showModalWithUrl(publishUrl); // Call function to show modal with URL
     } else {
@@ -219,6 +224,19 @@ async function publishPage() {
     }
   } catch (error) {
     console.error('Error during publish:', error);
+  }
+}
+
+async function previewPage() {
+  try {
+    const {previewUrl} = await saveData(); // Await the result of saveData
+    if (previewUrl) {
+      window.open(previewUrl, '_blank'); // Open new tab with the preview URL
+    } else {
+      console.error('Preview URL not received');
+    }
+  } catch (error) {
+    console.error('Error during preview:', error);
   }
 }
 
