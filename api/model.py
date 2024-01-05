@@ -186,6 +186,7 @@ class BlockQuote(Block):
 class Page(BaseModel):
     name: str
     isChat: bool
+    isPreview: bool
     blocks: List[Union[
         Block, BlockAnswer, BlockCondition, BlockOptions, BlockRadio, BlockInputTextAnswer,
         BlockInputEmailAnswer, BlockInputNumberAnswer, BlockText, BlockHeading, BlockDivider, BlockQuote,

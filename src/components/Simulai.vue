@@ -127,7 +127,7 @@ import {calculateConditionAction} from "@/utils/conditions";
 
 const props = defineProps({
   page: {
-    type: Object as PropType<{ name: string, isChat: boolean, blocks: Block[], saveUrl: string }>,
+    type: Object as PropType<{ name: string, isChat: boolean, isPreview: boolean, blocks: Block[], saveUrl: string }>,
     required: true,
   },
   bgColor: {
@@ -180,6 +180,9 @@ const isDataSaved = ref(false); // This will track the save status
 
 // Function to save data
 async function saveData() {
+  if(props.page.isPreview) {
+    return
+  }
   try {
     const response = await fetch(props.page.saveUrl, {
       method: 'POST',

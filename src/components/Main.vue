@@ -72,6 +72,7 @@ if (isTest !== '1') {
   page = ref({
     name: '🤖 simulai',
     isChat: false,
+    isPreview: false,
     blocks: [{
       id: uuidv4(),
       type: BlockType.H1,

@@ -19,7 +19,7 @@ const props = defineProps({
     required: true,
   },
   page: {
-    type: Object as PropType<{ name: string, isChat: boolean, blocks: Block[], saveUrl: string }>,
+    type: Object as PropType<{ name: string, isChat: boolean, isPreview: boolean, blocks: Block[], saveUrl: string }>,
     required: true,
   }
 });
