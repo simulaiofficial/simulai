@@ -84,7 +84,7 @@
   </div>
   <EmojiPicker v-if="isEmojiPickerOpen" ref="emojiPicker" :native="true" @select="onSelectEmoji"
                :style="{ top: emojiPickerStyle.top + 'px', left: emojiPickerStyle.left + 'px' }" class="absolute z-50"/>
-  <div v-if="showModal" class="modal fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center">
+  <div v-if="showModal" class="modal fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center font-sans">
     <div class="modal-content p-4 rounded shadow-lg border border-solid border-gray-600" :style="{ backgroundColor: props.bgColor }">
       <h2 class="text-gray-200 text-lg mb-2 mt-0">Share following URL address</h2>
       <input type="text" readonly :value="publishUrl" class="w-full p-2 border-2 border-gray-300 rounded mb-2" ref="publishUrlInput">
