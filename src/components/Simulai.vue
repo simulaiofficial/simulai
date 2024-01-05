@@ -4,6 +4,17 @@
          'simulai max-w-screen-md mx-auto font-sans text-base p-5 h-screen flex flex-col justify-between': props.page.isChat
        }" v-if="props.page" ref="editor"
        @keydown.ctrl.cmd.space.prevent="openEmojiPicker">
+    <div v-if="!props.page.isChat" class="buttons-container fixed top-0 right-0 mt-4 mr-4" style="z-index:9999;">
+      <button @click="saveData"
+              class="save-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2 cursor-pointer">
+        {{ isDataSaved ? 'Saved!' : 'Save' }}
+      </button>
+      <button @click="publishPage"
+              class="publish-button bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded cursor-pointer">
+        Publish
+      </button>
+    </div>
+
     <h1 id="title" ref="title" :contenteditable="true" spellcheck="false" data-ph="Untitled"
         @keydown.enter.prevent="splitTitle"
         @keydown.down="blockElements[0]?.moveToFirstLine(); scrollIntoView();"
@@ -69,6 +80,21 @@
   </div>
   <EmojiPicker v-if="isEmojiPickerOpen" ref="emojiPicker" :native="true" @select="onSelectEmoji"
                :style="{ top: emojiPickerStyle.top + 'px', left: emojiPickerStyle.left + 'px' }" class="absolute z-50"/>
+  <!-- Modal for displaying publishUrl -->
+  <div v-if="showModal" class="modal fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+    <div class="modal-content p-4 rounded" :style="{ backgroundColor: props.bgColor }">
+      <h2 class="text-xl mb-2 mt-1">Publish URL</h2>
+      <input type="text" readonly :value="publishUrl" class="w-full p-2 border rounded mb-2" ref="publishUrlInput">
+      <button @click="copyPublishUrl"
+              class="copy-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer">
+        Copy URL
+      </button>
+      <button @click="showModal = false"
+              class="close-button ml-2 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded cursor-pointer">
+        Close
+      </button>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -142,6 +168,12 @@ const visibleBlocksSeq = [];
 const isConversationFinished = ref(false);
 let showUntilAndWait = null
 
+const showModal = ref(false); // Controls visibility of the modal
+const publishUrl = ref(''); // Stores the publish URL
+const publishUrlInput = ref(null); // Reference to the input element
+
+const isDataSaved = ref(false); // This will track the save status
+
 // Function to save data
 async function saveData() {
   try {
@@ -152,7 +184,7 @@ async function saveData() {
         // Add any other headers you need
       },
       body: JSON.stringify({
-        'blocks': props.page.blocks
+        'blocks': props.page.blocks,
       }),
     });
 
@@ -160,12 +192,49 @@ async function saveData() {
       throw new Error('Network response was not ok');
     }
 
-    const data = await response.json();
+    if (response.ok) {
+      isDataSaved.value = true; // Set to true on successful save
+      setTimeout(() => {
+        isDataSaved.value = false; // Reset after 1 second
+      }, 1000); // 1000 milliseconds = 1 second
+    }
 
-    // Update the page variable with the response data
-    console.log(data);
+    const data = await response.json();
+    console.log("Data saved", data);
+    return data.publishUrl; // Return publishUrl for further use
   } catch (error) {
     console.error('Error fetching data:', error);
+  }
+}
+
+
+// Function to publish page
+async function publishPage() {
+  try {
+    const publishUrl = await saveData(); // Await the result of saveData
+    if (publishUrl) {
+      showModalWithUrl(publishUrl); // Call function to show modal with URL
+    } else {
+      console.error('Publish URL not received');
+    }
+  } catch (error) {
+    console.error('Error during publish:', error);
+  }
+}
+
+// Function to display modal with URL
+function showModalWithUrl(url) {
+  console.log('Modal should display URL:', url);
+
+  publishUrl.value = url;
+  showModal.value = true;
+}
+
+// Function to copy publishUrl to clipboard
+function copyPublishUrl() {
+  if (publishUrlInput.value) {
+    publishUrlInput.value.select();
+    document.execCommand('copy');
   }
 }
 

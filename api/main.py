@@ -110,4 +110,4 @@ async def get_dst(request: Request):
 
     print("Received data:", data)
 
-    return {"message": "Data received successfully", "received_data": data}
+    return {"publishUrl": "http://127.0.0.1:5173/published/1234"}
