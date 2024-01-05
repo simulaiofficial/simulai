@@ -6,15 +6,15 @@
        @keydown.ctrl.cmd.space.prevent="openEmojiPicker">
     <div v-if="!props.page.isChat" class="buttons-container fixed top-0 right-0 mt-4 mr-4" style="z-index:9999;">
       <button @click="previewPage"
-              class="preview-button bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 mr-2 rounded cursor-pointer">
+              class="preview-button bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 mr-2 rounded cursor-pointer">
         Preview
       </button>
       <button @click="saveData"
-              class="save-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2 cursor-pointer">
+              class="save-button bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-2 cursor-pointer">
         {{ isDataSaved ? 'Saved!' : 'Save' }}
       </button>
       <button @click="publishPage"
-              class="publish-button bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded cursor-pointer">
+              class="publish-button bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded cursor-pointer">
         Publish
       </button>
     </div>
