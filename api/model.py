@@ -38,11 +38,16 @@ class Block(BaseModel):
     details: Details
     isHidden: bool = False
 
+class BlockDisplayText(Block):
+    pass
 
 class BlockAnswer(Block):
     isRequired: bool
     setName: bool
-    name: str
+    name: Optional[str] = None
+
+    def get_value(self):
+        return self.details.value
 
 
 class ActionSelectedType(str, Enum):
@@ -150,7 +155,7 @@ class BlockBotConversation(Block):
         return values
 
 
-class BlockText(Block):
+class BlockText(BlockDisplayText):
     @root_validator(pre=True)
     def check_type(cls, values):
         if values.get("type") != BlockType.Text:
@@ -158,7 +163,7 @@ class BlockText(Block):
         return values
 
 
-class BlockHeading(Block):
+class BlockHeading(BlockDisplayText):
     @root_validator(pre=True)
     def check_type(cls, values):
         if values.get("type") != BlockType.H1 and values.get("type") != BlockType.H2 and values.get(
@@ -175,7 +180,7 @@ class BlockDivider(Block):
         return values
 
 
-class BlockQuote(Block):
+class BlockQuote(BlockDisplayText):
     @root_validator(pre=True)
     def check_type(cls, values):
         if values.get("type") != BlockType.Quote:

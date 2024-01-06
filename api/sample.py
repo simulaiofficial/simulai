@@ -67,7 +67,7 @@ def get_sample_page():
     block_text5 = BlockText(id='text5', type=BlockType.Text,
                             details=Details(value='could you share also your phone number?'), isHidden=False)
     block_input_number = BlockInputNumberAnswer(id='9', type=BlockType.InputNumberAnswer, details=Details(), isHidden=False,
-                                                isRequired=True, setName=True, name='Number Input Block', minRequired=False,
+                                                isRequired=True, setName=False, name=None, minRequired=False,
                                                 min=None, maxRequired=True, max=100)
     block_text_finish = BlockText(id='10', type=BlockType.Text, details=Details(value='That\'s all, thanks!'),
                                   isHidden=False)
@@ -75,7 +75,7 @@ def get_sample_page():
     # Creating the sample page with all block types
     sample_page = Page(
         name="🤖 simulai",
-        isChat=False,
+        isChat=True,
         isPreview=False,
         blocks=[
             block_text0, block_input_number0, block_condition0,
