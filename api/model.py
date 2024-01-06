@@ -38,8 +38,10 @@ class Block(BaseModel):
     details: Details
     isHidden: bool = False
 
+
 class BlockDisplayText(Block):
     pass
+
 
 class BlockAnswer(Block):
     isRequired: bool
@@ -92,6 +94,10 @@ class BlockOptions(BlockAnswer):
             raise ValidationError("Incorrect type")
         return values
 
+    def get_value(self):
+        selected_labels = [item.label for item in self.items if item.isChecked]
+        return ', '.join(selected_labels) if selected_labels else None
+
 
 class BlockRadio(BlockAnswer):
     items: List[OptionItem]
@@ -101,6 +107,12 @@ class BlockRadio(BlockAnswer):
         if values.get("type") != BlockType.Radio:
             raise ValidationError("Incorrect type")
         return values
+
+    def get_value(self):
+        for item in self.items:
+            if item.isChecked:
+                return item.label
+        return None  # Return None if no item is checked
 
 
 class BlockInputTextAnswer(BlockAnswer):
@@ -198,8 +210,10 @@ class Page(BaseModel):
         BlockHumanConversation, BlockBotConversation]]
     saveUrl: str
 
+
 class PageBlocks(BaseModel):
     blocks: List[dict]
+
 
 def get_blocks(page_blocks: PageBlocks) -> List[Block]:
     block_objects = []
