@@ -5,7 +5,7 @@
     <div class="w-full"
          :style="{ backgroundColor: bgColor }">
       <Simulai v-if="isSimulai" :bgColor="bgColor" :textColor="textColor" :page="page"/>
-      <div v-if="!isSimulai" class="p-2 font-sans">
+      <div v-if="showLoading" class="p-2 font-sans">
         Loading...
       </div>
     </div>
@@ -30,6 +30,7 @@ const url = new URL(window.location.href);
 const queryParams = url.searchParams;
 const isTest = queryParams.get('test');
 const isSimulai = ref(false);
+const showLoading = ref(false);
 
 let page = ref({})
 
@@ -40,6 +41,12 @@ if (isTest !== '1') {
     isChat: false,
     blocks: []
   });
+
+  setTimeout(() => {
+    if (!isSimulai.value) {
+      showLoading.value = true;
+    }
+  }, 2000);
 
   const createPageUrl = queryParams.get('page')
 

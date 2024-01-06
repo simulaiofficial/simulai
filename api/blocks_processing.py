@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from pydantic import BaseModel
 
@@ -18,8 +18,8 @@ def find_previous_label(blocks: List[Block], current_idx: int):
     return previous_label
 
 class TableAnswer(BaseModel):
-    label: str
-    value: str
+    label: Optional[str] = None
+    value: Optional[str] = None
 
 def convert_blocks_to_table_answers(blocks: List[Block]) -> List[TableAnswer]:
     table_answers = []
