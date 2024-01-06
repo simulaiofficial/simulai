@@ -4,7 +4,7 @@
          'simulai max-w-screen-md mx-auto font-sans text-base p-5 h-screen flex flex-col justify-between': props.page.isChat
        }" v-if="props.page" ref="editor"
        @keydown.ctrl.cmd.space.prevent="openEmojiPicker">
-    <div v-if="!props.page.isChat" class="buttons-container fixed top-0 right-0 mt-4 mr-4" style="z-index:9999;">
+    <div v-if="showButtons" class="buttons-container fixed top-0 right-0 mt-4 mr-4" style="z-index:9999;">
       <button @click="previewPage"
               class="preview-button bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 mr-2 rounded cursor-pointer">
         Preview
@@ -123,6 +123,11 @@ import {computed, watch} from 'vue'
 import Joi from 'joi'
 import {validateBlock} from "@/utils/validation";
 import {calculateConditionAction} from "@/utils/conditions";
+
+const showButtons = computed(() => {
+  // console.log(props.page.isChat)
+  return !props.page.isChat
+});
 
 const props = defineProps({
   page: {

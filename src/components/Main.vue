@@ -4,7 +4,10 @@
          }" :style="{ color: textColor }">
     <div class="w-full"
          :style="{ backgroundColor: bgColor }">
-      <Simulai :bgColor="bgColor" :textColor="textColor" :page="page"/>
+      <Simulai v-if="isSimulai" :bgColor="bgColor" :textColor="textColor" :page="page"/>
+      <div v-if="!isSimulai" class="p-2 font-sans">
+        Loading...
+      </div>
     </div>
     <div v-if="page.isChat" class="w-full overflow-y-auto" style="background-color: #202123;">
       <Markdown :page="page"/>
@@ -26,6 +29,7 @@ const textColor = "#ffffff"
 const url = new URL(window.location.href);
 const queryParams = url.searchParams;
 const isTest = queryParams.get('test');
+const isSimulai = ref(false);
 
 let page = ref({})
 
@@ -61,6 +65,7 @@ if (isTest !== '1') {
 
       // Update the page variable with the response data
       page.value = data;
+      isSimulai.value = true;
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -69,6 +74,7 @@ if (isTest !== '1') {
   // Fetch data when component mounts
   onMounted(fetchData);
 } else {
+  isSimulai.value = true;
   page = ref({
     name: '🤖 simulai',
     isChat: false,
