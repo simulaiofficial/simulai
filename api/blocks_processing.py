@@ -13,6 +13,7 @@ def find_previous_label(blocks: List[Block], current_idx: int):
         if isinstance(block_i, BlockDisplayText):
             block_text: BlockDisplayText = block_i
             previous_label = block_text.details.value
+            break
         i -= 1
 
     return previous_label

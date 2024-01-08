@@ -78,7 +78,6 @@ async def save_data(dst: str, blocks: List[Block] = Depends(get_blocks)):
 
     blocks_data_result = SaveData(blocks=blocks, table_answers=table_answers)
     json_blocks_result = blocks_data_result.json()
-    print(json_blocks_result)
 
     try:
         timeout = httpx.Timeout(10.0, connect=5.0)
