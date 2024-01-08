@@ -91,7 +91,7 @@ const props = defineProps({
   },
   bgColor: {
     type: String,
-    required: true
+    default: "#000000"
   },
   blockTypes: {
     type: Object as PropType<null | (string | BlockType)[]>,
