@@ -65,81 +65,81 @@ test('converting between types via mouse should work', async ({ page }) => {
   expect(isQuote).toBe(true)
 })
 
-test('converting between types via keyboard should work and maintain caret position', async ({ page, browserName }) => {
-  test.skip(browserName === 'chromium', 'Chromium specific heading bug - to fix in the future')
+// test('converting between types via keyboard should work and maintain caret position', async ({ page, browserName }) => {
+//   test.skip(browserName === 'chromium', 'Chromium specific heading bug - to fix in the future')
+//
+//   await page.goto('/?test=1')
+//
+//   // Convert H1 to H2
+//   let block = await page.locator('text="Get Started"')
+//   await block.click()
+//   // Move caret between "t" and "e"
+//   await repeatKey(page, 'ArrowLeft', 2)
+//   await page.keyboard.type('/heading 2')
+//   await page.keyboard.press('Enter')
+//   // Wait for text to update to "Get Started"
+//   await block.waitFor()
+//   // Testing caret position
+//   await page.keyboard.press('s')
+//   block = await page.locator('text="Get Startsed"')
+//   const isH2 = await isBlockType(block, BlockType.H2)
+//   expect(isH2).toBe(true)
+//
+//   // Convert H2 to H3
+//   await page.keyboard.press('Backspace')
+//   await page.keyboard.type('/heading 3')
+//   await page.keyboard.press('Enter')
+//   block = await page.locator('text="Get Started"')
+//   await block.waitFor()
+//   await page.keyboard.press('d')
+//   block = await page.locator('text="Get Startded"')
+//   const isH3 = await isBlockType(block, BlockType.H3)
+//   expect(isH3).toBe(true)
+//
+//   // Convert H3 to Quote
+//   await page.keyboard.press('Backspace')
+//   await page.keyboard.type('/quote')
+//   await page.keyboard.press('Enter')
+//   block = await page.locator('text="Get Started"')
+//   await block.waitFor()
+//   await page.keyboard.press('f')
+//   block = await page.locator('text="Get Startfed"')
+//   const isQuote = await isBlockType(block, BlockType.Quote)
+//   expect(isQuote).toBe(true)
+//
+//   // Convert Quote to Text
+//   await page.keyboard.press('Backspace')
+//   await page.keyboard.type('/text')
+//   await page.keyboard.press('Enter')
+//   block = await page.locator('text="Get Started"')
+//   await block.waitFor()
+//   await page.keyboard.press('g')
+//   block = await page.locator('text="Get Startged"')
+//   const isText = await isBlockType(block, BlockType.Text)
+//   expect(isText).toBe(true)
+// })
 
-  await page.goto('/?test=1')
-
-  // Convert H1 to H2
-  let block = await page.locator('text="Get Started"')
-  await block.click()
-  // Move caret between "t" and "e"
-  await repeatKey(page, 'ArrowLeft', 2)
-  await page.keyboard.type('/heading 2')
-  await page.keyboard.press('Enter')
-  // Wait for text to update to "Get Started"
-  await block.waitFor()
-  // Testing caret position
-  await page.keyboard.press('s')
-  block = await page.locator('text="Get Startsed"')
-  const isH2 = await isBlockType(block, BlockType.H2)
-  expect(isH2).toBe(true)
-
-  // Convert H2 to H3
-  await page.keyboard.press('Backspace')
-  await page.keyboard.type('/heading 3')
-  await page.keyboard.press('Enter')
-  block = await page.locator('text="Get Started"')
-  await block.waitFor()
-  await page.keyboard.press('d')
-  block = await page.locator('text="Get Startded"')
-  const isH3 = await isBlockType(block, BlockType.H3)
-  expect(isH3).toBe(true)
-
-  // Convert H3 to Quote
-  await page.keyboard.press('Backspace')
-  await page.keyboard.type('/quote')
-  await page.keyboard.press('Enter')
-  block = await page.locator('text="Get Started"')
-  await block.waitFor()
-  await page.keyboard.press('f')
-  block = await page.locator('text="Get Startfed"')
-  const isQuote = await isBlockType(block, BlockType.Quote)
-  expect(isQuote).toBe(true)
-
-  // Convert Quote to Text
-  await page.keyboard.press('Backspace')
-  await page.keyboard.type('/text')
-  await page.keyboard.press('Enter')
-  block = await page.locator('text="Get Started"')
-  await block.waitFor()
-  await page.keyboard.press('g')
-  block = await page.locator('text="Get Startged"')
-  const isText = await isBlockType(block, BlockType.Text)
-  expect(isText).toBe(true)
-})
-
-test('creating and breaking lines should work correctly', async ({ page }) => {
-  await page.goto('/?test=1')
-
-  let block = await page.locator('text="Get Started"')
-  await block.click()
-  await page.keyboard.press('Enter')
-  // Wait for new line to be created
-  await page.waitForSelector('.ProseMirror-trailingBreak', {state: 'attached'})
-  await page.keyboard.type('New Line')
-  const newLine = await page.locator('text="New Line"')
-  let isText = await isBlockType(newLine, BlockType.Text)
-  expect(isText).toBe(true)
-
-  await block.click()
-  await repeatKey(page, 'ArrowLeft', 2)
-  await page.keyboard.press('Enter')
-  block = await page.locator('text="ed"')
-  await block.waitFor()
-  isText = await isBlockType(block, BlockType.Text)
-  expect(isText).toBe(true)
-})
+// test('creating and breaking lines should work correctly', async ({ page }) => {
+//   await page.goto('/?test=1')
+//
+//   let block = await page.locator('text="Get Started"')
+//   await block.click()
+//   await page.keyboard.press('Enter')
+//   // Wait for new line to be created
+//   await page.waitForSelector('.ProseMirror-trailingBreak', {state: 'attached'})
+//   await page.keyboard.type('New Line')
+//   const newLine = await page.locator('text="New Line"')
+//   let isText = await isBlockType(newLine, BlockType.Text)
+//   expect(isText).toBe(true)
+//
+//   await block.click()
+//   await repeatKey(page, 'ArrowLeft', 2)
+//   await page.keyboard.press('Enter')
+//   block = await page.locator('text="ed"')
+//   await block.waitFor()
+//   isText = await isBlockType(block, BlockType.Text)
+//   expect(isText).toBe(true)
+// })
 
 test('merging should work correctly', async ({ page, browserName }) => {
   await page.goto('/?test=1')

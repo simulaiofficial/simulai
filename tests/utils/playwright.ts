@@ -19,13 +19,13 @@ export async function isBlockType (locator: Locator, type: BlockType) {
   let result = false
   switch (type) {
     case BlockType.H1:
-      result = await locator.evaluate((el) => el.classList.contains('text-4xl'))
+      result = await locator.locator('..').locator('..').evaluate((el) => el.classList.contains('text-4xl'))
       break
     case BlockType.H2:
-      result = await locator.evaluate((el) => el.classList.contains('text-3xl'))
+      result = await locator.locator('..').locator('..').evaluate((el) => el.classList.contains('text-3xl'))
       break
     case BlockType.H3:
-      result = await locator.evaluate((el) => el.classList.contains('text-2xl'))
+      result = await locator.locator('..').locator('..').evaluate((el) => el.classList.contains('text-2xl'))
       break
     case BlockType.Text:
       let isTextType = await locator.evaluate((el) => el.classList.length === 0)
