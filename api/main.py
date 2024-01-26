@@ -114,3 +114,7 @@ async def get_dst(request: Request):
 
     return {"publishUrl": "http://127.0.0.1:5173/published/1234",
             "previewUrl": "http://127.0.0.1:5173/preview/1234"}
+
+@app.get("/health")
+async def get_health():
+    return "OK"
