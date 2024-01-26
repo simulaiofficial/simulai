@@ -40,6 +40,13 @@ uvicorn api.main:app --reload
 npm run dev
 ```
 
+**2. Run prod**
+
+```bash
+gunicorn api.main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:5678
+npm run dev
+```
+
 If you head
 to http://127.0.0.1:5173/?page=http%3A//127.0.0.1%3A8000/page%3Fsrc%3Dhttp%3A%2F%2F127.0.0.1%3A8000%2Fsrc on
 your browser, you should see what looks like the screenshot above.
