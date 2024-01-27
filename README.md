@@ -44,7 +44,8 @@ npm run dev
 
 ```bash
 gunicorn api.main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:5678 --daemon
-npm run dev
+npm run build
+npm run preview
 ```
 
 If you head
