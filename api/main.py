@@ -98,8 +98,8 @@ async def save_data(dst: str, blocks: List[Block] = Depends(get_blocks)):
 # from which we get blocks configuration (src) and where we save final blocks (dst)
 # these endpoints are here just for demonstration purposes
 
-@app.get("/src")
-async def get_src():
+@app.get("/src/{uuid}")
+async def get_src(uuid: str):
     # Sample response data
     json_page = jsonable_encoder(get_sample_page())
     return json_page
