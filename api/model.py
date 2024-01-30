@@ -44,8 +44,8 @@ class BlockDisplayText(Block):
 
 
 class BlockAnswer(Block):
-    isRequired: bool
-    setName: bool
+    isRequired: bool = False
+    setName: bool = False
     name: Optional[str] = None
 
     def get_value(self):
@@ -116,10 +116,10 @@ class BlockRadio(BlockAnswer):
 
 
 class BlockInputTextAnswer(BlockAnswer):
-    minRequired: bool
-    min: Optional[int]
-    maxRequired: bool
-    max: Optional[int]
+    minRequired: bool = False
+    min: Optional[int] = None
+    maxRequired: bool = False
+    max: Optional[int] = None
 
     @root_validator(pre=True)
     def check_type(cls, values):
@@ -129,7 +129,7 @@ class BlockInputTextAnswer(BlockAnswer):
 
 
 class BlockInputEmailAnswer(BlockAnswer):
-    isCompany: bool
+    isCompany: bool = False
 
     @root_validator(pre=True)
     def check_type(cls, values):
@@ -139,10 +139,10 @@ class BlockInputEmailAnswer(BlockAnswer):
 
 
 class BlockInputNumberAnswer(BlockAnswer):
-    minRequired: bool
-    min: Optional[int]
-    maxRequired: bool
-    max: Optional[int]
+    minRequired: bool = False
+    min: Optional[int] = None
+    maxRequired: bool = False
+    max: Optional[int] = None
 
     @root_validator(pre=True)
     def check_type(cls, values):
