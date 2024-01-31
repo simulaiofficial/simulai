@@ -679,6 +679,11 @@ function insertBlock(blockIdx: number) {
 }
 
 function deleteBlock(blockIdx: number) {
+  if(props.page.blocks.length <= 1) {
+    showErrorMessage('You must have at least one block');
+    return
+  }
+
   if (props.onDeleteBlock) props.onDeleteBlock(props.page.blocks[blockIdx])
   props.page.blocks.splice(blockIdx, 1)
   // Always keep at least one block
