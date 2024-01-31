@@ -98,6 +98,20 @@
       </button>
     </div>
   </div>
+  <div v-if="showError" class="modal fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center font-sans">
+    <div class="modal-content p-4 rounded shadow-lg border border-solid border-gray-600" :style="{ backgroundColor: props.bgColor }">
+      <h2 class="text-gray-200 text-lg mb-2 mt-0">Error</h2>
+      <div>
+        {{ errorMessage }}
+      </div>
+      <div>
+        <button @click="showError = false"
+              class="close-button mt-2 bg-red-400 hover:bg-red-500 text-white py-2 px-4 rounded cursor-pointer">
+        Close
+        </button>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -176,11 +190,14 @@ const visibleBlocksSeq = [];
 const isConversationFinished = ref(false);
 let showUntilAndWait = null
 
+const showError = ref(false); // Controls visibility of the modal
 const showModal = ref(false); // Controls visibility of the modal
 const publishUrl = ref(''); // Stores the publish URL
 const publishUrlInput = ref(null); // Reference to the input element
 
 const isDataSaved = ref(false); // This will track the save status
+
+const errorMessage = ref('');
 
 // Function to save data
 async function saveData() {
@@ -201,6 +218,7 @@ async function saveData() {
     });
 
     if (!response.ok) {
+      showErrorMessage((await response.json()).detail)
       throw new Error('Network response was not ok');
     }
 
@@ -254,6 +272,13 @@ function showModalWithUrl(url) {
 
   publishUrl.value = url;
   showModal.value = true;
+}
+
+function showErrorMessage(message) {
+  console.log('Show message:', message);
+
+  errorMessage.value = message;
+  showError.value = true;
 }
 
 // Function to copy publishUrl to clipboard
