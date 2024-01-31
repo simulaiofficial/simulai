@@ -212,10 +212,10 @@ class Page(BaseModel):
 
 
 class PageBlocks(BaseModel):
+    name: str
     blocks: List[dict]
 
-
-def get_blocks(page_blocks: PageBlocks) -> List[Block]:
+def get_blocks(page_blocks: PageBlocks) -> (str, List[Block]):
     block_objects = []
     print(page_blocks)
     for json_data in page_blocks.blocks:
@@ -247,4 +247,4 @@ def get_blocks(page_blocks: PageBlocks) -> List[Block]:
         # Add other conditions for each BlockType
         else:
             raise ValueError("Invalid BlockType")
-    return block_objects
+    return page_blocks.name, block_objects

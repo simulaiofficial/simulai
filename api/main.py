@@ -28,9 +28,9 @@ def deserialize_page(json_page):
     # Extract the blocks JSON
     blocks_json = json_page.get('blocks', [])
     # Create a PageBlocks instance from the blocks JSON
-    page_blocks = PageBlocks(blocks=blocks_json)
+    page_blocks = PageBlocks(name="", blocks=blocks_json)
     # Use get_blocks to deserialize the blocks
-    deserialized_blocks = get_blocks(page_blocks)
+    name, deserialized_blocks = get_blocks(page_blocks)
     # Replace the blocks list in json_page with the deserialized blocks
     json_page['blocks'] = deserialized_blocks
     page_object = Page(**json_page)
@@ -72,20 +72,20 @@ class SaveData(BaseModel):
     blocks: List[Block]
     table_answers: List[TableAnswer]
 
-class SaveDataRequest(BaseModel):
-    name: str
-    blocks: List[Block] = Depends(get_blocks)
+# class SaveDataRequest(BaseModel):
+#     name: str
+#     blocks: List[Block] = Depends(get_blocks)
 
 @app.post("/save")
-async def save_data(dst: str, request: SaveDataRequest):
-    print("Destination URL:", dst)
-    print("Name:", request.name)
+async def save_data(dst: str, pay = Depends(get_blocks)):
+    name, blocks = pay
 
-    blocks = request.blocks
+    print("Destination URL:", dst)
+    print("Name:", name)
 
     table_answers = convert_blocks_to_table_answers(blocks)
 
-    blocks_data_result = SaveData(name=request.name, blocks=blocks, table_answers=table_answers)
+    blocks_data_result = SaveData(name=name, blocks=blocks, table_answers=table_answers)
     json_blocks_result = blocks_data_result.json()
 
     try:
