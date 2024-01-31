@@ -78,7 +78,7 @@
     <div>
       <transition name="fade">
         <ChatInput ref="chatInput" v-if="page.isChat && !isConversationFinished" :bgColor="props.bgColor"
-                   @nextBlock="handleChatInput" class="fixed left-0 right-0 w-full max-w-screen-md mx-auto bottom-16 sm:bottom-1"/>
+                   @nextBlock="handleChatInput" class="fixed left-0 right-0 w-full max-w-screen-md mx-auto bottom-20 sm:bottom-1"/>
       </transition>
     </div>
   </div>
