@@ -2,7 +2,7 @@
 from typing import List
 
 import httpx
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, Body
 from fastapi import Request
 from fastapi import HTTPException
 from fastapi.encoders import jsonable_encoder
@@ -68,15 +68,24 @@ async def get_page(src: str):
 
 
 class SaveData(BaseModel):
+    name: str
     blocks: List[Block]
     table_answers: List[TableAnswer]
 
+class SaveDataRequest(BaseModel):
+    name: str
+    blocks: List[Block] = Depends(get_blocks)
+
 @app.post("/save")
-async def save_data(dst: str, blocks: List[Block] = Depends(get_blocks)):
+async def save_data(dst: str, request: SaveDataRequest):
     print("Destination URL:", dst)
+    print("Name:", request.name)
+
+    blocks = request.blocks
+
     table_answers = convert_blocks_to_table_answers(blocks)
 
-    blocks_data_result = SaveData(blocks=blocks, table_answers=table_answers)
+    blocks_data_result = SaveData(name=request.name, blocks=blocks, table_answers=table_answers)
     json_blocks_result = blocks_data_result.json()
 
     try:

@@ -195,6 +195,7 @@ async function saveData() {
         // Add any other headers you need
       },
       body: JSON.stringify({
+        'name': props.page.name,
         'blocks': props.page.blocks,
       }),
     });
