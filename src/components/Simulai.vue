@@ -31,7 +31,7 @@
                v-bind="dragOptions"
                :class="{
          '-ml-24 space-y-2 pb-24': !props.page.isChat,
-         'flex-grow overflow-y-auto space-y-1 pb-24 max-h-[calc(100vh-5rem)]': props.page.isChat
+         'flex-grow overflow-y-auto space-y-1 pb-24 max-h-[calc(100vh-8rem)]': props.page.isChat
        }"
     >
       <div v-for="block, i in props.page.blocks" :key="i">
@@ -78,7 +78,7 @@
     <div>
       <transition name="fade">
         <ChatInput ref="chatInput" v-if="page.isChat && !isConversationFinished" :bgColor="props.bgColor"
-                   @nextBlock="handleChatInput" class="fixed bottom-0 left-0 right-0 w-full max-w-screen-md mx-auto"/>
+                   @nextBlock="handleChatInput" class="fixed left-0 right-0 w-full max-w-screen-md mx-auto bottom-16 sm:bottom-1"/>
       </transition>
     </div>
   </div>
