@@ -49,7 +49,7 @@ npm run preview
 ```
 
 If you head
-to http://127.0.0.1:5173/?page=http%3A//127.0.0.1%3A5678/page%3Fsrc%3Dhttp%3A%2F%2F127.0.0.1%3A5678%2Fsrc on
+to http://127.0.0.1:5173/?page=http%3A//127.0.0.1%3A5678/page%3Fsrc%3Dhttp%3A%2F%2F127.0.0.1%3A5678%2Fsrc/1234 on
 your browser, you should see what looks like the screenshot above.
 
 **3. Contribute!**
