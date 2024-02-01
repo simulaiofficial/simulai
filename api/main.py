@@ -1,4 +1,5 @@
 # main.py
+import json
 from typing import List
 
 import httpx
@@ -10,7 +11,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from api.blocks_processing import TableAnswer, convert_blocks_to_table_answers
-from api.model import Block, get_blocks, Page, PageBlocks
+from api.model import Block, get_blocks, Page, PageBlocks, BlockOptions, BlockType, Details, OptionItem
 from api.sample import get_sample_page
 
 app = FastAPI()
@@ -66,27 +67,24 @@ async def get_page(src: str):
 
     return page_object
 
-
-class SaveData(BaseModel):
-    name: str
-    blocks: List[Block]
-    table_answers: List[TableAnswer]
-
-# class SaveDataRequest(BaseModel):
-#     name: str
-#     blocks: List[Block] = Depends(get_blocks)
-
 @app.post("/save")
 async def save_data(dst: str, pay = Depends(get_blocks)):
     name, blocks = pay
 
+    print("Payload:", blocks)
     print("Destination URL:", dst)
     print("Name:", name)
 
     table_answers = convert_blocks_to_table_answers(blocks)
 
-    blocks_data_result = SaveData(name=name, blocks=blocks, table_answers=table_answers)
-    json_blocks_result = blocks_data_result.json()
+    save_data = {
+        'name': name,
+        'blocks': blocks,
+        'table_answers': table_answers
+    }
+
+    json_blocks_result = jsonable_encoder(save_data)
+    json_blocks_result = json.dumps(json_blocks_result)
 
     try:
         timeout = httpx.Timeout(10.0, connect=5.0)
