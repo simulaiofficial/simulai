@@ -36,7 +36,7 @@ pip install -r requirements.txt
 **2. Run dev**
 
 ```bash
-uvicorn api.main:app --reload --port 5678
+uvicorn api.main:app --reload --port 5678 --host 0.0.0.0
 npm run dev
 ```
 
