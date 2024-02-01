@@ -1,7 +1,7 @@
 <template>
   <div :class="{
-         'simulai max-w-screen-md mx-auto my-12 font-sans text-base p-5': !props.page.isChat,
-         'simulai max-w-screen-md mx-auto font-sans text-base p-5 h-screen flex flex-col justify-between': props.page.isChat
+         'simulai max-w-screen-md mx-auto my-12 font-sans text-base p-5 pb-8': !props.page.isChat,
+         'simulai max-w-screen-md mx-auto font-sans text-base p-5 pb-32 h-screen flex flex-col justify-between': props.page.isChat
        }" v-if="props.page" ref="editor"
        @keydown.ctrl.cmd.space.prevent="openEmojiPicker">
     <div v-if="showButtons" class="buttons-container fixed top-0 right-0 mt-4 mr-4" style="z-index:9999;">
@@ -31,7 +31,7 @@
                v-bind="dragOptions"
                :class="{
          '-ml-24 space-y-2 pb-24': !props.page.isChat,
-         'flex-grow overflow-y-auto space-y-1 pb-24 max-h-[calc(100vh-8rem)]': props.page.isChat
+         'flex-grow overflow-y-auto space-y-1 pb-4 max-h-[calc(100vh-8rem)]': props.page.isChat
        }"
     >
       <div v-for="block, i in props.page.blocks" :key="i">
