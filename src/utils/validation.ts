@@ -27,8 +27,22 @@ function validateInputEmailAnswer(joiValidation, inputValue: string, block: Bloc
     if (joiValidation !== null) return joiValidation
 
     if (block.type === BlockType.InputEmailAnswer) {
-        const joiValidation = Joi.string().email({tlds: false})
-        return joiValidation
+        if (block.isWorkEmailRequired === true) {
+            const customEmailValidator = (value, helpers) => {
+                const forbiddenDomains = ['gmail.com', 'yahoo.com', 'yahoo.fr', 'clearmailhub.com', 'epicemailpro.com', 'qq.com', 'hotmail.sg', 'outlook.com', 'yandex.ru', 'list.ru', 'mail.ru', 'hotmail.nl', 'yopmail.com', 'hotmail.com.tr'];
+
+                if (forbiddenDomains.some(domain => value.toLowerCase().endsWith(domain))) {
+                    return helpers.error('any.invalid', {domain: forbiddenDomains.join(', ')});
+                }
+
+                return value;
+            };
+            const joiValidation = Joi.string().email({tlds: false}).custom(customEmailValidator, 'custom validation');
+            return joiValidation
+        } else {
+            const joiValidation = Joi.string().email({tlds: false})
+            return joiValidation
+        }
     }
 
     return null;
@@ -64,7 +78,12 @@ export function validateBlock(inputValue: string, block: Block | null) {
     const validationResult = schema.validate({value: inputValue});
 
     if (validationResult.error) {
-        validationResult.error = validationResult.error.toString().replace('ValidationError: "value" ', 'Please try again, your answer ')
+        if (block.isWorkEmailRequired && validationResult.error.toString().indexOf('an invalid value') !== -1) {
+            validationResult.error = 'I am sorry, but you need to provide valid work email address';
+        } else {
+            validationResult.error = validationResult.error.toString().replace('ValidationError: "value" ', 'Please try again, your answer ')
+        }
+
     }
 
     return validationResult
