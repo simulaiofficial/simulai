@@ -290,6 +290,7 @@ function copyPublishUrl() {
 }
 
 function showNextBlock() {
+  debugger;
   if (props.page.blocks.length === 0) {
     setTimeout(() => showNextBlock(), 1000)
     return
@@ -318,7 +319,8 @@ function showNextBlock() {
     return
   }
 
-  if (currentBlock.isHidden) {
+  const isEmptyTextBlock = currentBlock.type === BlockType.Text && currentBlock.details.value === ''
+  if (currentBlock.isHidden || isEmptyTextBlock) {
     setTimeout(() => {
       showNextBlock()
     }, 0)
@@ -568,9 +570,10 @@ function insertTextAtCursor(textToInsert) {
 
 function checkIfBlockShouldBeVisible(index) {
   const currentBlock = props.page.blocks[index]
+  const isEmptyTextBlock = currentBlock.type === BlockType.Text && currentBlock.details.value === ''
   return !props.page.isChat ||
       (currentVisibleBlock.value !== null && index <= currentVisibleBlock.value && !currentBlock.isHidden && !getBlockOptions(currentBlock).isVirtualBlock
-          && !shouldWaitForValueFromInput(currentBlock)
+          && !shouldWaitForValueFromInput(currentBlock) && !isEmptyTextBlock
       )
 }
 
