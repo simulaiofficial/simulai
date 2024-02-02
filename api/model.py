@@ -129,7 +129,7 @@ class BlockInputTextAnswer(BlockAnswer):
 
 
 class BlockInputEmailAnswer(BlockAnswer):
-    isCompany: bool = False
+    isWorkEmailRequired: bool = False
 
     @root_validator(pre=True)
     def check_type(cls, values):
