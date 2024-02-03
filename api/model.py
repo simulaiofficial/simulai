@@ -19,6 +19,7 @@ class BlockType(str, Enum):
     InputEmailAnswer = 'INPUT_EMAIL_ANSWER'
     InputTextAnswer = 'INPUT_TEXT_ANSWER'
     InputNumberAnswer = 'INPUT_NUMBER_ANSWER'
+    InputFileAnswer = 'INPUT_FILE_ANSWER'
 
 
 class ComparisonType(str, Enum):
@@ -150,6 +151,14 @@ class BlockInputNumberAnswer(BlockAnswer):
             raise ValidationError("Incorrect type")
         return values
 
+class BlockInputFileAnswer(BlockAnswer):
+
+    @root_validator(pre=True)
+    def check_type(cls, values):
+        if values.get("type") != BlockType.InputFileAnswer:
+            raise ValidationError("Incorrect type")
+        return values
+
 
 class BlockHumanConversation(Block):
     @root_validator(pre=True)
@@ -206,9 +215,10 @@ class Page(BaseModel):
     isPreview: bool
     blocks: List[Union[
         Block, BlockAnswer, BlockCondition, BlockOptions, BlockRadio, BlockInputTextAnswer,
-        BlockInputEmailAnswer, BlockInputNumberAnswer, BlockText, BlockHeading, BlockDivider, BlockQuote,
-        BlockHumanConversation, BlockBotConversation]]
+        BlockInputEmailAnswer, BlockInputNumberAnswer, BlockInputFileAnswer,
+        BlockText, BlockHeading, BlockDivider, BlockQuote, BlockHumanConversation, BlockBotConversation]]
     saveUrl: str
+    uploadUrl: Optional[str] = None
 
 
 class PageBlocks(BaseModel):
@@ -232,6 +242,8 @@ def get_blocks(page_blocks: PageBlocks) -> (str, List[Block]):
             block_objects.append(BlockInputNumberAnswer(**json_data))
         elif block_type == BlockType.InputEmailAnswer:
             block_objects.append(BlockInputEmailAnswer(**json_data))
+        elif block_type == BlockType.InputFileAnswer:
+            block_objects.append(BlockInputFileAnswer(**json_data))
         elif block_type == BlockType.H1 or block_type == BlockType.H2 or block_type == BlockType.H3:
             block_objects.append(BlockHeading(**json_data))
         elif block_type == BlockType.Text:

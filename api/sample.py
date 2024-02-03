@@ -106,7 +106,8 @@ def get_sample_page():
             block_radio2, block_text5, block_options, block_condition2, block_text6,
             block_input_email, block_text7, block_input_number, block_text_finish
         ],
-        saveUrl='http://127.0.0.1:5678/save?dst=http%3A//127.0.0.1%3A5678/dst'
+        saveUrl='http://127.0.0.1:5678/save?dst=http%3A//127.0.0.1%3A5678/dst',
+        uploadUrl='http://127.0.0.1:5678/upload'
     )
 
     return sample_page

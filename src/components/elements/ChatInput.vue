@@ -32,9 +32,6 @@
   </div>
 </template>
 
-
-
-
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 
@@ -53,6 +50,10 @@ const props = defineProps({
   bgColor: {
     type: String,
     required: true
+  },
+  uploadUrl: {
+    type: String,
+    required: true
   }
 });
 
@@ -61,8 +62,35 @@ const handleSubmit = () => {
   textInput.value = ''
 };
 
-const handleFileAttachment = () => {
-  alert('attach')
+const handleFileAttachment = async () => {
+  const fileInput = document.createElement('input');
+  fileInput.type = 'file';
+  // fileInput.accept = 'image/*'; // You can adjust the file type as needed
+
+  fileInput.addEventListener('change', async (event) => {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      try {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('filename', file.name); // Append the filename
+
+        const response = await fetch(props.uploadUrl, {
+          method: 'POST',
+          body: formData,
+        });
+
+        const responseData = await response.json();
+
+        // Handle the uploadedUrl in the responseData
+        console.log(responseData.url);
+      } catch (error) {
+        console.error('Error uploading file:', error);
+      }
+    }
+  });
+
+  fileInput.click();
 };
 
 function focusInput() {

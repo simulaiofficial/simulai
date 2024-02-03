@@ -86,6 +86,8 @@ if (isTest !== '1') {
     name: '🤖 simulai',
     isChat: false,
     isPreview: false,
+    saveUrl: null,
+    uploadUrl: null,
     blocks: [{
       id: uuidv4(),
       type: BlockType.H1,

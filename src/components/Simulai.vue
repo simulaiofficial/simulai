@@ -77,7 +77,7 @@
     </draggable>
     <div>
       <transition name="fade">
-        <ChatInput ref="chatInput" v-if="page.isChat && !isConversationFinished" :bgColor="props.bgColor"
+        <ChatInput ref="chatInput" v-if="page.isChat && !isConversationFinished" :bgColor="props.bgColor" :uploadUrl="props.page.uploadUrl"
                    @nextBlock="handleChatInput" class="fixed left-0 right-0 w-full max-w-screen-md mx-auto bottom-8"/>
       </transition>
     </div>
@@ -145,7 +145,9 @@ const showButtons = computed(() => {
 
 const props = defineProps({
   page: {
-    type: Object as PropType<{ name: string, isChat: boolean, isPreview: boolean, blocks: Block[], saveUrl: string }>,
+    type: Object as PropType<{
+      name: string, isChat: boolean, isPreview: boolean, blocks: Block[], saveUrl: string, uploadUrl: string
+    }>,
     required: true,
   },
   bgColor: {

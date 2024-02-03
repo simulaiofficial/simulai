@@ -64,6 +64,7 @@ export enum BlockType {
     InputEmailAnswer = 'INPUT_EMAIL_ANSWER',
     InputTextAnswer = 'INPUT_TEXT_ANSWER',
     InputNumberAnswer = 'INPUT_NUMBER_ANSWER',
+    InputFileAnswer = 'INPUT_FILE_ANSWER'
 }
 
 
@@ -109,6 +110,9 @@ export interface BlockInputNumberAnswer extends BlockAnswer {
     min?: number,
     maxRequired: boolean
     max?: number,
+}
+
+export interface BlockInputFileAnswer extends BlockAnswer {
 }
 
 export interface Details {
@@ -517,6 +521,39 @@ export const BlockComponents = {
         },
         funcs: {
             getTitle: (block: BlockInputNumberAnswer) => {
+                return '-'
+            }
+        },
+
+
+    },
+    [BlockType.InputFileAnswer]: {
+        component: InputAnswerBlock,
+        isMenuVisible: true,
+        options: {
+            icon: 'bi-upload',
+            label: 'Input File',
+            isInput: true,
+            isNextButton: false,
+            isVirtualBlock: false,
+            setValueDuringTypeConversion: false,
+            canSplit: false,
+            emojiVisible: false,
+            requiredVisible: true,
+            hideVisible: true,
+            minVisible: false,
+            // minLabel: 'Min value',
+            maxVisible: false,
+            // maxLabel: 'Max value',
+            requiredWorkEmailVisible: false,
+            nameVisible: true,
+            conditionVisible: true,
+            comparisons: [
+            ],
+            comparisonType: null
+        },
+        funcs: {
+            getTitle: (block: BlockInputFileAnswer) => {
                 return '-'
             }
         },
