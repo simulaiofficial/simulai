@@ -3,29 +3,29 @@
     <div class="relative">
       <!-- File Attachment Button -->
       <button
-        @click="handleFileAttachment"
-        class="file-attach-button absolute left-3 top-3 bottom-3 rounded-md p-1 cursor-pointer"
+          @click="handleFileAttachment"
+          class="file-attach-button absolute left-3 top-3 bottom-3 rounded-md p-1 cursor-pointer"
       >
         <v-icon name="ri-attachment-2" class="w-5 h-5 icon-white"/> <!-- Adjust icon name as needed -->
       </button>
 
       <!-- Chat Input -->
       <input
-        class="chat-input w-full h-full bg-gray-700 placeholder-gray-500 text-gray-300 focus:outline-none p-4 rounded-md"
-        :style="{ backgroundColor: props.bgColor }"
-        :placeholder="inputPlaceholder"
-        type="text"
-        :disabled="isUploading"
-        @keyup.enter.prevent.stop="handleSubmit"
-        @keydown.enter.prevent.stop="() => {}"
-        v-model="textInput"
-        ref="input"
+          class="chat-input w-full h-full bg-gray-700 placeholder-gray-500 text-gray-300 focus:outline-none p-4 rounded-md"
+          :style="{ backgroundColor: props.bgColor }"
+          :placeholder="inputPlaceholder"
+          type="text"
+          :disabled="isUploading"
+          @keyup.enter.prevent.stop="handleSubmit"
+          @keydown.enter.prevent.stop="() => {}"
+          v-model="textInput"
+          ref="input"
       />
 
       <!-- Send Button -->
       <button
-        @click="handleSubmit"
-        :class="['absolute right-3 top-3 bottom-3 text-gray-700 rounded-md p-1 cursor-pointer', buttonClass]"
+          @click="handleSubmit"
+          :class="['absolute right-3 top-3 bottom-3 text-gray-700 rounded-md p-1 cursor-pointer', buttonClass]"
       >
         <v-icon name="bi-arrow-up" class="w-5 h-5"/>
       </button>
@@ -34,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import {ref, computed} from 'vue';
 
 const textInput = ref('');
 const input = ref(null);
@@ -46,7 +46,8 @@ const buttonClass = computed(() => {
 });
 
 const emit = defineEmits([
-  'nextBlock'
+  'nextBlock',
+  'gotMessage'
 ])
 
 const props = defineProps({
@@ -73,6 +74,7 @@ const handleFileAttachment = async () => {
   fileInput.addEventListener('change', async (event) => {
     textInput.value = ''
     inputPlaceholder.value = 'Uploading...'
+    emit('gotMessage', 'Ok, you are uploading...')
     isUploading.value = true;
     const file = (event.target as HTMLInputElement).files?.[0];
     if (file) {
@@ -86,14 +88,19 @@ const handleFileAttachment = async () => {
           body: formData,
         });
 
-        const responseData = await response.json();
-
-        emit('nextBlock', responseData.url)
-        textInput.value = ''
-        inputPlaceholder.value = 'Your message...'
-        isUploading.value = false;
+        if (!response.ok) {
+          const errorMessage = (await response.json()).detail
+          emit('gotMessage', errorMessage)
+        } else {
+          const responseData = await response.json();
+          emit('nextBlock', responseData.url)
+          textInput.value = ''
+          inputPlaceholder.value = 'Your message...'
+          isUploading.value = false;
+        }
       } catch (error) {
         inputPlaceholder.value = 'Your message...'
+        emit('gotMessage', 'Oops, something went wrong, maybe try again...')
         isUploading.value = false;
         console.error('Error uploading file:', error);
       }

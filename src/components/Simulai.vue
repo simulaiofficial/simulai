@@ -77,17 +77,21 @@
     </draggable>
     <div>
       <transition name="fade">
-        <ChatInput ref="chatInput" v-if="page.isChat && !isConversationFinished" :bgColor="props.bgColor" :uploadUrl="props.page.uploadUrl"
-                   @nextBlock="handleChatInput" class="fixed left-0 right-0 w-full max-w-screen-md mx-auto bottom-8"/>
+        <ChatInput ref="chatInput" v-if="page.isChat && !isConversationFinished" :bgColor="props.bgColor"
+                   :uploadUrl="props.page.uploadUrl"
+                   @nextBlock="handleChatInput" @gotMessage="handleMessage"
+                   class="fixed left-0 right-0 w-full max-w-screen-md mx-auto bottom-8"/>
       </transition>
     </div>
   </div>
   <EmojiPicker v-if="isEmojiPickerOpen" ref="emojiPicker" :native="true" @select="onSelectEmoji"
                :style="{ top: emojiPickerStyle.top + 'px', left: emojiPickerStyle.left + 'px' }" class="absolute z-50"/>
   <div v-if="showModal" class="modal fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center font-sans">
-    <div class="modal-content p-4 rounded shadow-lg border border-solid border-gray-600" :style="{ backgroundColor: props.bgColor }">
+    <div class="modal-content p-4 rounded shadow-lg border border-solid border-gray-600"
+         :style="{ backgroundColor: props.bgColor }">
       <h2 class="text-gray-200 text-lg mb-2 mt-0">Share following URL address</h2>
-      <input type="text" readonly :value="publishUrl" class="w-full p-2 border-2 border-gray-300 rounded mb-2" ref="publishUrlInput">
+      <input type="text" readonly :value="publishUrl" class="w-full p-2 border-2 border-gray-300 rounded mb-2"
+             ref="publishUrlInput">
       <button @click="copyPublishUrl"
               class="copy-button bg-blue-400 hover:bg-blue-500 text-white py-2 px-4 rounded cursor-pointer">
         Copy URL
@@ -99,15 +103,16 @@
     </div>
   </div>
   <div v-if="showError" class="modal fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center font-sans">
-    <div class="modal-content p-4 rounded shadow-lg border border-solid border-gray-600" :style="{ backgroundColor: props.bgColor }">
+    <div class="modal-content p-4 rounded shadow-lg border border-solid border-gray-600"
+         :style="{ backgroundColor: props.bgColor }">
       <h2 class="text-gray-200 text-lg mb-2 mt-0">Error</h2>
       <div>
         {{ errorMessage }}
       </div>
       <div>
         <button @click="showError = false"
-              class="close-button mt-2 bg-red-400 hover:bg-red-500 text-white py-2 px-4 rounded cursor-pointer">
-        Close
+                class="close-button mt-2 bg-red-400 hover:bg-red-500 text-white py-2 px-4 rounded cursor-pointer">
+          Close
         </button>
       </div>
     </div>
@@ -203,7 +208,7 @@ const errorMessage = ref('');
 
 // Function to save data
 async function saveData() {
-  if(props.page.isPreview) {
+  if (props.page.isPreview) {
     return
   }
   try {
@@ -418,6 +423,19 @@ function addBlockAfterCurrent(block: Block, from?: Number) {
     props.page.blocks.splice(putIndex, 0, block);
     return putIndex
   }
+}
+
+function handleMessage(message) {
+  const conversationBotBlock = {
+    id: uuidv4(),
+    type: BlockType.ConversationBot,
+    details: {
+      value: message
+    },
+  }
+  const lastBotIndex = addBlockAfterCurrent(conversationBotBlock)
+  showUntilAndWait = lastBotIndex
+  showNextBlock()
 }
 
 function handleChatInput(inputValue) {
@@ -684,7 +702,7 @@ function insertBlock(blockIdx: number) {
 }
 
 function deleteBlock(blockIdx: number) {
-  if(props.page.blocks.length <= 1) {
+  if (props.page.blocks.length <= 1) {
     showErrorMessage('You must have at least one block');
     return
   }
