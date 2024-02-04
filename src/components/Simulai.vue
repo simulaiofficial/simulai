@@ -19,7 +19,7 @@
       </button>
     </div>
 
-    <h1 id="title" ref="title" :contenteditable="true" spellcheck="false" data-ph="Untitled"
+    <h1 id="title" ref="title" :contenteditable="!props.page.isChat" spellcheck="false" data-ph="Untitled"
         @keydown.enter.prevent="splitTitle"
         @keydown.down="blockElements[0]?.moveToFirstLine(); scrollIntoView();"
         @blur="props.page.name=($event.target as HTMLElement).innerText.replace('\n', '')"
