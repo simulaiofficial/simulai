@@ -79,6 +79,7 @@
       <transition name="fade">
         <ChatInput ref="chatInput" v-if="page.isChat && !isConversationFinished" :bgColor="props.bgColor"
                    :uploadUrl="props.page.uploadUrl"
+                   :isUploadEnabled="isUploadEnabled"
                    @nextBlock="handleChatInput" @gotMessage="handleMessage"
                    class="fixed left-0 right-0 w-full max-w-screen-md mx-auto bottom-8"/>
       </transition>
@@ -186,6 +187,7 @@ const blocks = ref<HTMLDivElement | null>(null)
 
 const emojiPicker = ref<HTMLDivElement | null>(null);
 const isEmojiPickerOpen = ref(false);
+const isUploadEnabled = ref(false);
 const emojiPickerStyle = ref({top: 0, left: 0});
 const savedCaretPosition = ref(null);
 const chatInput = ref(null);
@@ -330,7 +332,13 @@ function showNextBlock() {
   if (currentBlock.isHidden || isEmptyTextBlock) {
     setTimeout(() => {
       showNextBlock()
-    }, 0)
+    }, 0);
+    return;
+  } else if (currentBlock.type === BlockType.InputFileAnswer) {
+    isUploadEnabled.value = true;
+  } else if (currentBlock.type !== BlockType.ConversationBot
+      && currentBlock.type !== BlockType.ConversationHuman) {
+    isUploadEnabled.value = false;
   }
 
   if (isVisibleBlock(currentBlock)) {

@@ -4,9 +4,10 @@
       <!-- File Attachment Button -->
       <button
           @click="handleFileAttachment"
+          :disabled="!props.isUploadEnabled"
           class="file-attach-button absolute left-3 top-3 bottom-3 rounded-md p-1 cursor-pointer"
       >
-        <v-icon name="ri-attachment-2" class="w-5 h-5 icon-white"/> <!-- Adjust icon name as needed -->
+        <v-icon name="ri-attachment-2" class="w-5 h-5" :class="{'icon-white': props.isUploadEnabled, 'text-slate-400': !props.isUploadEnabled}"/> <!-- Adjust icon name as needed -->
       </button>
 
       <!-- Chat Input -->
@@ -57,6 +58,10 @@ const props = defineProps({
   },
   uploadUrl: {
     type: String,
+    required: true
+  },
+  isUploadEnabled: {
+    type: Boolean,
     required: true
   }
 });
