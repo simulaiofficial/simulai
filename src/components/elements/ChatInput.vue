@@ -13,8 +13,9 @@
       <input
         class="chat-input w-full h-full bg-gray-700 placeholder-gray-500 text-gray-300 focus:outline-none p-4 rounded-md"
         :style="{ backgroundColor: props.bgColor }"
-        placeholder="Your message..."
+        :placeholder="inputPlaceholder"
         type="text"
+        :disabled="isUploading"
         @keyup.enter.prevent.stop="handleSubmit"
         @keydown.enter.prevent.stop="() => {}"
         v-model="textInput"
@@ -37,6 +38,8 @@ import { ref, computed } from 'vue';
 
 const textInput = ref('');
 const input = ref(null);
+const inputPlaceholder = ref('Your message...');
+const isUploading = ref(false);
 
 const buttonClass = computed(() => {
   return textInput.value ? 'bg-white' : 'bg-darker'; // 'bg-darker' is a custom class for darker background
@@ -68,6 +71,9 @@ const handleFileAttachment = async () => {
   // fileInput.accept = 'image/*'; // You can adjust the file type as needed
 
   fileInput.addEventListener('change', async (event) => {
+    textInput.value = ''
+    inputPlaceholder.value = 'Uploading...'
+    isUploading.value = true;
     const file = (event.target as HTMLInputElement).files?.[0];
     if (file) {
       try {
@@ -82,9 +88,13 @@ const handleFileAttachment = async () => {
 
         const responseData = await response.json();
 
-        // Handle the uploadedUrl in the responseData
-        console.log(responseData.url);
+        emit('nextBlock', responseData.url)
+        textInput.value = ''
+        inputPlaceholder.value = 'Your message...'
+        isUploading.value = false;
       } catch (error) {
+        inputPlaceholder.value = 'Your message...'
+        isUploading.value = false;
         console.error('Error uploading file:', error);
       }
     }

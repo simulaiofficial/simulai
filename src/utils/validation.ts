@@ -1,6 +1,17 @@
 import {Block, BlockType} from './types'
 import Joi from 'joi'
 
+function validateInputFileAnswer(joiValidation, inputValue: string, block: Block) {
+    if (joiValidation !== null) return joiValidation
+
+    if (block.type === BlockType.InputFileAnswer) {
+        const joiValidation = Joi.string().uri()
+        return joiValidation
+    }
+
+    return null;
+}
+
 function validateInputNumberAnswer(joiValidation, inputValue: string, block: Block) {
     if (joiValidation !== null) return joiValidation
 
@@ -58,6 +69,7 @@ export function validateBlock(inputValue: string, block: Block | null) {
     joiValidation = validateInputTextAnswer(joiValidation, inputValue, block)
     joiValidation = validateInputNumberAnswer(joiValidation, inputValue, block)
     joiValidation = validateInputEmailAnswer(joiValidation, inputValue, block)
+    joiValidation = validateInputFileAnswer(joiValidation, inputValue, block)
 
     if (block.isRequired) {
         joiValidation = joiValidation.required()
@@ -78,7 +90,7 @@ export function validateBlock(inputValue: string, block: Block | null) {
     const validationResult = schema.validate({value: inputValue});
 
     if (validationResult.error) {
-        if (block.isWorkEmailRequired && validationResult.error.toString().indexOf('an invalid value') !== -1) {
+        if (block.type === BlockType.InputEmailAnswer && block.isWorkEmailRequired && validationResult.error.toString().indexOf('an invalid value') !== -1) {
             validationResult.error = 'I am sorry, but you need to provide valid work email address';
         } else {
             validationResult.error = validationResult.error.toString().replace('ValidationError: "value" ', 'Please try again, your answer ')
