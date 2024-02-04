@@ -64,6 +64,11 @@ export function validateBlock(inputValue: string, block: Block | null) {
         return {}
     }
 
+    // Additional condition to pass validation when input is empty and not required
+    if (inputValue === '' && !block.isRequired) {
+        return {};
+    }
+
     let joiValidation = null;
 
     joiValidation = validateInputTextAnswer(joiValidation, inputValue, block)
