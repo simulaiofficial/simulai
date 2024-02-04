@@ -19,6 +19,7 @@ class BlockType(str, Enum):
     InputEmailAnswer = 'INPUT_EMAIL_ANSWER'
     InputTextAnswer = 'INPUT_TEXT_ANSWER'
     InputNumberAnswer = 'INPUT_NUMBER_ANSWER'
+    InputDecimalAnswer = 'INPUT_DECIMAL_ANSWER'
     InputFileAnswer = 'INPUT_FILE_ANSWER'
 
 
@@ -151,6 +152,18 @@ class BlockInputNumberAnswer(BlockAnswer):
             raise ValidationError("Incorrect type")
         return values
 
+class BlockInputDecimalAnswer(BlockAnswer):
+    minRequired: bool = False
+    min: Optional[float] = None
+    maxRequired: bool = False
+    max: Optional[float] = None
+
+    @root_validator(pre=True)
+    def check_type(cls, values):
+        if values.get("type") != BlockType.InputDecimalAnswer:
+            raise ValidationError("Incorrect type")
+        return values
+
 class BlockInputFileAnswer(BlockAnswer):
 
     @root_validator(pre=True)
@@ -215,7 +228,7 @@ class Page(BaseModel):
     isPreview: bool
     blocks: List[Union[
         Block, BlockAnswer, BlockCondition, BlockOptions, BlockRadio, BlockInputTextAnswer,
-        BlockInputEmailAnswer, BlockInputNumberAnswer, BlockInputFileAnswer,
+        BlockInputEmailAnswer, BlockInputNumberAnswer, BlockInputDecimalAnswer, BlockInputFileAnswer,
         BlockText, BlockHeading, BlockDivider, BlockQuote, BlockHumanConversation, BlockBotConversation]]
     saveUrl: str
     uploadUrl: Optional[str] = None
@@ -240,6 +253,8 @@ def get_blocks(page_blocks: PageBlocks) -> (str, List[Block]):
             block_objects.append(BlockInputTextAnswer(**json_data))
         elif block_type == BlockType.InputNumberAnswer:
             block_objects.append(BlockInputNumberAnswer(**json_data))
+        elif block_type == BlockType.InputDecimalAnswer:
+            block_objects.append(BlockInputDecimalAnswer(**json_data))
         elif block_type == BlockType.InputEmailAnswer:
             block_objects.append(BlockInputEmailAnswer(**json_data))
         elif block_type == BlockType.InputFileAnswer:

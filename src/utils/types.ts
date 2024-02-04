@@ -64,6 +64,7 @@ export enum BlockType {
     InputEmailAnswer = 'INPUT_EMAIL_ANSWER',
     InputTextAnswer = 'INPUT_TEXT_ANSWER',
     InputNumberAnswer = 'INPUT_NUMBER_ANSWER',
+    InputDecimalAnswer = 'INPUT_DECIMAL_ANSWER',
     InputFileAnswer = 'INPUT_FILE_ANSWER'
 }
 
@@ -106,6 +107,13 @@ export interface BlockInputEmailAnswer extends BlockAnswer {
 }
 
 export interface BlockInputNumberAnswer extends BlockAnswer {
+    minRequired: boolean
+    min?: number,
+    maxRequired: boolean
+    max?: number,
+}
+
+export interface BlockInputDecimalAnswer extends BlockAnswer {
     minRequired: boolean
     min?: number,
     maxRequired: boolean
@@ -495,7 +503,7 @@ export const BlockComponents = {
         isMenuVisible: true,
         options: {
             icon: 'oi-number',
-            label: 'Input Number',
+            label: 'Input Integer Number',
             isInput: true,
             isNextButton: false,
             isVirtualBlock: false,
@@ -514,6 +522,41 @@ export const BlockComponents = {
             comparisons: [
                 {value: ComparisonsValue.EqualTo, name: 'Equal to'},
                 {value: ComparisonsValue.NotEqualTo, name: 'Not equal to'},
+                {value: ComparisonsValue.Greater, name: 'Greater than'},
+                {value: ComparisonsValue.Less, name: 'Less than'},
+            ],
+            comparisonType: ComparisonType.Number
+        },
+        funcs: {
+            getTitle: (block: BlockInputNumberAnswer) => {
+                return '-'
+            }
+        },
+
+
+    },
+    [BlockType.InputDecimalAnswer]: {
+        component: InputAnswerBlock,
+        isMenuVisible: true,
+        options: {
+            icon: 'oi-number',
+            label: 'Input Decimal Number',
+            isInput: true,
+            isNextButton: false,
+            isVirtualBlock: false,
+            setValueDuringTypeConversion: false,
+            canSplit: false,
+            emojiVisible: false,
+            requiredVisible: true,
+            hideVisible: true,
+            minVisible: true,
+            minLabel: 'Min value',
+            maxVisible: true,
+            maxLabel: 'Max value',
+            requiredWorkEmailVisible: false,
+            nameVisible: true,
+            conditionVisible: true,
+            comparisons: [
                 {value: ComparisonsValue.Greater, name: 'Greater than'},
                 {value: ComparisonsValue.Less, name: 'Less than'},
             ],

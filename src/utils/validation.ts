@@ -23,6 +23,17 @@ function validateInputNumberAnswer(joiValidation, inputValue: string, block: Blo
     return null;
 }
 
+function validateInputDecimalAnswer(joiValidation, inputValue: string, block: Block) {
+    if (joiValidation !== null) return joiValidation
+
+    if (block.type === BlockType.InputDecimalAnswer) {
+        const joiValidation = Joi.number().precision(2)
+        return joiValidation
+    }
+
+    return null;
+}
+
 function validateInputTextAnswer(joiValidation, inputValue: string, block: Block) {
     if (joiValidation !== null) return joiValidation
 
@@ -75,6 +86,7 @@ export function validateBlock(inputValue: string, block: Block | null) {
     joiValidation = validateInputNumberAnswer(joiValidation, inputValue, block)
     joiValidation = validateInputEmailAnswer(joiValidation, inputValue, block)
     joiValidation = validateInputFileAnswer(joiValidation, inputValue, block)
+    joiValidation = validateInputDecimalAnswer(joiValidation, inputValue, block)
 
     if (block.isRequired) {
         joiValidation = joiValidation.required()
