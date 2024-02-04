@@ -77,7 +77,9 @@
     </draggable>
     <div>
       <transition name="fade">
-        <ChatInput ref="chatInput" v-if="page.isChat && !isConversationFinished" :bgColor="props.bgColor"
+        <ChatInput ref="chatInput" v-if="page.isChat && !isConversationFinished"
+                   :isPreview="props.page.isPreview"
+                   :bgColor="props.bgColor"
                    :uploadUrl="props.page.uploadUrl"
                    :isUploadEnabled="isUploadEnabled"
                    @nextBlock="handleChatInput" @gotMessage="handleMessage"

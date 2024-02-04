@@ -7,7 +7,9 @@
           :disabled="!props.isUploadEnabled"
           class="file-attach-button absolute left-3 top-3 bottom-3 rounded-md p-1 cursor-pointer"
       >
-        <v-icon name="ri-attachment-2" class="w-5 h-5" :class="{'icon-white': props.isUploadEnabled, 'text-slate-400': !props.isUploadEnabled}"/> <!-- Adjust icon name as needed -->
+        <v-icon name="ri-attachment-2" class="w-5 h-5"
+                :class="{'icon-white': props.isUploadEnabled, 'text-slate-400': !props.isUploadEnabled}"/>
+        <!-- Adjust icon name as needed -->
       </button>
 
       <!-- Chat Input -->
@@ -52,6 +54,10 @@ const emit = defineEmits([
 ])
 
 const props = defineProps({
+  isPreview: {
+    type: Boolean,
+    required: true
+  },
   bgColor: {
     type: String,
     required: true
@@ -83,6 +89,13 @@ const handleFileAttachment = async () => {
     isUploading.value = true;
     const file = (event.target as HTMLInputElement).files?.[0];
     if (file) {
+      if (props.isPreview) {
+        setTimeout(() => {
+          emit('nextBlock', 'https://preview.url/file/1234')
+        }, 3000);
+        return;
+      }
+
       try {
         const formData = new FormData();
         formData.append('file', file);
