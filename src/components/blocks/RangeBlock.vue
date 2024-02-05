@@ -1,0 +1,73 @@
+<template>
+  <div class="py-3.5">
+    <div class="relative">
+      <CustomSlider :min="block.min" :max="block.max" :step="block.step" v-model="props.block.details.value" />
+    </div>
+  </div>
+</template>
+
+
+<script setup lang="ts">
+import {PropType, ref} from 'vue'
+import {Block, BlockInputNumberAnswer, BlockInputTextAnswer, BlockType} from '@/utils/types'
+import {
+  setUpInitialValuesForBlock,
+  setUpInitialValuesForBlockAnswer,
+  unsetInitialValuesForBlockAnswer
+} from '@/utils/utils'
+
+import CustomSlider from "../elements/CustomSlider.vue";
+
+const props = defineProps({
+  block: {
+    type: Object as PropType<BlockInputTextAnswer | BlockInputNumberAnswer>,
+    required: true,
+  },
+  bgColor: {
+    type: String,
+    required: true
+  },
+  page: {
+    type: Object as PropType<{ name: string, isChat: boolean, isPreview: boolean, blocks: Block[], saveUrl: string }>,
+    required: true,
+  }
+})
+
+function onSet() {
+  if (props.block.details.value) {
+    props.block.details.value = ''
+  }
+
+  setUpInitialValuesForBlock(props.block)
+  setUpInitialValuesForBlockAnswer(props.block)
+
+  delete props.block.minRequired
+  delete props.block.maxRequired
+  props.block.min = 1
+  props.block.max = 100
+  props.block.step = 1
+}
+
+function onUnset() {
+  unsetInitialValuesForBlockAnswer(props.block)
+  delete props.block.minRequired
+  delete props.block.maxRequired
+  delete props.block.minChars
+  delete props.block.maxChars
+  delete props.block.min
+  delete props.block.max
+  delete props.block.step
+}
+
+defineExpose({
+  onSet,
+  onUnset
+})
+</script>
+
+<style scoped>
+.slider {
+  /* overwrite slider styles */
+  width: 200px;
+}
+</style>

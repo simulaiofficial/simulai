@@ -72,7 +72,7 @@
             <div v-if="BlockComponents[props.block.type].options.minVisible"
                  class="px-2 py-1 rounded flex items-center gap-2 hover:bg-slate-600">
               <span class="truncate flex-shrink-0">{{ BlockComponents[props.block.type].options.minLabel }}</span>
-              <div class="flex items-center ml-auto">
+              <div v-if="!BlockComponents[props.block.type].options.stepVisible" class="flex items-center ml-auto">
                 <!-- Added a container for the switch, using ml-auto to push it to the right -->
                 <label class="switch">
                   <input type="checkbox" v-model="props.block.minRequired">
@@ -80,7 +80,7 @@
                 </label>
               </div>
               <!-- Add input field for minimum characters -->
-              <div v-if="props.block.minRequired" class="ml-2">
+              <div v-if="props.block.minRequired || BlockComponents[props.block.type].options.stepVisible" class="flex items-center ml-auto">
                 <input @click.stop @input.stop @mouseup.stop v-model="props.block.min" type="number"
                        class="w-16 px-1 border rounded border-1 text-gray-400 bg-gray-800 border-blue-600 focus:border-blue-500 focus:outline-none outline-none"
                        min="1" placeholder="">
@@ -89,7 +89,7 @@
             <div v-if="BlockComponents[props.block.type].options.maxVisible"
                  class="px-2 py-1 rounded flex items-center gap-2 hover:bg-slate-600">
               <span class="truncate flex-shrink-0">{{ BlockComponents[props.block.type].options.maxLabel }}</span>
-              <div class="flex items-center ml-auto">
+              <div v-if="!BlockComponents[props.block.type].options.stepVisible" class="flex items-center ml-auto">
                 <!-- Added a container for the switch, using ml-auto to push it to the right -->
                 <label class="switch">
                   <input type="checkbox" v-model="props.block.maxRequired">
@@ -97,10 +97,20 @@
                 </label>
               </div>
               <!-- Add input field for minimum characters -->
-              <div v-if="props.block.maxRequired" class="ml-1">
+              <div v-if="props.block.maxRequired || BlockComponents[props.block.type].options.stepVisible" class="flex items-center ml-auto">
                 <input @click.stop @input.stop @mouseup.stop v-model="props.block.max" type="number"
                        class="w-16 px-1 border rounded border-1 text-gray-400 bg-gray-800 border-blue-600 focus:border-blue-500 focus:outline-none outline-none"
                        min="1" placeholder="">
+              </div>
+            </div>
+            <div v-if="BlockComponents[props.block.type].options.stepVisible"
+                 class="px-2 py-1 rounded flex items-center gap-2 hover:bg-slate-600">
+              <span class="truncate flex-shrink-0">Step</span>
+              <!-- Add input field for minimum characters -->
+              <div class="flex items-center ml-auto">
+                <input @click.stop @input.stop @mouseup.stop v-model="props.block.step" type="number"
+                       class="w-16 px-1 border rounded border-1 text-gray-400 bg-gray-800 border-blue-600 focus:border-blue-500 focus:outline-none outline-none"
+                       min="0" step="0.1" placeholder="">
               </div>
             </div>
             <hr class="border-t border-solid my-3" style="border-color: #684141"/>

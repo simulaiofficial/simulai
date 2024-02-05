@@ -19,6 +19,7 @@ import {
     CoTextSquare,
     GiLogicGateNor,
     OiNumber,
+    BiPlusSlashMinus,
     MdAlternateemail,
     BiArrowUp,
     RiAttachment2
@@ -45,6 +46,7 @@ addIcons(
     CoTextSquare,
     GiLogicGateNor,
     OiNumber,
+    BiPlusSlashMinus,
     MdAlternateemail,
     BiArrowUp,
     RiAttachment2

@@ -7,6 +7,7 @@ import ConditionBlock from '@/components/blocks/ConditionBlock.vue'
 import OptionsBlock from '@/components/blocks/OptionsBlock.vue'
 import RadioBlock from '@/components/blocks/RadioBlock.vue'
 import InputAnswerBlock from '@/components/blocks/InputAnswerBlock.vue'
+import RangeBlock from '@/components/blocks/RangeBlock.vue'
 
 export interface Block {
     id: string,
@@ -65,7 +66,8 @@ export enum BlockType {
     InputTextAnswer = 'INPUT_TEXT_ANSWER',
     InputNumberAnswer = 'INPUT_NUMBER_ANSWER',
     InputDecimalAnswer = 'INPUT_DECIMAL_ANSWER',
-    InputFileAnswer = 'INPUT_FILE_ANSWER'
+    InputFileAnswer = 'INPUT_FILE_ANSWER',
+    NumberRangeAnswer = 'NUMBER_RANGE_ANSWER',
 }
 
 
@@ -123,6 +125,9 @@ export interface BlockInputDecimalAnswer extends BlockAnswer {
 export interface BlockInputFileAnswer extends BlockAnswer {
 }
 
+export interface BlockNumberRangeAnswer extends BlockAnswer {
+}
+
 export interface Details {
     value?: string;
     blockTypes?: BlockType[];
@@ -150,6 +155,7 @@ export const BlockComponents = {
             hideVisible: true,
             minVisible: false,
             maxVisible: false,
+            stepVisible: false,
             nameVisible: false,
             conditionVisible: false,
             comparisons: null,
@@ -175,6 +181,7 @@ export const BlockComponents = {
             hideVisible: true,
             minVisible: false,
             maxVisible: false,
+            stepVisible: false,
             nameVisible: false,
             conditionVisible: false,
             comparisons: null,
@@ -200,6 +207,7 @@ export const BlockComponents = {
             hideVisible: true,
             minVisible: false,
             maxVisible: false,
+            stepVisible: false,
             nameVisible: false,
             conditionVisible: false,
             comparisons: null,
@@ -225,6 +233,7 @@ export const BlockComponents = {
             hideVisible: true,
             minVisible: false,
             maxVisible: false,
+            stepVisible: false,
             nameVisible: false,
             conditionVisible: false,
             comparisons: null,
@@ -250,6 +259,7 @@ export const BlockComponents = {
             hideVisible: true,
             minVisible: false,
             maxVisible: false,
+            stepVisible: false,
             nameVisible: false,
             conditionVisible: false,
             comparisons: null,
@@ -275,6 +285,7 @@ export const BlockComponents = {
             hideVisible: true,
             minVisible: false,
             maxVisible: false,
+            stepVisible: false,
             nameVisible: false,
             conditionVisible: false,
             comparisons: null,
@@ -300,6 +311,7 @@ export const BlockComponents = {
             hideVisible: true,
             minVisible: false,
             maxVisible: false,
+            stepVisible: false,
             nameVisible: false,
             conditionVisible: false,
             comparisons: null,
@@ -325,6 +337,7 @@ export const BlockComponents = {
             hideVisible: true,
             minVisible: false,
             maxVisible: false,
+            stepVisible: false,
             nameVisible: false,
             conditionVisible: false,
             comparisons: null,
@@ -350,6 +363,7 @@ export const BlockComponents = {
             hideVisible: true,
             minVisible: false,
             maxVisible: false,
+            stepVisible: false,
             nameVisible: false,
             conditionVisible: false,
             comparisons: null,
@@ -376,6 +390,7 @@ export const BlockComponents = {
             hideVisible: true,
             minVisible: false,
             maxVisible: false,
+            stepVisible: false,
             nameVisible: true,
             conditionVisible: true,
             comparisons: [
@@ -409,6 +424,7 @@ export const BlockComponents = {
             hideVisible: true,
             minVisible: false,
             maxVisible: false,
+            stepVisible: false,
             nameVisible: true,
             conditionVisible: true,
             comparisons: [
@@ -444,6 +460,7 @@ export const BlockComponents = {
             minLabel: 'Min characters',
             maxVisible: true,
             maxLabel: 'Max characters',
+            stepVisible: false,
             requiredWorkEmailVisible: true,
             nameVisible: true,
             conditionVisible: true,
@@ -480,6 +497,7 @@ export const BlockComponents = {
             minLabel: 'Min characters',
             maxVisible: true,
             maxLabel: 'Max characters',
+            stepVisible: false,
             requiredWorkEmailVisible: false,
             nameVisible: true,
             conditionVisible: true,
@@ -516,6 +534,7 @@ export const BlockComponents = {
             minLabel: 'Min value',
             maxVisible: true,
             maxLabel: 'Max value',
+            stepVisible: false,
             requiredWorkEmailVisible: false,
             nameVisible: true,
             conditionVisible: true,
@@ -553,6 +572,7 @@ export const BlockComponents = {
             minLabel: 'Min value',
             maxVisible: true,
             maxLabel: 'Max value',
+            stepVisible: false,
             requiredWorkEmailVisible: false,
             nameVisible: true,
             conditionVisible: true,
@@ -588,6 +608,7 @@ export const BlockComponents = {
             // minLabel: 'Min value',
             maxVisible: false,
             // maxLabel: 'Max value',
+            stepVisible: false,
             requiredWorkEmailVisible: false,
             nameVisible: true,
             conditionVisible: true,
@@ -597,6 +618,40 @@ export const BlockComponents = {
         },
         funcs: {
             getTitle: (block: BlockInputFileAnswer) => {
+                return '-'
+            }
+        },
+
+
+    },
+    [BlockType.NumberRangeAnswer]: {
+        component: RangeBlock,
+        isMenuVisible: true,
+        options: {
+            icon: 'bi-plus-slash-minus',
+            label: 'Number Range',
+            isInput: false,
+            isNextButton: false,
+            isVirtualBlock: false,
+            setValueDuringTypeConversion: false,
+            canSplit: false,
+            emojiVisible: false,
+            requiredVisible: true,
+            hideVisible: true,
+            minVisible: true,
+            minLabel: 'Min',
+            maxVisible: true,
+            maxLabel: 'Max',
+            stepVisible: true,
+            requiredWorkEmailVisible: false,
+            nameVisible: true,
+            conditionVisible: true,
+            comparisons: [
+            ],
+            comparisonType: null
+        },
+        funcs: {
+            getTitle: (block: BlockNumberRangeAnswer) => {
                 return '-'
             }
         },
