@@ -9,7 +9,7 @@
 
 <script setup lang="ts">
 import {PropType, ref} from 'vue'
-import {Block, BlockInputNumberAnswer, BlockInputTextAnswer, BlockType} from '@/utils/types'
+import {Block, BlockInputNumberAnswer, BlockInputTextAnswer, BlockNumberRangeAnswer, BlockType} from '@/utils/types'
 import {
   setUpInitialValuesForBlock,
   setUpInitialValuesForBlockAnswer,
@@ -20,7 +20,7 @@ import CustomSlider from "../elements/CustomSlider.vue";
 
 const props = defineProps({
   block: {
-    type: Object as PropType<BlockInputTextAnswer | BlockInputNumberAnswer>,
+    type: Object as PropType<BlockNumberRangeAnswer>,
     required: true,
   },
   bgColor: {
@@ -34,8 +34,9 @@ const props = defineProps({
 })
 
 function onSet() {
-  if (props.block.details.value) {
-    props.block.details.value = ''
+  debugger;
+  if (props.block.details) {
+    props.block.details.value = 1
   }
 
   setUpInitialValuesForBlock(props.block)

@@ -20,7 +20,7 @@ def find_previous_label(blocks: List[Block], current_idx: int):
 
 class TableAnswer(BaseModel):
     label: Optional[str] = None
-    value: Optional[str] = None
+    value: Optional[str | int | float] = None
 
 def convert_blocks_to_table_answers(blocks: List[Block]) -> List[TableAnswer]:
     table_answers = []

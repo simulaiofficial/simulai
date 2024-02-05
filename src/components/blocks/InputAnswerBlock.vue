@@ -90,7 +90,14 @@
 
 <script setup lang="ts">
 import {PropType} from 'vue'
-import {Block, BlockInputNumberAnswer, BlockInputTextAnswer, BlockType} from '@/utils/types'
+import {
+  Block,
+  BlockInputDecimalAnswer,
+  BlockInputEmailAnswer,
+  BlockInputNumberAnswer,
+  BlockInputTextAnswer,
+  BlockType
+} from '@/utils/types'
 import {
   setUpInitialValuesForBlock,
   setUpInitialValuesForBlockAnswer,
@@ -99,7 +106,7 @@ import {
 
 const props = defineProps({
   block: {
-    type: Object as PropType<BlockInputTextAnswer | BlockInputNumberAnswer>,
+    type: Object as PropType<BlockInputTextAnswer | BlockInputNumberAnswer | BlockInputDecimalAnswer | BlockInputEmailAnswer>,
     required: true,
   },
   bgColor: {

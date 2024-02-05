@@ -631,7 +631,7 @@ export const BlockComponents = {
             icon: 'bi-plus-slash-minus',
             label: 'Number Range',
             isInput: false,
-            isNextButton: false,
+            isNextButton: true,
             isVirtualBlock: false,
             setValueDuringTypeConversion: false,
             canSplit: false,
