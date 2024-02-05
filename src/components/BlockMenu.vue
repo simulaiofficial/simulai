@@ -104,6 +104,12 @@
               </div>
             </div>
             <hr class="border-t border-solid my-3" style="border-color: #684141"/>
+            <div @click="open = false; emit('newBlock')"
+                 class="px-2 py-1 rounded flex items-center gap-2 hover:bg-slate-600" data-test-id="turn-into-menu">
+              <v-icon name="hi-plus"
+                      class="w-6 h-6 p-0.5 rounded opacity-100 opacity-0"/>
+              <span class="truncate">New Block</span>
+            </div>
             <div @click="open = false; emit('deleteBlock')"
                  class="px-2 py-1 rounded flex items-center gap-2 hover:bg-slate-600" data-test-id="turn-into-menu">
               <v-icon name="hi-trash"
@@ -127,7 +133,7 @@
         </div>
       </div>
       <div ref="menu" v-if="openTurnInto"
-           class="w-[10rem] lg:w-[12rem] xl:w-[16rem] absolute z-10 shadow-block rounded py-1 text-white text-sm right-full bg-slate-800 max-h-[24rem] overflow-auto focus-visible:outline-none top-0">
+           class="turn-menu w-[10rem] lg:w-[12rem] xl:w-[16rem] absolute z-10 shadow-block rounded py-1 text-white text-sm right-full bg-slate-800 max-h-[24rem] overflow-auto focus-visible:outline-none top-0">
         <div class="text-left divide-y">
           <!-- Search term -->
           <div v-if="searchTerm" class="block-menu-search px-2 py-2 flex gap-2 w-full">
@@ -309,6 +315,14 @@ defineExpose({
 
 <style lang="scss" scoped>
 .main-menu {
+  right: 100%;
+  @media (max-width: 1000px) { // Adjust the breakpoint (768px) based on your design
+    right: 0; // Reset the right property for smaller screens if needed
+    left: 100%; // Set left to 100% for screens less than medium size
+  }
+}
+
+.turn-menu {
   right: 100%;
   @media (max-width: 1000px) { // Adjust the breakpoint (768px) based on your design
     right: 0; // Reset the right property for smaller screens if needed

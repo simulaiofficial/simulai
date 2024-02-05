@@ -29,6 +29,7 @@
                  @setBlockType="setBlockType"
                  @deleteBlock="emit('deleteBlock')"
                  @addBlock="addBlock"
+                 @newBlock="emit('newBlock')"
                  @duplicateBlock="emit('duplicateBlock')"
                  :blockTypes="props.block.details.blockTypes || props.blockTypes"
                  :block="block"
