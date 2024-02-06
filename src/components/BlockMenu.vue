@@ -256,7 +256,7 @@ document.addEventListener('keydown', (event: KeyboardEvent) => {
     // Alphanumeric searches menu
     searchTerm.value += event.key
     active.value = 0
-  } else if (event.key === 'Backspace') {
+  } else if (event.key === 'Backspace' && event.target.tagName !== 'INPUT') {
     // Backspace closes menu if searchTerm is empty
     if (searchTerm.value.length === 0) open.value = false
     else searchTerm.value = searchTerm.value.slice(0, -1)
