@@ -29,6 +29,7 @@ class ComparisonType(str, Enum):
     Text = 'TEXT'
     Number = 'NUMBER'
     Dropdown = 'DROPDOWN'
+    Date = 'DATE'
 
 
 class Details(BaseModel):
