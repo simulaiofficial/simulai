@@ -647,8 +647,10 @@ export const BlockComponents = {
             nameVisible: true,
             conditionVisible: true,
             comparisons: [
+                {value: ComparisonsValue.Greater, name: 'Greater than'},
+                {value: ComparisonsValue.Less, name: 'Less than'},
             ],
-            comparisonType: null
+            comparisonType: ComparisonType.Number
         },
         funcs: {
             getTitle: (block: BlockNumberRangeAnswer) => {

@@ -31,7 +31,7 @@ class ComparisonType(str, Enum):
 
 
 class Details(BaseModel):
-    value: Optional[str | int | float] = None
+    value: Optional[Union[str, int, float]] = None
     blockTypes: Optional[List[BlockType]] = None
 
 
