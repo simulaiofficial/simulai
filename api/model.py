@@ -22,6 +22,7 @@ class BlockType(str, Enum):
     InputDecimalAnswer = 'INPUT_DECIMAL_ANSWER'
     InputFileAnswer = 'INPUT_FILE_ANSWER'
     NumberRangeAnswer = 'NUMBER_RANGE_ANSWER'
+    CalendarAnswer = 'CALENDAR_ANSWER'
 
 
 class ComparisonType(str, Enum):
@@ -153,6 +154,7 @@ class BlockInputNumberAnswer(BlockAnswer):
             raise ValidationError("Incorrect type")
         return values
 
+
 class BlockInputDecimalAnswer(BlockAnswer):
     minRequired: bool = False
     min: Optional[float] = None
@@ -165,6 +167,7 @@ class BlockInputDecimalAnswer(BlockAnswer):
             raise ValidationError("Incorrect type")
         return values
 
+
 class BlockInputFileAnswer(BlockAnswer):
 
     @root_validator(pre=True)
@@ -172,6 +175,7 @@ class BlockInputFileAnswer(BlockAnswer):
         if values.get("type") != BlockType.InputFileAnswer:
             raise ValidationError("Incorrect type")
         return values
+
 
 class BlockNumberRangeAnswer(BlockAnswer):
     min: int
@@ -181,6 +185,14 @@ class BlockNumberRangeAnswer(BlockAnswer):
     @root_validator(pre=True)
     def check_type(cls, values):
         if values.get("type") != BlockType.NumberRangeAnswer:
+            raise ValidationError("Incorrect type")
+        return values
+
+
+class BlockCalendarAnswer(BlockAnswer):
+    @root_validator(pre=True)
+    def check_type(cls, values):
+        if values.get("type") != BlockType.CalendarAnswer:
             raise ValidationError("Incorrect type")
         return values
 
@@ -241,7 +253,7 @@ class Page(BaseModel):
     blocks: List[Union[
         Block, BlockAnswer, BlockCondition, BlockOptions, BlockRadio, BlockInputTextAnswer,
         BlockInputEmailAnswer, BlockInputNumberAnswer, BlockInputDecimalAnswer, BlockInputFileAnswer, BlockNumberRangeAnswer,
-        BlockText, BlockHeading, BlockDivider, BlockQuote, BlockHumanConversation, BlockBotConversation]]
+        BlockCalendarAnswer, BlockText, BlockHeading, BlockDivider, BlockQuote, BlockHumanConversation, BlockBotConversation]]
     saveUrl: str
     uploadUrl: Optional[str] = None
 
@@ -249,6 +261,7 @@ class Page(BaseModel):
 class PageBlocks(BaseModel):
     name: str
     blocks: List[dict]
+
 
 def get_blocks(page_blocks: PageBlocks) -> (str, List[Block]):
     block_objects = []
@@ -273,6 +286,8 @@ def get_blocks(page_blocks: PageBlocks) -> (str, List[Block]):
             block_objects.append(BlockInputFileAnswer(**json_data))
         elif block_type == BlockType.NumberRangeAnswer:
             block_objects.append(BlockNumberRangeAnswer(**json_data))
+        elif block_type == BlockType.CalendarAnswer:
+            block_objects.append(BlockCalendarAnswer(**json_data))
         elif block_type == BlockType.H1 or block_type == BlockType.H2 or block_type == BlockType.H3:
             block_objects.append(BlockHeading(**json_data))
         elif block_type == BlockType.Text:

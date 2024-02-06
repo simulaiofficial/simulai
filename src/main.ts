@@ -22,7 +22,8 @@ import {
     BiPlusSlashMinus,
     MdAlternateemail,
     BiArrowUp,
-    RiAttachment2
+    RiAttachment2,
+    BiCalendarDate
 } from "oh-vue-icons/icons"
 import App from './App.vue'
 import './index.css'
@@ -49,7 +50,8 @@ addIcons(
     BiPlusSlashMinus,
     MdAlternateemail,
     BiArrowUp,
-    RiAttachment2
+    RiAttachment2,
+    BiCalendarDate
 )
 
 const app = createApp(App)

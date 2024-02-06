@@ -8,6 +8,7 @@ import OptionsBlock from '@/components/blocks/OptionsBlock.vue'
 import RadioBlock from '@/components/blocks/RadioBlock.vue'
 import InputAnswerBlock from '@/components/blocks/InputAnswerBlock.vue'
 import RangeBlock from '@/components/blocks/RangeBlock.vue'
+import CalendarBlock from '@/components/blocks/CalendarBlock.vue'
 
 export interface Block {
     id: string,
@@ -68,6 +69,7 @@ export enum BlockType {
     InputDecimalAnswer = 'INPUT_DECIMAL_ANSWER',
     InputFileAnswer = 'INPUT_FILE_ANSWER',
     NumberRangeAnswer = 'NUMBER_RANGE_ANSWER',
+    CalendarAnswer = 'CALENDAR_ANSWER',
 }
 
 
@@ -126,6 +128,10 @@ export interface BlockInputFileAnswer extends BlockAnswer {
 }
 
 export interface BlockNumberRangeAnswer extends BlockAnswer {
+}
+
+export interface BlockCalendarAnswer extends BlockAnswer {
+    date: string
 }
 
 export interface Details {
@@ -657,8 +663,40 @@ export const BlockComponents = {
                 return '-'
             }
         },
-
-
+    },
+    [BlockType.CalendarAnswer]: {
+        component: CalendarBlock,
+        isMenuVisible: true,
+        options: {
+            icon: 'bi-calendar-date',
+            label: 'Date',
+            isInput: false,
+            isNextButton: true,
+            isVirtualBlock: false,
+            setValueDuringTypeConversion: false,
+            canSplit: false,
+            emojiVisible: false,
+            requiredVisible: true,
+            hideVisible: true,
+            minVisible: true,
+            minLabel: 'Min',
+            maxVisible: true,
+            maxLabel: 'Max',
+            stepVisible: false,
+            requiredWorkEmailVisible: false,
+            nameVisible: true,
+            conditionVisible: true,
+            comparisons: [
+                {value: ComparisonsValue.Greater, name: 'Greater than'},
+                {value: ComparisonsValue.Less, name: 'Less than'},
+            ],
+            comparisonType: ComparisonType.Number
+        },
+        funcs: {
+            getTitle: (block: BlockNumberRangeAnswer) => {
+                return '-'
+            }
+        },
     },
 }
 
