@@ -58,6 +58,12 @@
                 class="w-32 md:w-64 h-full ml-1"
                 :key="blocksHistoryKey"
             />
+            <DatePicker
+                ref="datePicker"
+                v-if="comparisonType === ComparisonType.Date"
+                v-model="date" :format="format" :language="language"
+                @update:model-value="handleDatePickerUpdate"
+                class="w-32 md:w-64 h-full ml-1 bg-gray-700 placeholder-gray-200 text-gray-300 focus:outline-none p-4 rounded-md"/>
           </div>
         </div>
       </div>
@@ -114,6 +120,7 @@ import {
   unsetInitialValuesForBlockAnswer
 } from '@/utils/utils'
 import Dropdown from '../elements/Dropdown.vue';
+import DatePicker from "vue3-datepicker";
 
 const previousInputBlockOptions = ref([])
 const allNextBlockOptions = ref([])
@@ -124,6 +131,11 @@ const comparisonOptions = ref([]);
 const comparisonType = ref(ComparisonType.Number);
 
 const operatorOptions = ref([]);
+
+const format = 'yyyy-MM-dd';
+const language = 'en'; // Change this to your desired language
+const datePicker = ref(null)
+const date = ref(null)
 
 const actionOptions = ref([
   {value: ComparisonsAction.Jump, name: 'Jump to block'},
@@ -165,6 +177,24 @@ function onUnset() {
   delete props.block.maxChars
 }
 
+function handleDatePickerUpdate() {
+  const selectedDate = date.value
+  // Extract year, month, and day from the selected date
+  const year = selectedDate.getFullYear();
+  const month = String(selectedDate.getMonth() + 1).padStart(2, '0'); // Adding 1 because getMonth() returns zero-based month
+  const day = String(selectedDate.getDate()).padStart(2, '0');
+
+  // Construct the string in 'yyyy-mm-dd' format
+  const formattedDate = `${year}-${month}-${day}`;
+
+  // Update block.details.value with the formatted date
+  props.block.isOperatorValue = formattedDate;
+
+  setTimeout(() => {
+    datePicker.value.$el.querySelector('input').blur()
+  }, 0)
+}
+
 function updatePreviousInputBlocksDropdowns() {
   let blocksWithIndex = props.page.blocks
       .map((block, index) => ({block, index})) // Create an array of objects containing both block and index
@@ -194,13 +224,16 @@ function updateAllNextBlocksDropdowns() {
 
 function updateComparisonDropdownAndValue() {
   const whenSelectedBlock = props.page.blocks.find((block) => block.id === props.block.whenBlockSelectedId)
-  if(whenSelectedBlock) {
+  debugger;
+  if (whenSelectedBlock) {
     comparisonOptions.value = getBlockOptions(whenSelectedBlock).comparisons
     comparisonType.value = getBlockOptions(whenSelectedBlock).comparisonType
-    if(comparisonType.value === ComparisonType.Dropdown) {
+    if (comparisonType.value === ComparisonType.Dropdown) {
       operatorOptions.value = whenSelectedBlock.items.map((item) => {
         return {'value': item.label, 'name': item.label}
       })
+    } else if (comparisonType.value === ComparisonType.Date) {
+
     }
   } else {
     comparisonOptions.value = []

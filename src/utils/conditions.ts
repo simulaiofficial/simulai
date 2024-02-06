@@ -38,6 +38,27 @@ export function calculateConditionAction(
         if (foundItem) {
             isConditionSatisifed = true
         }
+    } else if(condition.isOperatorSelectedId === ComparisonsValue.Before) {
+        const blockDate = new Date(whenSelectedBlock.details.value)
+        const conditionDate = new Date(condition.isOperatorValue)
+
+        if(blockDate < conditionDate) {
+            isConditionSatisifed = true
+        }
+    } else if(condition.isOperatorSelectedId === ComparisonsValue.After) {
+        const blockDate = new Date(whenSelectedBlock.details.value)
+        const conditionDate = new Date(condition.isOperatorValue)
+
+        if(blockDate > conditionDate) {
+            isConditionSatisifed = true
+        }
+    } else if(condition.isOperatorSelectedId === ComparisonsValue.AtDate) {
+        const blockDate = new Date(whenSelectedBlock.details.value)
+        const conditionDate = new Date(condition.isOperatorValue)
+
+        if(blockDate.getTime() === conditionDate.getTime()) {
+            isConditionSatisifed = true
+        }
     }
 
     if(isConditionSatisifed) {

@@ -34,7 +34,8 @@ export interface BlockCondition extends Block {
 export enum ComparisonType {
     Text = 'TEXT',
     Number = 'NUMBER',
-    Dropdown = 'DROPDOWN'
+    Dropdown = 'DROPDOWN',
+    Date = 'DATE'
 }
 
 export enum ComparisonsValue {
@@ -43,7 +44,10 @@ export enum ComparisonsValue {
     Greater = '>',
     Less = '<',
     Contains = 'contains',
-    Selected = 'selected'
+    Selected = 'selected',
+    After = 'after',
+    Before = 'before',
+    AtDate = 'at'
 }
 
 export enum ComparisonsAction {
@@ -687,10 +691,11 @@ export const BlockComponents = {
             nameVisible: true,
             conditionVisible: true,
             comparisons: [
-                {value: ComparisonsValue.Greater, name: 'Greater than'},
-                {value: ComparisonsValue.Less, name: 'Less than'},
+                {value: ComparisonsValue.Before, name: 'Before'},
+                {value: ComparisonsValue.After, name: 'After'},
+                {value: ComparisonsValue.AtDate, name: 'At'},
             ],
-            comparisonType: ComparisonType.Number
+            comparisonType: ComparisonType.Date
         },
         funcs: {
             getTitle: (block: BlockNumberRangeAnswer) => {

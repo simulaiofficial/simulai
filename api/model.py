@@ -68,6 +68,9 @@ class IsOperatorSelectedType(str, Enum):
     Less = '<'
     Contains = 'contains'
     Selected = 'selected'
+    Before = 'before'
+    After = 'after'
+    AtDate = 'at'
 
 
 class BlockCondition(Block):
