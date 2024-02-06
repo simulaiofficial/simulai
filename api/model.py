@@ -72,7 +72,7 @@ class IsOperatorSelectedType(str, Enum):
 class BlockCondition(Block):
     whenBlockSelectedId: str
     isOperatorSelectedId: IsOperatorSelectedType
-    isOperatorValue: str
+    isOperatorValue: Union[str, int]
     actionSelectedId: ActionSelectedType
     actionBlockSelectedId: str
 
