@@ -25,7 +25,8 @@ import {
     RiAttachment2,
     BiCalendarDate,
     BiTelephone,
-    GiWorld
+    GiWorld,
+    MdArrowdropdown
 } from "oh-vue-icons/icons"
 import App from './App.vue'
 import './index.css'
@@ -55,7 +56,8 @@ addIcons(
     RiAttachment2,
     BiCalendarDate,
     BiTelephone,
-    GiWorld
+    GiWorld,
+    MdArrowdropdown
 )
 
 const app = createApp(App)

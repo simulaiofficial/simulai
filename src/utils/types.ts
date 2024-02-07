@@ -11,6 +11,7 @@ import RangeBlock from '@/components/blocks/RangeBlock.vue'
 import CalendarBlock from '@/components/blocks/CalendarBlock.vue'
 import PhoneBlock from '@/components/blocks/PhoneBlock.vue'
 import CountryBlock from '@/components/blocks/CountryBlock.vue'
+import DropdownBlock from '@/components/blocks/DropdownBlock.vue'
 
 export interface Block {
     id: string,
@@ -77,7 +78,8 @@ export enum BlockType {
     NumberRangeAnswer = 'NUMBER_RANGE_ANSWER',
     CalendarAnswer = 'CALENDAR_ANSWER',
     PhoneAnswer = 'PHONE_ANSWER',
-    CountryAnswer = 'COUNTRY_ANSWER'
+    CountryAnswer = 'COUNTRY_ANSWER',
+    DropdownAnswer = 'DROPDOWN_ANSWER'
 }
 
 
@@ -145,6 +147,10 @@ export interface BlockPhoneAnswer extends BlockAnswer {
 }
 
 export interface BlockCountryAnswer extends BlockAnswer {
+}
+
+export interface BlockDropdown extends BlockAnswer {
+    items: OptionItem[];
 }
 
 export interface Details {
@@ -771,6 +777,40 @@ export const BlockComponents = {
                 return '-'
             }
         },
+    },
+    [BlockType.DropdownAnswer]: {
+        component: DropdownBlock,
+        isMenuVisible: true,
+        options: {
+            icon: 'md-arrowdropdown',
+            label: 'Dropdown Input',
+            isInput: true,
+            isNextButton: true,
+            isVirtualBlock: false,
+            setValueDuringTypeConversion: true,
+            canSplit: false,
+            emojiVisible: true,
+            requiredVisible: true,
+            hideVisible: true,
+            minVisible: false,
+            maxVisible: false,
+            stepVisible: false,
+            nameVisible: true,
+            conditionVisible: false,
+            comparisons: [
+                {value: ComparisonsValue.Selected, name: 'Selected'},
+            ],
+            comparisonType: ComparisonType.Dropdown
+        },
+        funcs: {
+            getTitle: (block: BlockRadio) => {
+                if (block.items && block.items.length > 0) {
+                    return block.items[0].label
+                } else {
+                    return '-'
+                }
+            }
+        }
     },
 }
 

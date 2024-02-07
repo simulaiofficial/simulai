@@ -25,6 +25,7 @@ class BlockType(str, Enum):
     CalendarAnswer = 'CALENDAR_ANSWER'
     PhoneAnswer = 'PHONE_ANSWER'
     CountryAnswer = 'COUNTRY_ANSWER'
+    DropdownAnswer = 'DROPDOWN_ANSWER'
 
 
 class ComparisonType(str, Enum):
@@ -210,12 +211,24 @@ class BlockPhoneAnswer(BlockAnswer):
             raise ValidationError("Incorrect type")
         return values
 
+
 class BlockCountryAnswer(BlockAnswer):
     @root_validator(pre=True)
     def check_type(cls, values):
         if values.get("type") != BlockType.CountryAnswer:
             raise ValidationError("Incorrect type")
         return values
+
+
+class BlockDropdownAnswer(BlockAnswer):
+    items: List[OptionItem]
+
+    @root_validator(pre=True)
+    def check_type(cls, values):
+        if values.get("type") != BlockType.DropdownAnswer:
+            raise ValidationError("Incorrect type")
+        return values
+
 
 class BlockHumanConversation(Block):
     @root_validator(pre=True)
@@ -273,7 +286,7 @@ class Page(BaseModel):
     blocks: List[Union[
         Block, BlockAnswer, BlockCondition, BlockOptions, BlockRadio, BlockInputTextAnswer,
         BlockInputEmailAnswer, BlockInputNumberAnswer, BlockInputDecimalAnswer, BlockInputFileAnswer, BlockNumberRangeAnswer,
-        BlockCalendarAnswer, BlockPhoneAnswer, BlockCountryAnswer, BlockText, BlockHeading, BlockDivider,
+        BlockCalendarAnswer, BlockPhoneAnswer, BlockCountryAnswer, BlockDropdownAnswer, BlockText, BlockHeading, BlockDivider,
         BlockQuote, BlockHumanConversation, BlockBotConversation]]
     saveUrl: str
     uploadUrl: Optional[str] = None
@@ -313,6 +326,8 @@ def get_blocks(page_blocks: PageBlocks) -> (str, List[Block]):
             block_objects.append(BlockPhoneAnswer(**json_data))
         elif block_type == BlockType.CountryAnswer:
             block_objects.append(BlockCountryAnswer(**json_data))
+        elif block_type == BlockType.DropdownAnswer:
+            block_objects.append(BlockDropdownAnswer(**json_data))
         elif block_type == BlockType.H1 or block_type == BlockType.H2 or block_type == BlockType.H3:
             block_objects.append(BlockHeading(**json_data))
         elif block_type == BlockType.Text:
