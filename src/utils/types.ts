@@ -9,6 +9,7 @@ import RadioBlock from '@/components/blocks/RadioBlock.vue'
 import InputAnswerBlock from '@/components/blocks/InputAnswerBlock.vue'
 import RangeBlock from '@/components/blocks/RangeBlock.vue'
 import CalendarBlock from '@/components/blocks/CalendarBlock.vue'
+import PhoneBlock from '@/components/blocks/PhoneBlock.vue'
 
 export interface Block {
     id: string,
@@ -74,6 +75,7 @@ export enum BlockType {
     InputFileAnswer = 'INPUT_FILE_ANSWER',
     NumberRangeAnswer = 'NUMBER_RANGE_ANSWER',
     CalendarAnswer = 'CALENDAR_ANSWER',
+    PhoneAnswer = 'PHONE_ANSWER'
 }
 
 
@@ -135,7 +137,9 @@ export interface BlockNumberRangeAnswer extends BlockAnswer {
 }
 
 export interface BlockCalendarAnswer extends BlockAnswer {
-    date: string
+}
+
+export interface BlockPhoneAnswer extends BlockAnswer {
 }
 
 export interface Details {
@@ -673,7 +677,7 @@ export const BlockComponents = {
         isMenuVisible: true,
         options: {
             icon: 'bi-calendar-date',
-            label: 'Date',
+            label: 'Date Input',
             isInput: false,
             isNextButton: true,
             isVirtualBlock: false,
@@ -682,10 +686,8 @@ export const BlockComponents = {
             emojiVisible: false,
             requiredVisible: true,
             hideVisible: true,
-            minVisible: true,
-            minLabel: 'Min',
-            maxVisible: true,
-            maxLabel: 'Max',
+            minVisible: false,
+            maxVisible: false,
             stepVisible: false,
             requiredWorkEmailVisible: false,
             nameVisible: true,
@@ -696,6 +698,35 @@ export const BlockComponents = {
                 {value: ComparisonsValue.AtDate, name: 'At'},
             ],
             comparisonType: ComparisonType.Date
+        },
+        funcs: {
+            getTitle: (block: BlockNumberRangeAnswer) => {
+                return '-'
+            }
+        },
+    },
+    [BlockType.PhoneAnswer]: {
+        component: PhoneBlock,
+        isMenuVisible: true,
+        options: {
+            icon: 'bi-telephone',
+            label: 'Phone Input',
+            isInput: false,
+            isNextButton: true,
+            isVirtualBlock: false,
+            setValueDuringTypeConversion: false,
+            canSplit: false,
+            emojiVisible: false,
+            requiredVisible: true,
+            hideVisible: true,
+            minVisible: false,
+            maxVisible: false,
+            stepVisible: false,
+            requiredWorkEmailVisible: false,
+            nameVisible: true,
+            conditionVisible: false,
+            comparisons: null,
+            comparisonType: null
         },
         funcs: {
             getTitle: (block: BlockNumberRangeAnswer) => {

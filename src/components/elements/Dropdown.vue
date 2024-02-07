@@ -63,7 +63,7 @@ const closeDropdownOnOutsideClick = (event) => {
 
 onMounted(() => {
   window.addEventListener('mousedown', closeDropdownOnOutsideClick);
-  if(modelValue) {
+  if(modelValue && options) {
     const selected = options.find(option => option.value === modelValue)
     selectedOption.value = selected
 

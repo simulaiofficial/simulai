@@ -1,17 +1,15 @@
 # main.py
 import json
-from typing import List
 
 import httpx
-from fastapi import FastAPI, Depends, Body
-from fastapi import Request
+from fastapi import FastAPI, Depends
 from fastapi import HTTPException
+from fastapi import Request
 from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
 
-from api.blocks_processing import TableAnswer, convert_blocks_to_table_answers
-from api.model import Block, get_blocks, Page, PageBlocks, BlockOptions, BlockType, Details, OptionItem
+from api.blocks_processing import convert_blocks_to_table_answers
+from api.model import get_blocks, Page, PageBlocks
 from api.sample import get_sample_page
 
 app = FastAPI()

@@ -255,6 +255,7 @@ async function saveData() {
       previewUrl: data.previewUrl
     };
   } catch (error) {
+    showErrorMessage('Cannot save! You may have an invalid configuration of your bot, please check it.')
     console.error('Error fetching data:', error);
   }
 }
