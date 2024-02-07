@@ -758,9 +758,13 @@ export const BlockComponents = {
             stepVisible: false,
             requiredWorkEmailVisible: false,
             nameVisible: true,
-            conditionVisible: false,
-            comparisons: null,
-            comparisonType: null
+            conditionVisible: true,
+            comparisons: [
+                {value: ComparisonsValue.EqualTo, name: 'Equal to'},
+                {value: ComparisonsValue.NotEqualTo, name: 'Not equal to'},
+                {value: ComparisonsValue.Contains, name: 'Contains'},
+            ],
+            comparisonType: ComparisonType.Text
         },
         funcs: {
             getTitle: (block: BlockNumberRangeAnswer) => {
