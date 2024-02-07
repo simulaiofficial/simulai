@@ -2,28 +2,27 @@
   <div class="py-3.5">
     <div class="relative flex items-center">
       <Dropdown
-        v-model="selectedCountryCode"
-        :options="countryCodeOptions"
+        v-model="selectedCountry"
+        :options="countryOptions"
         optionLabel="name"
         optionValue="value"
-        placeholder="Select Country Code"
+        placeholder="Select Country"
         class="w-24 md:w-48 h-full mr-2"
       />
-      <input v-model="phoneNumber" type="number" class="bg-gray-700 placeholder-gray-200 text-gray-300 focus:outline-none p-4 rounded-md h-full" placeholder="Phone Number"/>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import {onMounted, PropType, ref, watch} from 'vue'
-import {Block, BlockPhoneAnswer} from '@/utils/types'
+import {Block, BlockCountryAnswer} from '@/utils/types'
 import { setUpInitialValuesForBlock, setUpInitialValuesForBlockAnswer, unsetInitialValuesForBlockAnswer } from '@/utils/utils'
 import Dropdown from '../elements/Dropdown.vue';
 import {CountryCodes} from "@/utils/consts";
 
 const props = defineProps({
   block: {
-    type: Object as PropType<BlockPhoneAnswer>,
+    type: Object as PropType<BlockCountryAnswer>,
     required: true,
   },
   bgColor: {
@@ -36,19 +35,16 @@ const props = defineProps({
   }
 })
 
-// Define data
-const phoneNumber = ref('');
-const selectedCountryCode = ref('');
-const countryCodeOptions = ref(CountryCodes.map(country => ({
-  value: country.dial_code,
-  name: `${country.emoji} (${country.dial_code}) ${country.name} `,
+const selectedCountry = ref('');
+const countryOptions = ref(CountryCodes.map(country => ({
+  value: country.name,
+  name: `${country.emoji} ${country.name}`,
 })));
 
 function onSet() {
   // Initialize the value of phone number and selected country code if it's not already set
   if (!props.block.details || !props.block.details.value) {
-    phoneNumber.value = '';
-    selectedCountryCode.value = '';
+    selectedCountry.value = '';
   }
 
   setUpInitialValuesForBlock(props.block)
@@ -60,13 +56,13 @@ function onUnset() {
 }
 
 function handleInputUpdate() {
-  const formattedNumber = `${selectedCountryCode.value} ${phoneNumber.value}`;
+  const country = `${selectedCountry.value}`;
 
   // Update block.details.value with the formatted phone number
-  props.block.details.value = formattedNumber;
+  props.block.details.value = country;
 }
 
-watch([selectedCountryCode, phoneNumber], () => {
+watch([selectedCountry], () => {
   handleInputUpdate();
 });
 

@@ -10,6 +10,7 @@ import InputAnswerBlock from '@/components/blocks/InputAnswerBlock.vue'
 import RangeBlock from '@/components/blocks/RangeBlock.vue'
 import CalendarBlock from '@/components/blocks/CalendarBlock.vue'
 import PhoneBlock from '@/components/blocks/PhoneBlock.vue'
+import CountryBlock from '@/components/blocks/CountryBlock.vue'
 
 export interface Block {
     id: string,
@@ -75,7 +76,8 @@ export enum BlockType {
     InputFileAnswer = 'INPUT_FILE_ANSWER',
     NumberRangeAnswer = 'NUMBER_RANGE_ANSWER',
     CalendarAnswer = 'CALENDAR_ANSWER',
-    PhoneAnswer = 'PHONE_ANSWER'
+    PhoneAnswer = 'PHONE_ANSWER',
+    CountryAnswer = 'COUNTRY_ANSWER'
 }
 
 
@@ -140,6 +142,9 @@ export interface BlockCalendarAnswer extends BlockAnswer {
 }
 
 export interface BlockPhoneAnswer extends BlockAnswer {
+}
+
+export interface BlockCountryAnswer extends BlockAnswer {
 }
 
 export interface Details {
@@ -711,6 +716,35 @@ export const BlockComponents = {
         options: {
             icon: 'bi-telephone',
             label: 'Phone Input',
+            isInput: false,
+            isNextButton: true,
+            isVirtualBlock: false,
+            setValueDuringTypeConversion: false,
+            canSplit: false,
+            emojiVisible: false,
+            requiredVisible: true,
+            hideVisible: true,
+            minVisible: false,
+            maxVisible: false,
+            stepVisible: false,
+            requiredWorkEmailVisible: false,
+            nameVisible: true,
+            conditionVisible: false,
+            comparisons: null,
+            comparisonType: null
+        },
+        funcs: {
+            getTitle: (block: BlockNumberRangeAnswer) => {
+                return '-'
+            }
+        },
+    },
+    [BlockType.CountryAnswer]: {
+        component: CountryBlock,
+        isMenuVisible: true,
+        options: {
+            icon: 'gi-world',
+            label: 'Country Input',
             isInput: false,
             isNextButton: true,
             isVirtualBlock: false,
