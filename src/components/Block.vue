@@ -595,10 +595,15 @@ async function clearSearch(searchTermLength: number, newBlockType: BlockType, op
         props.block.details.value = ''
         resolve(0)
       } else {
-        const originalText = (content.value as any).$el.innerText.replaceAll(/\n|\r/g, '')
-        if (!originalText) resolve(0)
-        props.block.details.value = originalText.substring(0, startIdx) + originalText.substring(endIdx)
-        resolve(startIdx)
+        const innerText = (content.value as any).$el.innerText
+        if(innerText) {
+          const originalText = innerText.replaceAll(/\n|\r/g, '')
+          if (!originalText) resolve(0)
+          props.block.details.value = originalText.substring(0, startIdx) + originalText.substring(endIdx)
+          resolve(startIdx)
+        } else {
+          resolve(0)
+        }
       }
     })
   })

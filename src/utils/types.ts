@@ -796,7 +796,7 @@ export const BlockComponents = {
             maxVisible: false,
             stepVisible: false,
             nameVisible: true,
-            conditionVisible: false,
+            conditionVisible: true,
             comparisons: [
                 {value: ComparisonsValue.Selected, name: 'Selected'},
             ],

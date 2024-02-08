@@ -223,22 +223,26 @@ function updateAllNextBlocksDropdowns() {
 }
 
 function updateComparisonDropdownAndValue() {
+  comparisonOptions.value = []
+  comparisonType.value = null
+  operatorOptions.value = []
   const whenSelectedBlock = props.page.blocks.find((block) => block.id === props.block.whenBlockSelectedId)
-  debugger;
   if (whenSelectedBlock) {
-    comparisonOptions.value = getBlockOptions(whenSelectedBlock).comparisons
-    comparisonType.value = getBlockOptions(whenSelectedBlock).comparisonType
-    if (comparisonType.value === ComparisonType.Dropdown) {
-      operatorOptions.value = whenSelectedBlock.items.map((item) => {
-        return {'value': item.label, 'name': item.label}
-      })
-    } else if (comparisonType.value === ComparisonType.Date) {
+    const blockOptions = getBlockOptions(whenSelectedBlock)
+    if (blockOptions.conditionVisible) {
+      comparisonOptions.value = blockOptions.comparisons
+      comparisonType.value = blockOptions.comparisonType
+      if (comparisonType.value === ComparisonType.Dropdown) {
+        const items = whenSelectedBlock.items
+        if (items) {
+          operatorOptions.value = items.map((item) => {
+            return {'value': item.label, 'name': item.label}
+          })
+        }
+      } else if (comparisonType.value === ComparisonType.Date) {
 
+      }
     }
-  } else {
-    comparisonOptions.value = []
-    comparisonType.value = null
-    operatorOptions.value = []
   }
 }
 
