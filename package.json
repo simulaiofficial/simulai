@@ -34,6 +34,7 @@
     "joi": "^17.11.0",
     "lodash": "^4.17.21",
     "oh-vue-icons": "^1.0.0-rc3",
+    "primevue": "^3.48.1",
     "uuid": "^8.3.2",
     "vue": "^3.2.37",
     "vue-draggable-next": "^2.1.1",

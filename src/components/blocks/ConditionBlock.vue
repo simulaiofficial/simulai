@@ -64,6 +64,7 @@
                 v-model="date" :format="format" :language="language"
                 @update:model-value="handleDatePickerUpdate"
                 class="w-32 md:w-64 h-full ml-1 bg-gray-700 placeholder-gray-200 text-gray-300 focus:outline-none p-4 rounded-md"/>
+            <Calendar v-if="comparisonType === ComparisonType.Time" ref="timePicker" v-model="time" timeOnly/>
           </div>
         </div>
       </div>
@@ -121,6 +122,7 @@ import {
 } from '@/utils/utils'
 import Dropdown from '../elements/Dropdown.vue';
 import DatePicker from "vue3-datepicker";
+import Calendar from 'primevue/calendar';
 
 const previousInputBlockOptions = ref([])
 const allNextBlockOptions = ref([])
@@ -135,7 +137,9 @@ const operatorOptions = ref([]);
 const format = 'yyyy-MM-dd';
 const language = 'en'; // Change this to your desired language
 const datePicker = ref(null)
+const timePicker = ref()
 const date = ref(null)
+const time = ref()
 
 const actionOptions = ref([
   {value: ComparisonsAction.Jump, name: 'Jump to block'},

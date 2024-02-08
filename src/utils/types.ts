@@ -9,6 +9,7 @@ import RadioBlock from '@/components/blocks/RadioBlock.vue'
 import InputAnswerBlock from '@/components/blocks/InputAnswerBlock.vue'
 import RangeBlock from '@/components/blocks/RangeBlock.vue'
 import CalendarBlock from '@/components/blocks/CalendarBlock.vue'
+import TimeBlock from '@/components/blocks/TimeBlock.vue'
 import PhoneBlock from '@/components/blocks/PhoneBlock.vue'
 import CountryBlock from '@/components/blocks/CountryBlock.vue'
 import DropdownBlock from '@/components/blocks/DropdownBlock.vue'
@@ -38,7 +39,8 @@ export enum ComparisonType {
     Text = 'TEXT',
     Number = 'NUMBER',
     Dropdown = 'DROPDOWN',
-    Date = 'DATE'
+    Date = 'DATE',
+    Time = 'TIME'
 }
 
 export enum ComparisonsValue {
@@ -78,6 +80,7 @@ export enum BlockType {
     InputUrlAnswer = 'INPUT_URL_ANSWER',
     NumberRangeAnswer = 'NUMBER_RANGE_ANSWER',
     CalendarAnswer = 'CALENDAR_ANSWER',
+    TimeAnswer = 'TIME_ANSWER',
     PhoneAnswer = 'PHONE_ANSWER',
     CountryAnswer = 'COUNTRY_ANSWER',
     DropdownAnswer = 'DROPDOWN_ANSWER'
@@ -149,6 +152,9 @@ export interface BlockNumberRangeAnswer extends BlockAnswer {
 }
 
 export interface BlockCalendarAnswer extends BlockAnswer {
+}
+
+export interface BlockTimeAnswer extends BlockAnswer {
 }
 
 export interface BlockPhoneAnswer extends BlockAnswer {
@@ -717,6 +723,39 @@ export const BlockComponents = {
                 {value: ComparisonsValue.AtDate, name: 'At'},
             ],
             comparisonType: ComparisonType.Date
+        },
+        funcs: {
+            getTitle: (block: BlockNumberRangeAnswer) => {
+                return '-'
+            }
+        },
+    },
+    [BlockType.TimeAnswer]: {
+        component: TimeBlock,
+        isMenuVisible: true,
+        options: {
+            icon: 'co-av-timer',
+            label: 'Time Input',
+            isInput: false,
+            isNextButton: true,
+            isVirtualBlock: false,
+            setValueDuringTypeConversion: false,
+            canSplit: false,
+            emojiVisible: false,
+            requiredVisible: true,
+            hideVisible: true,
+            minVisible: false,
+            maxVisible: false,
+            stepVisible: false,
+            requiredWorkEmailVisible: false,
+            nameVisible: true,
+            conditionVisible: true,
+            comparisons: [
+                {value: ComparisonsValue.Before, name: 'Before'},
+                {value: ComparisonsValue.After, name: 'After'},
+                {value: ComparisonsValue.AtDate, name: 'At'},
+            ],
+            comparisonType: ComparisonType.Time
         },
         funcs: {
             getTitle: (block: BlockNumberRangeAnswer) => {

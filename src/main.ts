@@ -27,10 +27,13 @@ import {
     BiTelephone,
     GiWorld,
     MdArrowdropdown,
-    BiLink
+    BiLink,
+    CoAvTimer
 } from "oh-vue-icons/icons"
 import App from './App.vue'
 import './index.css'
+import PrimeVue from 'primevue/config';
+import 'primevue/resources/themes/aura-light-green/theme.css'
 
 addIcons(
     MdDragindicator,
@@ -59,10 +62,12 @@ addIcons(
     BiTelephone,
     GiWorld,
     MdArrowdropdown,
-    BiLink
+    BiLink,
+    CoAvTimer
 )
 
 const app = createApp(App)
 
+app.use(PrimeVue);
 app.component("v-icon", OhVueIcon)
 app.mount('#app')

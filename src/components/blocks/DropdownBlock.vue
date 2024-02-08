@@ -263,7 +263,6 @@ watch([dropdownValue],
 )
 
 onMounted(() => {
-  debugger;
   if (props.block.items) {
     dropdownOptions.value = props.block.items.map(item => ({
       value: item.label,

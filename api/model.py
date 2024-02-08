@@ -24,6 +24,7 @@ class BlockType(str, Enum):
     InputFileAnswer = 'INPUT_FILE_ANSWER'
     NumberRangeAnswer = 'NUMBER_RANGE_ANSWER'
     CalendarAnswer = 'CALENDAR_ANSWER'
+    TimeAnswer = 'TIME_ANSWER'
     PhoneAnswer = 'PHONE_ANSWER'
     CountryAnswer = 'COUNTRY_ANSWER'
     DropdownAnswer = 'DROPDOWN_ANSWER'
@@ -215,6 +216,12 @@ class BlockCalendarAnswer(BlockAnswer):
             raise ValidationError("Incorrect type")
         return values
 
+class BlockTimeAnswer(BlockAnswer):
+    @root_validator(pre=True)
+    def check_type(cls, values):
+        if values.get("type") != BlockType.TimeAnswer:
+            raise ValidationError("Incorrect type")
+        return values
 
 class BlockPhoneAnswer(BlockAnswer):
     @root_validator(pre=True)
@@ -304,7 +311,8 @@ class Page(BaseModel):
     blocks: List[Union[
         Block, BlockAnswer, BlockCondition, BlockOptions, BlockRadio, BlockInputTextAnswer, BlockInputUrlAnswer,
         BlockInputEmailAnswer, BlockInputNumberAnswer, BlockInputDecimalAnswer, BlockInputFileAnswer, BlockNumberRangeAnswer,
-        BlockCalendarAnswer, BlockPhoneAnswer, BlockCountryAnswer, BlockDropdownAnswer, BlockText, BlockHeading, BlockDivider,
+        BlockCalendarAnswer, BlockTimeAnswer, BlockPhoneAnswer, BlockCountryAnswer, BlockDropdownAnswer,
+        BlockText, BlockHeading, BlockDivider,
         BlockQuote, BlockHumanConversation, BlockBotConversation]]
     saveUrl: str
     uploadUrl: Optional[str] = None
@@ -342,6 +350,8 @@ def get_blocks(page_blocks: PageBlocks) -> (str, List[Block]):
             block_objects.append(BlockNumberRangeAnswer(**json_data))
         elif block_type == BlockType.CalendarAnswer:
             block_objects.append(BlockCalendarAnswer(**json_data))
+        elif block_type == BlockType.TimeAnswer:
+            block_objects.append(BlockTimeAnswer(**json_data))
         elif block_type == BlockType.PhoneAnswer:
             block_objects.append(BlockPhoneAnswer(**json_data))
         elif block_type == BlockType.CountryAnswer:

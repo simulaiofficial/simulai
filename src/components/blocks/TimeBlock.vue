@@ -1,0 +1,64 @@
+<template>
+  <div class="py-3.5">
+    <div class="relative">
+      <Calendar ref="timePicker" v-model="time" timeOnly/>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import {PropType, ref, watch} from 'vue'
+import {Block, BlockTimeAnswer} from '@/utils/types'
+import {
+  setUpInitialValuesForBlock,
+  setUpInitialValuesForBlockAnswer,
+  unsetInitialValuesForBlockAnswer
+} from '@/utils/utils'
+import Calendar from 'primevue/calendar';
+
+const props = defineProps({
+  block: {
+    type: Object as PropType<BlockTimeAnswer>,
+    required: true,
+  },
+  bgColor: {
+    type: String,
+    required: true
+  },
+  page: {
+    type: Object as PropType<{ name: string, isChat: boolean, isPreview: boolean, blocks: Block[], saveUrl: string }>,
+    required: true,
+  }
+})
+
+const timePicker = ref(null)
+const time = ref()
+
+function onSet() {
+  setUpInitialValuesForBlock(props.block)
+  setUpInitialValuesForBlockAnswer(props.block)
+}
+
+function onUnset() {
+  unsetInitialValuesForBlockAnswer(props.block)
+}
+
+watch([time],
+    () => {
+      debugger;
+      const date = new Date(time.value);
+
+      const hours = date.getHours();
+      const minutes = date.getMinutes();
+      props.block.details.value = `${hours}:${minutes}`
+    }
+)
+
+defineExpose({
+  onSet,
+  onUnset
+})
+</script>
+
+<style scoped>
+</style>
