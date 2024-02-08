@@ -310,7 +310,6 @@ function copyPublishUrl() {
 }
 
 function showNextBlock() {
-  debugger;
   if (props.page.blocks.length === 0) {
     setTimeout(() => showNextBlock(), 1000)
     return
@@ -359,7 +358,6 @@ function showNextBlock() {
   if (currentBlock && !getBlockOptions(currentBlock).isInput) {
     // const timeout = getBlockOptions(currentBlock).isVirtualBlock ? 0 : 1000;
     if (currentBlock.type === BlockType.Condition) {
-      debugger;
       const resultAction = calculateConditionAction(currentBlock, props.page.blocks)
       const hide = resultAction.hide
       const jump = resultAction.jump
@@ -424,7 +422,6 @@ function isYouVisibleBlock(block: Block, i: number) {
 }
 
 function goNextBlock() {
-  debugger;
   showNextBlock()
   const currentBlock = props.page.blocks[currentVisibleBlock.value]
   if (chatInput.value && shouldWaitForValueFromInput(currentBlock)) {

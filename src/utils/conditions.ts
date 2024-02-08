@@ -34,6 +34,7 @@ export function calculateConditionAction(
             isConditionSatisifed = true
         }
     } else if (condition.isOperatorSelectedId === ComparisonsValue.Selected) {
+        debugger;
         const foundItem = whenSelectedBlock.items.find(item => item.label === condition.isOperatorValue && item.isChecked === true)
         if (foundItem) {
             isConditionSatisifed = true

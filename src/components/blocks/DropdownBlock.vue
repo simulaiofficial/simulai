@@ -252,6 +252,16 @@ watch(
     {deep: true}
 );
 
+watch([dropdownValue],
+    () => {
+      props.block.items.forEach(item => item.isChecked = false)
+      const checkedItem = props.block.items.find(item => item.label === dropdownValue.value)
+      if(checkedItem) {
+        checkedItem.isChecked = true
+      }
+    }
+)
+
 onMounted(() => {
   debugger;
   if (props.block.items) {
