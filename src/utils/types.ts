@@ -75,6 +75,7 @@ export enum BlockType {
     InputNumberAnswer = 'INPUT_NUMBER_ANSWER',
     InputDecimalAnswer = 'INPUT_DECIMAL_ANSWER',
     InputFileAnswer = 'INPUT_FILE_ANSWER',
+    InputUrlAnswer = 'INPUT_URL_ANSWER',
     NumberRangeAnswer = 'NUMBER_RANGE_ANSWER',
     CalendarAnswer = 'CALENDAR_ANSWER',
     PhoneAnswer = 'PHONE_ANSWER',
@@ -110,6 +111,13 @@ export interface BlockRadio extends BlockAnswer {
 }
 
 export interface BlockInputTextAnswer extends BlockAnswer {
+    minRequired: boolean
+    min?: number,
+    maxRequired: boolean
+    max?: number,
+}
+
+export interface BlockInputUrlAnswer extends BlockAnswer {
     minRequired: boolean
     min?: number,
     maxRequired: boolean
@@ -811,6 +819,43 @@ export const BlockComponents = {
                 }
             }
         }
+    },
+    [BlockType.InputUrlAnswer]: {
+        component: InputAnswerBlock,
+        isMenuVisible: true,
+        options: {
+            icon: 'bi-link',
+            label: 'Input Link Address',
+            isInput: true,
+            isNextButton: false,
+            isVirtualBlock: false,
+            setValueDuringTypeConversion: false,
+            canSplit: false,
+            emojiVisible: false,
+            requiredVisible: true,
+            hideVisible: true,
+            minVisible: true,
+            minLabel: 'Min characters',
+            maxVisible: true,
+            maxLabel: 'Max characters',
+            stepVisible: false,
+            requiredWorkEmailVisible: false,
+            nameVisible: true,
+            conditionVisible: true,
+            comparisons: [
+                {value: ComparisonsValue.EqualTo, name: 'Equal to'},
+                {value: ComparisonsValue.NotEqualTo, name: 'Not equal to'},
+                {value: ComparisonsValue.Contains, name: 'Contains'},
+            ],
+            comparisonType: ComparisonType.Text
+        },
+        funcs: {
+            getTitle: (block: BlockInputTextAnswer) => {
+                return '-'
+            }
+        },
+
+
     },
 }
 

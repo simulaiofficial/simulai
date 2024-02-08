@@ -18,6 +18,7 @@ class BlockType(str, Enum):
     Radio = 'RADIO'
     InputEmailAnswer = 'INPUT_EMAIL_ANSWER'
     InputTextAnswer = 'INPUT_TEXT_ANSWER'
+    InputUrlAnswer = 'INPUT_URL_ANSWER'
     InputNumberAnswer = 'INPUT_NUMBER_ANSWER'
     InputDecimalAnswer = 'INPUT_DECIMAL_ANSWER'
     InputFileAnswer = 'INPUT_FILE_ANSWER'
@@ -138,6 +139,17 @@ class BlockInputTextAnswer(BlockAnswer):
             raise ValidationError("Incorrect type")
         return values
 
+class BlockInputUrlAnswer(BlockAnswer):
+    minRequired: bool = False
+    min: Optional[int] = None
+    maxRequired: bool = False
+    max: Optional[int] = None
+
+    @root_validator(pre=True)
+    def check_type(cls, values):
+        if values.get("type") != BlockType.InputUrlAnswer:
+            raise ValidationError("Incorrect type")
+        return values
 
 class BlockInputEmailAnswer(BlockAnswer):
     isWorkEmailRequired: bool = False
@@ -290,7 +302,7 @@ class Page(BaseModel):
     isChat: bool
     isPreview: bool
     blocks: List[Union[
-        Block, BlockAnswer, BlockCondition, BlockOptions, BlockRadio, BlockInputTextAnswer,
+        Block, BlockAnswer, BlockCondition, BlockOptions, BlockRadio, BlockInputTextAnswer, BlockInputUrlAnswer,
         BlockInputEmailAnswer, BlockInputNumberAnswer, BlockInputDecimalAnswer, BlockInputFileAnswer, BlockNumberRangeAnswer,
         BlockCalendarAnswer, BlockPhoneAnswer, BlockCountryAnswer, BlockDropdownAnswer, BlockText, BlockHeading, BlockDivider,
         BlockQuote, BlockHumanConversation, BlockBotConversation]]
@@ -316,6 +328,8 @@ def get_blocks(page_blocks: PageBlocks) -> (str, List[Block]):
             block_objects.append(BlockRadio(**json_data))
         elif block_type == BlockType.InputTextAnswer:
             block_objects.append(BlockInputTextAnswer(**json_data))
+        elif block_type == BlockType.InputUrlAnswer:
+            block_objects.append(BlockInputUrlAnswer(**json_data))
         elif block_type == BlockType.InputNumberAnswer:
             block_objects.append(BlockInputNumberAnswer(**json_data))
         elif block_type == BlockType.InputDecimalAnswer:

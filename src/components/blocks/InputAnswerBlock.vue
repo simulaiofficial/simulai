@@ -32,6 +32,21 @@
           ref="input"
       />
       <input
+          v-if="block.type === BlockType.InputUrlAnswer"
+          @input.prevent
+          @keydown.enter.prevent
+          @keydown.space.prevent
+          @keydown.tab.prevent
+          @keydown.delete.prevent
+          @keydown="disableInput"
+          class="w-full h-full bg-gray-700 placeholder-gray-200 text-gray-300 focus:outline-none p-4 rounded-md cursor-not-allowed"
+          style="border: 1px solid #706161;"
+          :style="{backgroundColor: props.bgColor}"
+          placeholder="Link address input..."
+          type="text"
+          ref="input"
+      />
+      <input
           v-if="block.type === BlockType.InputNumberAnswer"
           @input.prevent
           @keydown.enter.prevent

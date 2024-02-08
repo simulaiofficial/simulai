@@ -45,6 +45,17 @@ function validateInputTextAnswer(joiValidation, inputValue: string, block: Block
     return null;
 }
 
+function validateInputUrlAnswer(joiValidation, inputValue: string, block: Block) {
+    if (joiValidation !== null) return joiValidation
+
+    if (block.type === BlockType.InputUrlAnswer) {
+        const joiValidation = Joi.string().uri()
+        return joiValidation
+    }
+
+    return null;
+}
+
 function validateInputEmailAnswer(joiValidation, inputValue: string, block: Block) {
     if (joiValidation !== null) return joiValidation
 
@@ -83,6 +94,7 @@ export function validateBlock(inputValue: string, block: Block | null) {
     let joiValidation = null;
 
     joiValidation = validateInputTextAnswer(joiValidation, inputValue, block)
+    joiValidation = validateInputUrlAnswer(joiValidation, inputValue, block)
     joiValidation = validateInputNumberAnswer(joiValidation, inputValue, block)
     joiValidation = validateInputEmailAnswer(joiValidation, inputValue, block)
     joiValidation = validateInputFileAnswer(joiValidation, inputValue, block)
@@ -109,6 +121,8 @@ export function validateBlock(inputValue: string, block: Block | null) {
     if (validationResult.error) {
         if (block.type === BlockType.InputEmailAnswer && block.isWorkEmailRequired && validationResult.error.toString().indexOf('an invalid value') !== -1) {
             validationResult.error = 'I am sorry, but you need to provide valid work email address';
+        } else if(block.type === BlockType.InputUrlAnswer && validationResult.error.toString().indexOf('must be a valid uri') !== -1) {
+            validationResult.error = 'I am sorry, but you need to provide valid url link address, which starts with "http://" or "https://"';
         } else {
             validationResult.error = validationResult.error.toString().replace('ValidationError: "value" ', 'Please try again, your answer ')
         }
