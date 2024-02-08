@@ -229,6 +229,12 @@ class BlockDropdownAnswer(BlockAnswer):
             raise ValidationError("Incorrect type")
         return values
 
+    def get_value(self):
+        for item in self.items:
+            if item.isChecked:
+                return item.label
+        return None  # Return None if no item is checked
+
 
 class BlockHumanConversation(Block):
     @root_validator(pre=True)
