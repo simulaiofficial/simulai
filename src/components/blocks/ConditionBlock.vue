@@ -268,6 +268,15 @@ watch(() => props.block.whenBlockSelectedId, () => {
   updateComparisonDropdownAndValue()
 })
 
+watch([time],
+    () => {
+      const date = new Date(time.value);
+      const hours = date.getHours();
+      const minutes = date.getMinutes();
+      props.block.isOperatorValue = `${hours}:${minutes}`
+    }
+)
+
 defineExpose({
   onSet,
   onUnset

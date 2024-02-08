@@ -45,9 +45,7 @@ function onUnset() {
 
 watch([time],
     () => {
-      debugger;
       const date = new Date(time.value);
-
       const hours = date.getHours();
       const minutes = date.getMinutes();
       props.block.details.value = `${hours}:${minutes}`
