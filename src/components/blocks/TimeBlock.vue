@@ -1,7 +1,7 @@
 <template>
   <div class="py-3.5">
     <div class="relative">
-      <Calendar ref="timePicker" v-model="time" timeOnly/>
+      <Calendar ref="timePicker" v-model="time" timeOnly class="time-picker"/>
     </div>
   </div>
 </template>
@@ -58,5 +58,13 @@ defineExpose({
 })
 </script>
 
-<style scoped>
+<style lang="scss">
+.time-picker input {
+  background-color: #374151;
+  color: #ffffff;
+  &:focus {
+    border: none;
+    outline: none;
+  }
+}
 </style>
