@@ -316,17 +316,18 @@ class BlockQuote(BlockDisplayText):
             raise ValidationError("Incorrect type")
         return values
 
+BlockTypes = Union[
+        Block, BlockAnswer, BlockCondition, BlockOptions, BlockRadio, BlockInputTextAnswer, BlockInputUrlAnswer,
+        BlockInputEmailAnswer, BlockInputNumberAnswer, BlockInputDecimalAnswer, BlockInputFileAnswer, BlockNumberRangeAnswer,
+        BlockCalendarAnswer, BlockTimeAnswer, BlockPhoneAnswer, BlockCountryAnswer, BlockDropdownAnswer,
+        BlockText, BlockHeading, BlockDivider, BlockRatingAnswer,
+        BlockQuote, BlockHumanConversation, BlockBotConversation]
 
 class Page(BaseModel):
     name: str
     isChat: bool
     isPreview: bool
-    blocks: List[Union[
-        Block, BlockAnswer, BlockCondition, BlockOptions, BlockRadio, BlockInputTextAnswer, BlockInputUrlAnswer,
-        BlockInputEmailAnswer, BlockInputNumberAnswer, BlockInputDecimalAnswer, BlockInputFileAnswer, BlockNumberRangeAnswer,
-        BlockCalendarAnswer, BlockTimeAnswer, BlockPhoneAnswer, BlockCountryAnswer, BlockDropdownAnswer,
-        BlockText, BlockHeading, BlockDivider, BlockRatingAnswer,
-        BlockQuote, BlockHumanConversation, BlockBotConversation]]
+    blocks: List[BlockTypes]
     saveUrl: str
     uploadUrl: Optional[str] = None
 

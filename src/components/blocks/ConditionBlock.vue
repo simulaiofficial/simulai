@@ -64,7 +64,8 @@
                 v-model="date" :format="format" :language="language"
                 @update:model-value="handleDatePickerUpdate"
                 class="w-32 md:w-64 h-full ml-1 bg-gray-700 placeholder-gray-200 text-gray-300 focus:outline-none p-4 rounded-md"/>
-            <Calendar v-if="comparisonType === ComparisonType.Time" ref="timePicker" class="mt-1 ml-1 time-picker" v-model="time" timeOnly/>
+            <Calendar v-if="comparisonType === ComparisonType.Time" ref="timePicker" class="mt-1 ml-1 time-picker"
+                      v-model="time" timeOnly/>
           </div>
         </div>
       </div>
@@ -144,6 +145,7 @@ const time = ref()
 const actionOptions = ref([
   {value: ComparisonsAction.Jump, name: 'Jump to block'},
   {value: ComparisonsAction.Hide, name: 'Hide block'},
+  {value: ComparisonsAction.Go, name: 'Go to bot'},
 ]);
 
 const props = defineProps({

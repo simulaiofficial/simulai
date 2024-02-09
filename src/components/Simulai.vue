@@ -238,7 +238,8 @@ async function saveData() {
 
     if (!response.ok) {
       showErrorMessage((await response.json()).detail)
-      throw new Error('Network response was not ok');
+      return
+      // throw new Error('Network response was not ok');
     }
 
     if (response.ok) {

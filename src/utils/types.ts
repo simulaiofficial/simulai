@@ -59,6 +59,7 @@ export enum ComparisonsValue {
 export enum ComparisonsAction {
     Hide = 'hide',
     Jump = 'jump',
+    Go = 'go'
 }
 
 export enum BlockType {

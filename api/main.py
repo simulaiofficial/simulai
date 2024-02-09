@@ -93,6 +93,9 @@ async def save_data(dst: str, pay = Depends(get_blocks)):
         if response.status_code == 400:
             raise HTTPException(status_code=400, detail=response.text)
 
+        if response.status_code == 409:
+            raise HTTPException(status_code=409, detail=response.text)
+
         if response.status_code != 200:
             raise HTTPException(status_code=500, detail="Failed to post data to dst URL")
 
