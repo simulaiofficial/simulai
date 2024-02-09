@@ -28,6 +28,7 @@ class BlockType(str, Enum):
     PhoneAnswer = 'PHONE_ANSWER'
     CountryAnswer = 'COUNTRY_ANSWER'
     DropdownAnswer = 'DROPDOWN_ANSWER'
+    RatingAnswer = 'RATING_ANSWER'
 
 
 class ComparisonType(str, Enum):
@@ -140,6 +141,7 @@ class BlockInputTextAnswer(BlockAnswer):
             raise ValidationError("Incorrect type")
         return values
 
+
 class BlockInputUrlAnswer(BlockAnswer):
     minRequired: bool = False
     min: Optional[int] = None
@@ -151,6 +153,7 @@ class BlockInputUrlAnswer(BlockAnswer):
         if values.get("type") != BlockType.InputUrlAnswer:
             raise ValidationError("Incorrect type")
         return values
+
 
 class BlockInputEmailAnswer(BlockAnswer):
     isWorkEmailRequired: bool = False
@@ -216,12 +219,14 @@ class BlockCalendarAnswer(BlockAnswer):
             raise ValidationError("Incorrect type")
         return values
 
+
 class BlockTimeAnswer(BlockAnswer):
     @root_validator(pre=True)
     def check_type(cls, values):
         if values.get("type") != BlockType.TimeAnswer:
             raise ValidationError("Incorrect type")
         return values
+
 
 class BlockPhoneAnswer(BlockAnswer):
     @root_validator(pre=True)
@@ -235,6 +240,14 @@ class BlockCountryAnswer(BlockAnswer):
     @root_validator(pre=True)
     def check_type(cls, values):
         if values.get("type") != BlockType.CountryAnswer:
+            raise ValidationError("Incorrect type")
+        return values
+
+
+class BlockRatingAnswer(BlockAnswer):
+    @root_validator(pre=True)
+    def check_type(cls, values):
+        if values.get("type") != BlockType.RatingAnswer:
             raise ValidationError("Incorrect type")
         return values
 
@@ -312,7 +325,7 @@ class Page(BaseModel):
         Block, BlockAnswer, BlockCondition, BlockOptions, BlockRadio, BlockInputTextAnswer, BlockInputUrlAnswer,
         BlockInputEmailAnswer, BlockInputNumberAnswer, BlockInputDecimalAnswer, BlockInputFileAnswer, BlockNumberRangeAnswer,
         BlockCalendarAnswer, BlockTimeAnswer, BlockPhoneAnswer, BlockCountryAnswer, BlockDropdownAnswer,
-        BlockText, BlockHeading, BlockDivider,
+        BlockText, BlockHeading, BlockDivider, BlockRatingAnswer,
         BlockQuote, BlockHumanConversation, BlockBotConversation]]
     saveUrl: str
     uploadUrl: Optional[str] = None
@@ -358,6 +371,8 @@ def get_blocks(page_blocks: PageBlocks) -> (str, List[Block]):
             block_objects.append(BlockCountryAnswer(**json_data))
         elif block_type == BlockType.DropdownAnswer:
             block_objects.append(BlockDropdownAnswer(**json_data))
+        elif block_type == BlockType.RatingAnswer:
+            block_objects.append(BlockRatingAnswer(**json_data))
         elif block_type == BlockType.H1 or block_type == BlockType.H2 or block_type == BlockType.H3:
             block_objects.append(BlockHeading(**json_data))
         elif block_type == BlockType.Text:

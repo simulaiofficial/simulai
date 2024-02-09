@@ -13,6 +13,7 @@ import TimeBlock from '@/components/blocks/TimeBlock.vue'
 import PhoneBlock from '@/components/blocks/PhoneBlock.vue'
 import CountryBlock from '@/components/blocks/CountryBlock.vue'
 import DropdownBlock from '@/components/blocks/DropdownBlock.vue'
+import RatingBlock from '@/components/blocks/RatingBlock.vue'
 
 export interface Block {
     id: string,
@@ -83,7 +84,8 @@ export enum BlockType {
     TimeAnswer = 'TIME_ANSWER',
     PhoneAnswer = 'PHONE_ANSWER',
     CountryAnswer = 'COUNTRY_ANSWER',
-    DropdownAnswer = 'DROPDOWN_ANSWER'
+    DropdownAnswer = 'DROPDOWN_ANSWER',
+    RatingAnswer = 'RATING_ANSWER'
 }
 
 
@@ -161,6 +163,9 @@ export interface BlockPhoneAnswer extends BlockAnswer {
 }
 
 export interface BlockCountryAnswer extends BlockAnswer {
+}
+
+export interface BlockRatingAnswer extends BlockAnswer {
 }
 
 export interface BlockDropdown extends BlockAnswer {
@@ -651,8 +656,7 @@ export const BlockComponents = {
             requiredWorkEmailVisible: false,
             nameVisible: true,
             conditionVisible: true,
-            comparisons: [
-            ],
+            comparisons: [],
             comparisonType: null
         },
         funcs: {
@@ -890,6 +894,42 @@ export const BlockComponents = {
         },
         funcs: {
             getTitle: (block: BlockInputTextAnswer) => {
+                return '-'
+            }
+        },
+
+
+    },
+    [BlockType.RatingAnswer]: {
+        component: RatingBlock,
+        isMenuVisible: true,
+        options: {
+            icon: 'bi-star',
+            label: 'Input Rating',
+            isInput: true,
+            isNextButton: true,
+            isVirtualBlock: false,
+            setValueDuringTypeConversion: false,
+            canSplit: false,
+            emojiVisible: false,
+            requiredVisible: true,
+            hideVisible: true,
+            minVisible: false,
+            maxVisible: false,
+            stepVisible: false,
+            requiredWorkEmailVisible: false,
+            nameVisible: true,
+            conditionVisible: true,
+            comparisons: [
+                {value: ComparisonsValue.EqualTo, name: 'Equal to'},
+                {value: ComparisonsValue.NotEqualTo, name: 'Not equal to'},
+                {value: ComparisonsValue.Greater, name: 'Greater than'},
+                {value: ComparisonsValue.Less, name: 'Less than'},
+            ],
+            comparisonType: ComparisonType.Number
+        },
+        funcs: {
+            getTitle: (block: BlockInputNumberAnswer) => {
                 return '-'
             }
         },
