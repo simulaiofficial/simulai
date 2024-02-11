@@ -8,7 +8,7 @@ from fastapi import Request
 from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
 
-from api.blocks_processing import convert_blocks_to_table_answers
+from api.blocks_processing import convert_blocks_to_table_answers, calculate_dependent_block_ids
 from api.model import get_blocks, Page, PageBlocks
 from api.sample import get_sample_page
 
@@ -84,11 +84,13 @@ async def save_data(dst: str, pay = Depends(get_blocks)):
     print("Name:", name)
 
     table_answers = convert_blocks_to_table_answers(blocks)
+    dependent_ids = calculate_dependent_block_ids(blocks)
 
     save_data = {
         'name': name,
         'blocks': blocks,
-        'table_answers': table_answers
+        'table_answers': table_answers,
+        'dependent_ids': dependent_ids
     }
 
     json_blocks_result = jsonable_encoder(save_data)

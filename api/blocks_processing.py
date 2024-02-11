@@ -2,7 +2,7 @@ from typing import List, Optional, Union
 
 from pydantic import BaseModel
 
-from api.model import Block, BlockAnswer, BlockDisplayText
+from api.model import Block, BlockAnswer, BlockDisplayText, BlockCondition, ActionSelectedType
 
 
 def find_previous_label(blocks: List[Block], current_idx: int):
@@ -41,4 +41,17 @@ def convert_blocks_to_table_answers(blocks: List[Block]) -> List[TableAnswer]:
             table_answers.append(table_answer)
 
     return table_answers
+
+
+def calculate_dependent_block_ids(blocks: List[Block]) -> List[str]:
+    ids = []
+
+    for idx, block in enumerate(blocks):
+        if isinstance(block, BlockCondition):
+            block_condition: BlockCondition = block  # This is already a BlockAnswer
+
+            if block_condition.actionSelectedId == ActionSelectedType.Go:
+                ids.append(block_condition.actionBlockSelectedId)
+
+    return ids
 
