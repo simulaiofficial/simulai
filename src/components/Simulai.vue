@@ -362,6 +362,7 @@ function showNextBlock() {
       const resultAction = calculateConditionAction(currentBlock, props.page.blocks)
       const hide = resultAction.hide
       const jump = resultAction.jump
+      const go = resultAction.go
       if (hide.length > 0) {
         hide.forEach(hideId => {
           const foundItem = props.page.blocks.find(block => block.id === hideId)
@@ -384,6 +385,17 @@ function showNextBlock() {
           }
           i++;
         }
+      }
+
+      if (go !== null) {
+        const foundBot = props.page.workspaceBots.find(bot => bot.id === go)
+        const foundBotBlocks = foundBot.blocks
+
+        // Remove blocks from currentIndex + 1 onwards
+        props.page.blocks.splice(currentVisibleBlock.value + 1);
+
+        // Insert foundBotBlocks after currentIndex
+        props.page.blocks.splice(currentVisibleBlock.value + 1, 0, ...foundBotBlocks);
       }
 
       setTimeout(() => {

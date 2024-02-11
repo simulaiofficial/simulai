@@ -66,6 +66,7 @@ class BlockAnswer(Block):
 class ActionSelectedType(str, Enum):
     Jump = 'jump'
     Hide = 'hide'
+    Go = 'go'
 
 
 class IsOperatorSelectedType(str, Enum):

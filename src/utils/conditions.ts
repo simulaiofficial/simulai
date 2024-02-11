@@ -7,7 +7,8 @@ export function calculateConditionAction(
     const whenSelectedBlock = blocks.find((block) => block.id === condition.whenBlockSelectedId)
     const resultAction = {
         hide: [],
-        jump: null
+        jump: null,
+        go: null
     }
     let isConditionSatisifed = false
     if (!whenSelectedBlock) {
@@ -113,6 +114,8 @@ export function calculateConditionAction(
             resultAction.hide = [condition.actionBlockSelectedId]
         } else if (condition.actionSelectedId === ComparisonsAction.Jump) {
             resultAction.jump = condition.actionBlockSelectedId
+        } else if(condition.actionSelectedId === ComparisonsAction.Go) {
+            resultAction.go = condition.actionBlockSelectedId
         }
     }
 
