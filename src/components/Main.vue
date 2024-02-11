@@ -88,6 +88,7 @@ if (isTest !== '1') {
     isPreview: false,
     saveUrl: null,
     uploadUrl: null,
+    workspaceBots: [],
     blocks: [{
       id: uuidv4(),
       type: BlockType.H1,

@@ -316,18 +316,28 @@ class BlockQuote(BlockDisplayText):
             raise ValidationError("Incorrect type")
         return values
 
+
 BlockTypes = Union[
-        Block, BlockAnswer, BlockCondition, BlockOptions, BlockRadio, BlockInputTextAnswer, BlockInputUrlAnswer,
-        BlockInputEmailAnswer, BlockInputNumberAnswer, BlockInputDecimalAnswer, BlockInputFileAnswer, BlockNumberRangeAnswer,
-        BlockCalendarAnswer, BlockTimeAnswer, BlockPhoneAnswer, BlockCountryAnswer, BlockDropdownAnswer,
-        BlockText, BlockHeading, BlockDivider, BlockRatingAnswer,
-        BlockQuote, BlockHumanConversation, BlockBotConversation]
+    Block, BlockAnswer, BlockCondition, BlockOptions, BlockRadio, BlockInputTextAnswer, BlockInputUrlAnswer,
+    BlockInputEmailAnswer, BlockInputNumberAnswer, BlockInputDecimalAnswer, BlockInputFileAnswer, BlockNumberRangeAnswer,
+    BlockCalendarAnswer, BlockTimeAnswer, BlockPhoneAnswer, BlockCountryAnswer, BlockDropdownAnswer,
+    BlockText, BlockHeading, BlockDivider, BlockRatingAnswer,
+    BlockQuote, BlockHumanConversation, BlockBotConversation]
+
+
+class WorkspaceBot(BaseModel):
+    id: str
+    name: str
+    blocks: List[BlockTypes]
+
 
 class Page(BaseModel):
+    id: str
     name: str
     isChat: bool
     isPreview: bool
     blocks: List[BlockTypes]
+    workspaceBots: List[WorkspaceBot]
     saveUrl: str
     uploadUrl: Optional[str] = None
 

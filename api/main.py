@@ -26,12 +26,22 @@ app.add_middleware(
 def deserialize_page(json_page):
     # Extract the blocks JSON
     blocks_json = json_page.get('blocks', [])
+    workspace_bots_json = json_page.get('workspaceBots', [])
     # Create a PageBlocks instance from the blocks JSON
     page_blocks = PageBlocks(name="", blocks=blocks_json)
     # Use get_blocks to deserialize the blocks
     name, deserialized_blocks = get_blocks(page_blocks)
     # Replace the blocks list in json_page with the deserialized blocks
     json_page['blocks'] = deserialized_blocks
+
+    for workspace_bot_json in workspace_bots_json:
+        bot_page_blocks = PageBlocks(name="", blocks=workspace_bot_json['blocks'])
+        print('Processing:', workspace_bot_json['name'])
+        n, deserialized_bot_blocks = get_blocks(bot_page_blocks)
+        workspace_bot_json['blocks'] = deserialized_bot_blocks
+
+    json_page['workspaceBots'] = workspace_bots_json
+
     page_object = Page(**json_page)
     return page_object
 

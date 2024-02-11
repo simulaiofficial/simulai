@@ -141,7 +141,7 @@ import {
   isConversationBlock,
   BlockComponents,
   getBlockOptions,
-  shouldWaitForValueFromInput, isVisibleBlock
+  shouldWaitForValueFromInput, isVisibleBlock, WorkspaceBot
 } from '@/utils/types'
 import {htmlToMarkdown} from '@/utils/utils'
 import BlockComponent from './Block.vue'
@@ -162,7 +162,7 @@ const showButtons = computed(() => {
 const props = defineProps({
   page: {
     type: Object as PropType<{
-      name: string, isChat: boolean, isPreview: boolean, blocks: Block[], saveUrl: string, uploadUrl: string
+      name: string, isChat: boolean, isPreview: boolean, workspaceBots: WorkspaceBot[], blocks: Block[], saveUrl: string, uploadUrl: string
     }>,
     required: true,
   },

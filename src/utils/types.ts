@@ -22,6 +22,12 @@ export interface Block {
     isHidden?: boolean;
 }
 
+export interface WorkspaceBot {
+    id: string,
+    name: string,
+    blocks: Block[]
+}
+
 export interface BlockAnswer extends Block {
     isRequired: boolean,
     setName: boolean,

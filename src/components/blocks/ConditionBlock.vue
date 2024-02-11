@@ -92,7 +92,7 @@
                   :options="allNextBlockOptions"
                   optionLabel="name"
                   optionValue="value"
-                  placeholder="Select block"
+                  :placeholder="props.block.actionSelectedId === ComparisonsAction.Go ? 'Select bot' : 'Select block'"
                   class="w-32 md:w-64 h-full ml-1"
                   :key="blocksHistoryKey"
               />
@@ -154,7 +154,7 @@ const props = defineProps({
     required: true,
   },
   page: {
-    type: Object as PropType<{ name: string, isChat: boolean, isPreview: boolean, blocks: Block[], saveUrl: string }>,
+    type: Object as PropType<{ id: string, name: string, isChat: boolean, isPreview: boolean, workspaceBots: WorkspaceBot[], blocks: Block[], saveUrl: string }>,
     required: true,
   },
   blockNumber: {
@@ -217,15 +217,23 @@ function updatePreviousInputBlocksDropdowns() {
 }
 
 function updateAllNextBlocksDropdowns() {
-  let blocksWithIndex = props.page.blocks
-      .map((block, index) => ({block, index})) // Create an array of objects containing both block and index
-      .filter(({block, index}) => index >= props.blockNumber && isFlowBlock(block.type) && !block.isHidden);
+  if (props.block.actionSelectedId === ComparisonsAction.Jump
+      || props.block.actionSelectedId === ComparisonsAction.Hide) {
+    let blocksWithIndex = props.page.blocks
+        .map((block, index) => ({block, index})) // Create an array of objects containing both block and index
+        .filter(({block, index}) => index >= props.blockNumber && isFlowBlock(block.type) && !block.isHidden);
 
-  allNextBlockOptions.value = blocksWithIndex.map(({block, index}) => {
-    const title = getBlockFuncs(block).getTitle(block);
-    const optionTitle = `[${index + 1}] ${title} ...`; // Adding 1 to the index to start from 1 instead of 0
-    return {'value': block.id, 'name': optionTitle};
-  });
+    allNextBlockOptions.value = blocksWithIndex.map(({block, index}) => {
+      const title = getBlockFuncs(block).getTitle(block);
+      const optionTitle = `[${index + 1}] ${title} ...`; // Adding 1 to the index to start from 1 instead of 0
+      return {'value': block.id, 'name': optionTitle};
+    });
+  } else {
+    allNextBlockOptions.value = props.page.workspaceBots.filter((bot) => bot.id !== props.page.id).map((workspaceBot, index) => {
+      debugger;
+      return {'value': workspaceBot.id, 'name': workspaceBot.name};
+    });
+  }
 }
 
 function updateComparisonDropdownAndValue() {
