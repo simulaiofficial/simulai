@@ -1,4 +1,5 @@
 import TextBlock from '@/components/blocks/TextBlock.vue'
+import ImageBlock from '@/components/blocks/ImageBlock.vue'
 import ConversationBlock from '@/components/blocks/ConversationBlock.vue'
 import DividerBlock from '@/components/blocks/DividerBlock.vue'
 import HeadingBlock from '@/components/blocks/HeadingBlock.vue'
@@ -70,6 +71,7 @@ export enum ComparisonsAction {
 
 export enum BlockType {
     Text = 'TEXT',
+    Image = 'IMAGE',
     ConversationHuman = 'CONVERSATION_HUMAN',
     ConversationBot = 'CONVERSATION_BOT',
     H1 = 'H1',
@@ -97,6 +99,9 @@ export enum BlockType {
 
 
 export interface BlockText extends Block {
+}
+
+export interface BlockImage extends Block {
 }
 
 export interface BlockConversationBotText extends Block {
@@ -196,6 +201,32 @@ export const BlockComponents = {
         options: {
             icon: 'bi-text-left',
             label: 'Text',
+            isInput: false,
+            isNextButton: false,
+            isVirtualBlock: false,
+            setValueDuringTypeConversion: true,
+            canSplit: true,
+            emojiVisible: true,
+            requiredVisible: false,
+            hideVisible: true,
+            minVisible: false,
+            maxVisible: false,
+            stepVisible: false,
+            nameVisible: false,
+            conditionVisible: false,
+            comparisons: null,
+            comparisonType: null
+        },
+        funcs: {
+            getTitle: (block: BlockText) => block.details.value
+        }
+    },
+    [BlockType.Image]: {
+        component: ImageBlock,
+        isMenuVisible: true,
+        options: {
+            icon: 'bi-image',
+            label: 'Image',
             isInput: false,
             isNextButton: false,
             isVirtualBlock: false,

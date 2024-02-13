@@ -29,7 +29,8 @@ import {
     MdArrowdropdown,
     BiLink,
     CoAvTimer,
-    BiStar
+    BiStar,
+    BiImage
 } from "oh-vue-icons/icons"
 import App from './App.vue'
 import './index.css'
@@ -65,7 +66,8 @@ addIcons(
     MdArrowdropdown,
     BiLink,
     CoAvTimer,
-    BiStar
+    BiStar,
+    BiImage
 )
 
 const app = createApp(App)

@@ -6,6 +6,7 @@ from typing import Optional, List, Union
 
 class BlockType(str, Enum):
     Text = 'TEXT'
+    Image = 'IMAGE'
     ConversationHuman = 'CONVERSATION_HUMAN'
     ConversationBot = 'CONVERSATION_BOT'
     H1 = 'H1'
@@ -292,6 +293,12 @@ class BlockText(BlockDisplayText):
             raise ValidationError("Incorrect type")
         return values
 
+class BlockImage(Block):
+    @root_validator(pre=True)
+    def check_type(cls, values):
+        if values.get("type") != BlockType.Image:
+            raise ValidationError("Incorrect type")
+        return values
 
 class BlockHeading(BlockDisplayText):
     @root_validator(pre=True)
@@ -322,7 +329,7 @@ BlockTypes = Union[
     Block, BlockAnswer, BlockCondition, BlockOptions, BlockRadio, BlockInputTextAnswer, BlockInputUrlAnswer,
     BlockInputEmailAnswer, BlockInputNumberAnswer, BlockInputDecimalAnswer, BlockInputFileAnswer, BlockNumberRangeAnswer,
     BlockCalendarAnswer, BlockTimeAnswer, BlockPhoneAnswer, BlockCountryAnswer, BlockDropdownAnswer,
-    BlockText, BlockHeading, BlockDivider, BlockRatingAnswer,
+    BlockText, BlockImage, BlockHeading, BlockDivider, BlockRatingAnswer,
     BlockQuote, BlockHumanConversation, BlockBotConversation]
 
 
@@ -389,6 +396,8 @@ def get_blocks(page_blocks: PageBlocks) -> (str, List[Block]):
             block_objects.append(BlockHeading(**json_data))
         elif block_type == BlockType.Text:
             block_objects.append(BlockText(**json_data))
+        elif block_type == BlockType.Image:
+            block_objects.append(BlockImage(**json_data))
         elif block_type == BlockType.Divider:
             block_objects.append(BlockDivider(**json_data))
         elif block_type == BlockType.Quote:
