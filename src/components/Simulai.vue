@@ -311,6 +311,7 @@ function copyPublishUrl() {
 }
 
 function showNextBlock() {
+  debugger;
   if (props.page.blocks.length === 0) {
     setTimeout(() => showNextBlock(), 1000)
     return

@@ -11,7 +11,7 @@
           {{ isUploading ? 'Uploading...' : 'Upload Image' }}
         </button>
         <div>
-          <img :src="props.block.details.value" class="max-w-full h-auto" style="width: 50%;">
+          <img v-if="props.block.details.value !== ''" :src="props.block.details.value" class="max-w-full h-auto" style="width: 50%;">
         </div>
       </div>
     </div>
@@ -20,7 +20,7 @@
 
 
 <script setup lang="ts">
-import {PropType, ref} from 'vue'
+import {onMounted, PropType, ref} from 'vue'
 import {
   Block, BlockImage,
   BlockInputDecimalAnswer,
@@ -50,6 +50,8 @@ const props = defineProps({
   }
 })
 
+const emit = defineEmits(['typingCompleted'])
+
 const isUploading = ref(false);
 
 const handleFileAttachment = async () => {
@@ -75,8 +77,6 @@ const handleFileAttachment = async () => {
           method: 'POST',
           body: formData,
         });
-
-        debugger;
 
         isUploading.value = false;
 
@@ -126,6 +126,10 @@ function onUnset() {
   delete props.block.minChars
   delete props.block.maxChars
 }
+
+onMounted(() => {
+  setTimeout(() => emit('typingCompleted'), 500);
+});
 
 defineExpose({
   onSet,

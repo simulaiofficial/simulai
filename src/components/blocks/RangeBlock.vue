@@ -34,7 +34,6 @@ const props = defineProps({
 })
 
 function onSet() {
-  debugger;
   if (props.block.details) {
     props.block.details.value = 1
   }

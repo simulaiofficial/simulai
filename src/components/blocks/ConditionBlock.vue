@@ -230,7 +230,6 @@ function updateAllNextBlocksDropdowns() {
     });
   } else {
     allNextBlockOptions.value = props.page.workspaceBots.filter((bot) => bot.id !== props.page.id).map((workspaceBot, index) => {
-      debugger;
       return {'value': workspaceBot.id, 'name': workspaceBot.name};
     });
   }
