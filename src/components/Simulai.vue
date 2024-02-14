@@ -629,7 +629,7 @@ function checkIfBlockShouldBeVisible(index) {
 }
 
 function checkIfBlockShouldBeReadonly(block: Block, index) {
-  return getBlockOptions(block).isInput && index < currentVisibleBlock.value
+  return getBlockOptions(block).isInput && index < currentVisibleBlock.value && props.page.isChat
 }
 
 function onSelectEmoji(emoji) {
