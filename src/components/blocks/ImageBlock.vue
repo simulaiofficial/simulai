@@ -11,7 +11,7 @@
           {{ isUploading ? 'Uploading...' : 'Upload Image' }}
         </button>
         <div>
-          <img v-if="props.block.details.value !== ''" :src="props.block.details.value" class="max-w-full h-auto" style="width: 50%;">
+          <img v-if="props.block.details.value !== ''" :src="props.block.details.value" class="max-w-full h-auto" :style="{ width: props.block.size + '%' }">
         </div>
       </div>
     </div>
@@ -50,7 +50,7 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['typingCompleted'])
+const emit = defineEmits(['typingCompleted', 'showMessage'])
 
 const isUploading = ref(false);
 
@@ -82,7 +82,7 @@ const handleFileAttachment = async () => {
 
         if (!response.ok) {
           const errorMessage = (await response.json()).detail
-          // emit('gotMessage', errorMessage)
+          emit('showMessage', errorMessage)
         } else {
           const responseData = await response.json();
           props.block.details.value = responseData.url
@@ -117,6 +117,7 @@ function onSet() {
 
   props.block.minRequired = false
   props.block.maxRequired = false
+  props.block.size = 50
 }
 
 function onUnset() {

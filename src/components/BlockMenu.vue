@@ -113,6 +113,16 @@
                        min="0" step="0.1" placeholder="">
               </div>
             </div>
+            <div v-if="BlockComponents[props.block.type].options.sizeVisible"
+                 class="px-2 py-1 rounded flex items-center gap-2 hover:bg-slate-600">
+              <span class="truncate flex-shrink-0">Size</span>
+              <!-- Add input field for minimum characters -->
+              <div class="flex items-center ml-auto">
+                <input @click.stop @input.stop @mouseup.stop v-model="props.block.size" type="number"
+                       class="w-16 px-1 border rounded border-1 text-gray-400 bg-gray-800 border-blue-600 focus:border-blue-500 focus:outline-none outline-none"
+                       placeholder="">
+              </div>
+            </div>
             <hr class="border-t border-solid my-3" style="border-color: #684141"/>
             <div @click="open = false; emit('newBlock')"
                  class="px-2 py-1 rounded flex items-center gap-2 hover:bg-slate-600" data-test-id="turn-into-menu">

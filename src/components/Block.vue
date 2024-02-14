@@ -56,6 +56,7 @@
                  @deleteBlock="emit('deleteBlock')"
                  @keydown="keyDownHandler"
                  @keyup="parseMarkdown"
+                 @showMessage="m => emit('showMessage', m)"
                  @typingCompleted="emit('typingCompleted')"
       />
       <div
@@ -128,7 +129,8 @@ const emit = defineEmits([
   'addBlock',
   'openEmoji',
   'nextBlock',
-  'typingCompleted'
+  'typingCompleted',
+  'showMessage'
 ])
 
 function openEmoji() {
@@ -596,7 +598,7 @@ async function clearSearch(searchTermLength: number, newBlockType: BlockType, op
         resolve(0)
       } else {
         const innerText = (content.value as any).$el.innerText
-        if(innerText) {
+        if (innerText) {
           const originalText = innerText.replaceAll(/\n|\r/g, '')
           if (!originalText) resolve(0)
           props.block.details.value = originalText.substring(0, startIdx) + originalText.substring(endIdx)

@@ -203,9 +203,9 @@ class BlockInputFileAnswer(BlockAnswer):
 
 
 class BlockNumberRangeAnswer(BlockAnswer):
-    min: int
-    max: int
-    step: int
+    min: int = 1
+    max: int = 100
+    step: int = 1
 
     @root_validator(pre=True)
     def check_type(cls, values):
@@ -294,6 +294,8 @@ class BlockText(BlockDisplayText):
         return values
 
 class BlockImage(Block):
+    size: Optional[int] = None
+
     @root_validator(pre=True)
     def check_type(cls, values):
         if values.get("type") != BlockType.Image:

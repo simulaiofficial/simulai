@@ -67,6 +67,7 @@
                             @merge="merge(i)"
                             @split="split(i)"
                             @setBlockType="type => setBlockType(i, type)"
+                            @showMessage="showErrorMessage"
                             @openEmoji="openEmoji"
                             @nextBlock="goNextBlock"
                             @typingCompleted="goNextBlock"

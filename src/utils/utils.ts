@@ -43,10 +43,17 @@ export function setUpInitialValuesForBlock(block: Block) {
 export function setUpInitialValuesForBlockAnswer(block: BlockAnswer) {
     block.isRequired = true
     block.setName = false
+    block.isHidden = false
 }
 
 export function unsetInitialValuesForBlockAnswer(block: BlockAnswer) {
     delete block.isRequired
     delete block.setName
     delete block.name
+    delete block.items
+    delete block.isCompany
+    delete block.minRequired
+    delete block.maxRequired
+    delete block.max
+    delete block.min
 }
