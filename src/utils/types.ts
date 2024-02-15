@@ -18,6 +18,7 @@ import RatingBlock from '@/components/blocks/RatingBlock.vue'
 
 export interface Block {
     id: string,
+    shouldGoNextBlock?: boolean,
     type: BlockType,
     details: Details,
     isHidden?: boolean;

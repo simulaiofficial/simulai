@@ -57,7 +57,7 @@
                  @keydown="keyDownHandler"
                  @keyup="parseMarkdown"
                  @showMessage="m => emit('showMessage', m)"
-                 @typingCompleted="emit('typingCompleted')"
+                 @typingCompleted="typingHasCompleted"
       />
       <div
           v-if="currentBlockNumber === blockNumber-1 && page.isChat && BlockComponents[props.block.type].options.isNextButton">
@@ -139,6 +139,13 @@ function openEmoji() {
 
 function goNextBlock() {
   emit('nextBlock')
+}
+
+function typingHasCompleted() {
+  if(props.block?.shouldGoNextBlock === false) {
+    return;
+  }
+  emit('typingCompleted');
 }
 
 function getFirstChild() {

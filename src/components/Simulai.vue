@@ -70,7 +70,7 @@
                             @showMessage="showErrorMessage"
                             @openEmoji="openEmoji"
                             @nextBlock="goNextBlock"
-                            @typingCompleted="goNextBlock"
+                            @typingCompleted="typingHasCompleted"
             />
           </div>
         </div>
@@ -311,6 +311,10 @@ function copyPublishUrl() {
   }
 }
 
+function typingHasCompleted() {
+  goNextBlock()
+}
+
 function showNextBlock() {
   debugger;
   if (props.page.blocks.length === 0) {
@@ -339,6 +343,14 @@ function showNextBlock() {
 
   if (!currentBlock) {
     return
+  }
+
+  const isConversationBlock = isItConversationBlock(currentBlock);
+
+  if(isConversationBlock) {
+    setTimeout(() => {
+      showNextBlock()
+    }, 0);
   }
 
   const isEmptyTextBlock = currentBlock.type === BlockType.Text && currentBlock.details.value === ''
@@ -470,6 +482,23 @@ function handleMessage(message) {
 }
 
 function handleChatInput(inputValue) {
+  const nowBlock = props.page.blocks[currentVisibleBlock.value]
+
+  if (getBlockOptions(nowBlock).isNextButton) {
+    const conversationBotBlock = {
+      id: uuidv4(),
+      shouldGoNextBlock: false,
+      type: BlockType.ConversationBot,
+      details: {
+        value: 'Please use the interface to talk with me and click on the Next button...'
+      },
+    }
+    const lastIndex = addBlockAfterCurrent(conversationBotBlock)
+    // showUntilAndWait = lastIndex + 1
+    // showNextBlock()
+    return;
+  }
+
   const conversationBlock = {
     id: uuidv4(),
     type: BlockType.ConversationHuman,
@@ -619,10 +648,16 @@ function insertTextAtCursor(textToInsert) {
   }
 }
 
+function isItConversationBlock(currentBlock) {
+  const isConversationBlock = currentBlock.type === BlockType.ConversationHuman || currentBlock.type === BlockType.ConversationBot
+  return isConversationBlock;
+}
+
 function checkIfBlockShouldBeVisible(index) {
   const currentBlock = props.page.blocks[index]
   const isEmptyTextBlock = currentBlock.type === BlockType.Text && currentBlock.details.value === ''
-  return !props.page.isChat ||
+  const isConversationBlock = isItConversationBlock(currentBlock);
+  return !props.page.isChat || isConversationBlock ||
       (currentVisibleBlock.value !== null && index <= currentVisibleBlock.value && !currentBlock.isHidden && !getBlockOptions(currentBlock).isVirtualBlock
           && !shouldWaitForValueFromInput(currentBlock) && !isEmptyTextBlock
       )

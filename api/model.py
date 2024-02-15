@@ -46,6 +46,7 @@ class Details(BaseModel):
 
 class Block(BaseModel):
     id: str
+    shouldGoNextBlock: Optional[bool] = True
     type: BlockType
     details: Details
     isHidden: bool = False
