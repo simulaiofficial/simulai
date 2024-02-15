@@ -80,7 +80,8 @@
                 </label>
               </div>
               <!-- Add input field for minimum characters -->
-              <div v-if="props.block.minRequired || BlockComponents[props.block.type].options.stepVisible" class="flex items-center ml-auto">
+              <div v-if="props.block.minRequired || BlockComponents[props.block.type].options.stepVisible"
+                   class="flex items-center ml-auto">
                 <input @click.stop @input.stop @mouseup.stop v-model="props.block.min" type="number"
                        class="w-16 px-1 border rounded border-1 text-gray-400 bg-gray-800 border-blue-600 focus:border-blue-500 focus:outline-none outline-none"
                        min="1" placeholder="">
@@ -97,7 +98,8 @@
                 </label>
               </div>
               <!-- Add input field for minimum characters -->
-              <div v-if="props.block.maxRequired || BlockComponents[props.block.type].options.stepVisible" class="flex items-center ml-auto">
+              <div v-if="props.block.maxRequired || BlockComponents[props.block.type].options.stepVisible"
+                   class="flex items-center ml-auto">
                 <input @click.stop @input.stop @mouseup.stop v-model="props.block.max" type="number"
                        class="w-16 px-1 border rounded border-1 text-gray-400 bg-gray-800 border-blue-600 focus:border-blue-500 focus:outline-none outline-none"
                        min="1" placeholder="">
@@ -165,15 +167,33 @@
           <!-- Turn into another block like Text, Heading or Divider -->
           <div class="px-2 py-2" style="max-height: 310px; overflow-y: auto;" v-if="options.length">
             <div class="px-2 pb-2 font-semibold uppercase text-xs text-neutral-400">Turn into</div>
-            <div v-for="option, i in options"
-                 class="px-2 py-1 rounded flex items-center gap-2"
-                 :class="[active === (i + options.filter(option => option.type !== 'Turn into').length) ? 'bg-slate-600' : '']"
-                 @click.stop="setBlockType(option.blockType);"
-                 @mouseup.stop="() => {}"
-                 @mouseover="active = (i + options.filter(option => option.type !== 'Turn into').length)">
-              <v-icon v-if="option.icon"
-                      :name="option.icon" class="w-5 h-5"/>
-              <span class="truncate">{{ option.label }}</span>
+            <div class="mt-3 px-2 pb-2 pt-2 text-xs text-neutral-400 text-center border-t border-solid border-gray-600">Displays</div>
+            <div v-for="option, i in options">
+              <div
+                  v-if="isDisplayBlock(option.blockType)"
+                  class="px-2 py-1 rounded flex items-center gap-2"
+                  :class="[active === (i + options.filter(option => option.type !== 'Turn into').length) ? 'bg-slate-600' : '']"
+                  @click.stop="setBlockType(option.blockType);"
+                  @mouseup.stop="() => {}"
+                  @mouseover="active = (i + options.filter(option => option.type !== 'Turn into').length)">
+                <v-icon v-if="option.icon"
+                        :name="option.icon" class="w-5 h-5"/>
+                <span class="truncate">{{ option.label }}</span>
+              </div>
+            </div>
+            <div class="mt-3 px-2 pb-2 pt-2 text-xs text-neutral-400 text-center border-t border-solid border-gray-600">Collects</div>
+            <div v-for="option, i in options">
+              <div
+                  v-if="isCollectBlock(option.blockType)"
+                  class="px-2 py-1 rounded flex items-center gap-2"
+                  :class="[active === (i + options.filter(option => option.type !== 'Turn into').length) ? 'bg-slate-600' : '']"
+                  @click.stop="setBlockType(option.blockType);"
+                  @mouseup.stop="() => {}"
+                  @mouseover="active = (i + options.filter(option => option.type !== 'Turn into').length)">
+                <v-icon v-if="option.icon"
+                        :name="option.icon" class="w-5 h-5"/>
+                <span class="truncate">{{ option.label }}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -185,7 +205,7 @@
 <script setup lang="ts">
 import {computed, PropType, ref, watch} from 'vue'
 import Fuse from 'fuse.js'
-import {Block, BlockComponents, BlockType} from '@/utils/types'
+import {Block, BlockComponents, BlockType, isDisplayBlock, isCollectBlock} from '@/utils/types'
 import Tooltip from './elements/Tooltip.vue'
 
 const props = defineProps({

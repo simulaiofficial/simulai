@@ -97,6 +97,15 @@ export enum BlockType {
     RatingAnswer = 'RATING_ANSWER'
 }
 
+export const textBlockMap = [BlockType.Text, BlockType.Quote]
+export const displayBlockMap = [BlockType.Text, BlockType.Image, BlockType.H1, BlockType.H2, BlockType.H3,
+    BlockType.Divider, BlockType.Quote]
+
+export const collectBlockMap = [BlockType.Options, BlockType.Radio, BlockType.InputEmailAnswer, BlockType.InputTextAnswer, BlockType.InputNumberAnswer,
+    BlockType.InputDecimalAnswer, BlockType.InputFileAnswer, BlockType.InputUrlAnswer, BlockType.NumberRangeAnswer,
+    BlockType.CalendarAnswer, BlockType.TimeAnswer, BlockType.PhoneAnswer, BlockType.CountryAnswer, BlockType.DropdownAnswer,
+    BlockType.DropdownAnswer, BlockType.RatingAnswer]
+
 
 export interface BlockText extends Block {
 }
@@ -1002,8 +1011,6 @@ export const BlockComponents = {
     },
 }
 
-export const textBlockMap = [BlockType.Text, BlockType.Quote]
-
 export const isTextBlock = (type: string) => {
     return textBlockMap.some(textBlock => textBlock === type)
 }
@@ -1014,6 +1021,14 @@ export const isFlowBlock = (type: string) => {
 
 export const isConversationBlock = (type: string) => {
     return type === BlockType.ConversationHuman
+}
+
+export const isDisplayBlock = (type: string) => {
+    return displayBlockMap.some(blockType => blockType === type)
+}
+
+export const isCollectBlock = (type: string) => {
+    return collectBlockMap.some(blockType => blockType === type)
 }
 
 export const isVisibleBlock = (block: Block) => {
