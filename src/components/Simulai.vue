@@ -50,7 +50,8 @@
                class="flex align-items-start rounded-md mt-1"
                :class="{ 'opacity-50 pointer-events-none': false }">
             <span v-if="props.page.avatarUrl === null" class="w-7 h-7 text-xl mr-2">🤖</span>
-            <span v-if="props.page.avatarUrl !== null" class="w-7 h-7 mr-2"><img :src="props.page.avatarUrl" class="w-7 h-7 rounded-full" /></span>
+            <span v-if="props.page.avatarUrl !== null" class="w-7 h-7 mr-2"><img :src="props.page.avatarUrl"
+                                                                                 class="w-7 h-7 rounded-full"/></span>
             <span v-if="props.page.botName === null" class="text-sm font-bold">simulai</span>
             <span v-if="props.page.botName !== null" class="text-sm font-bold">{{ props.page.botName }}</span>
           </div>
@@ -316,7 +317,9 @@ async function publishPage() {
 function setBotName() {
   const name = botName.value === null ? "Potter" : botName.value
   let botNameString = prompt("Please enter bot name", name);
-  botName.value = botNameString
+  if (botNameString) {
+    botName.value = botNameString
+  }
   actionDropdownValue.value = null;
 }
 
@@ -1118,9 +1121,9 @@ watch(() => props.page.blocks, blocks => {
 }, {deep: true})
 
 watch([actionDropdownValue], () => {
-  if(actionDropdownValue.value === 'Avatar') {
+  if (actionDropdownValue.value === 'Avatar') {
     setAvatar()
-  } else if(actionDropdownValue.value === 'BotName') {
+  } else if (actionDropdownValue.value === 'BotName') {
     setBotName()
   }
 })
