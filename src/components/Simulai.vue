@@ -51,7 +51,8 @@
                :class="{ 'opacity-50 pointer-events-none': false }">
             <span v-if="props.page.avatarUrl === null" class="w-7 h-7 text-xl mr-2">🤖</span>
             <span v-if="props.page.avatarUrl !== null" class="w-7 h-7 mr-2"><img :src="props.page.avatarUrl" class="w-7 h-7 rounded-full" /></span>
-            <span class="text-sm font-bold">simulai</span>
+            <span v-if="props.page.botName === null" class="text-sm font-bold">simulai</span>
+            <span v-if="props.page.botName !== null" class="text-sm font-bold">{{ props.page.botName }}</span>
           </div>
           <div v-if="props.page.isChat && isYouVisibleBlock(block, i)"
                class="flex align-items-start rounded-md mt-1"
@@ -186,7 +187,7 @@ const showButtons = computed(() => {
 const props = defineProps({
   page: {
     type: Object as PropType<{
-      name: string, isChat: boolean, isPreview: boolean, workspaceBots: WorkspaceBot[], blocks: Block[], saveUrl: string, uploadUrl: string, avatarUrl: string
+      name: string, isChat: boolean, isPreview: boolean, workspaceBots: WorkspaceBot[], blocks: Block[], saveUrl: string, uploadUrl: string, avatarUrl: string, botName: string
     }>,
     required: true,
   },
@@ -252,6 +253,7 @@ const errorMessage = ref('');
 const infoMessage = ref('');
 
 const avatarUrl = ref(null);
+const botName = ref(null);
 
 // Function to save data
 async function saveData() {
@@ -268,7 +270,8 @@ async function saveData() {
       body: JSON.stringify({
         'name': props.page.name,
         'blocks': props.page.blocks,
-        'avatarUrl': avatarUrl.value
+        'avatarUrl': avatarUrl.value,
+        'botName': botName.value
       }),
     });
 
@@ -308,6 +311,13 @@ async function publishPage() {
   } catch (error) {
     console.error('Error during publish:', error);
   }
+}
+
+function setBotName() {
+  const name = botName.value === null ? "Potter" : botName.value
+  let botNameString = prompt("Please enter bot name", name);
+  botName.value = botNameString
+  actionDropdownValue.value = null;
 }
 
 async function setAvatar() {
@@ -1110,6 +1120,8 @@ watch(() => props.page.blocks, blocks => {
 watch([actionDropdownValue], () => {
   if(actionDropdownValue.value === 'Avatar') {
     setAvatar()
+  } else if(actionDropdownValue.value === 'BotName') {
+    setBotName()
   }
 })
 
@@ -1117,6 +1129,7 @@ onMounted(() => {
   // Add the initial state to the history after mount
   addStateToHistory(props.page.blocks);
   avatarUrl.value = props.page.avatarUrl
+  botName.value = props.page.botName
   currentHistoryIndex = null
   showNextBlock()
 });

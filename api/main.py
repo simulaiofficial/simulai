@@ -28,16 +28,16 @@ def deserialize_page(json_page):
     blocks_json = json_page.get('blocks', [])
     workspace_bots_json = json_page.get('workspaceBots', [])
     # Create a PageBlocks instance from the blocks JSON
-    page_blocks = PageBlocks(name="", avatarUrl=None, blocks=blocks_json)
+    page_blocks = PageBlocks(name="", avatarUrl=None, botName=None, blocks=blocks_json)
     # Use get_blocks to deserialize the blocks
-    name, avatar_url, deserialized_blocks = get_blocks(page_blocks)
+    name, bot_name, avatar_url, deserialized_blocks = get_blocks(page_blocks)
     # Replace the blocks list in json_page with the deserialized blocks
     json_page['blocks'] = deserialized_blocks
 
     for workspace_bot_json in workspace_bots_json:
-        bot_page_blocks = PageBlocks(name="", avatarUrl=None, blocks=workspace_bot_json['blocks'])
+        bot_page_blocks = PageBlocks(name="", avatarUrl=None, botName=None, blocks=workspace_bot_json['blocks'])
         print('Processing:', workspace_bot_json['name'])
-        n, avatar_url, deserialized_bot_blocks = get_blocks(bot_page_blocks)
+        n, bot_name, avatar_url, deserialized_bot_blocks = get_blocks(bot_page_blocks)
         workspace_bot_json['blocks'] = deserialized_bot_blocks
 
     json_page['workspaceBots'] = workspace_bots_json
@@ -77,11 +77,12 @@ async def get_page(src: str):
 
 @app.post("/save")
 async def save_data(dst: str, pay = Depends(get_blocks)):
-    name, avatar_url, blocks = pay
+    name, bot_name, avatar_url, blocks = pay
 
     print("Payload:", blocks)
     print("Destination URL:", dst)
     print("Avatar URL", avatar_url)
+    print("Bot name", bot_name)
     print("Name:", name)
 
     table_answers = convert_blocks_to_table_answers(blocks)
@@ -91,6 +92,7 @@ async def save_data(dst: str, pay = Depends(get_blocks)):
         'name': name,
         'blocks': blocks,
         'avatar_url': avatar_url,
+        'bot_name': bot_name,
         'table_answers': table_answers,
         'dependent_ids': dependent_ids
     }
