@@ -238,7 +238,7 @@ export const BlockComponents = {
         isMenuVisible: true,
         options: {
             icon: 'bi-image',
-            label: 'Image',
+            label: 'Image/GIF',
             isInput: false,
             isNextButton: false,
             isVirtualBlock: false,

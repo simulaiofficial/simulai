@@ -8,7 +8,7 @@
             :disabled="isUploading"
             class="mt-2 mb-4 px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition duration-300 cursor-pointer"
             :class="{ 'opacity-50 cursor-not-allowed': isUploading }">
-          {{ isUploading ? 'Uploading...' : 'Upload Image' }}
+          {{ isUploading ? 'Uploading...' : 'Upload Image/GIF' }}
         </button>
         <div>
           <img v-if="props.block.details.value !== ''" :src="props.block.details.value" class="max-w-full h-auto" :style="{ width: props.block.size + '%' }">
