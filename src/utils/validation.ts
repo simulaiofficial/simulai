@@ -1,4 +1,4 @@
-import {Block, BlockType} from './types'
+import {Block, BlockAnswer, BlockType, isInputBlock} from './types'
 import Joi from 'joi'
 
 function validateInputFileAnswer(joiValidation, inputValue: string, block: Block) {
@@ -81,7 +81,31 @@ function validateInputEmailAnswer(joiValidation, inputValue: string, block: Bloc
     return null;
 }
 
-export function validateBlock(inputValue: string, block: Block | null) {
+export function validateUIBlock(block: BlockAnswer | null) {
+    if (block === null) {
+        return {}
+    }
+
+    const validationResult = {}
+
+    if(block.isRequired) {
+        debugger;
+        const emptyMessage = 'Please provide value to my question and click on the next button'
+
+        if(block.items) {
+            const foundItem = block.items.find(i => i.isChecked === true)
+            if(!foundItem) {
+                validationResult.error = emptyMessage
+            }
+        } else if(block.details.value === '') {
+            validationResult.error = emptyMessage
+        }
+    }
+
+    return validationResult
+}
+
+export function validateInputBlock(inputValue: string, block: Block | null) {
     if (block === null) {
         return {}
     }

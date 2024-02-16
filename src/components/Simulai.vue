@@ -70,6 +70,7 @@
                             @showMessage="showErrorMessage"
                             @openEmoji="openEmoji"
                             @nextBlock="goNextBlock"
+                            @validateBlock="b => validateNextBlock(b)"
                             @typingCompleted="typingHasCompleted"
             />
           </div>
@@ -152,7 +153,7 @@ import 'vue3-emoji-picker/css'
 import cloneDeep from 'lodash/cloneDeep';
 import {computed, watch} from 'vue'
 import Joi from 'joi'
-import {validateBlock} from "@/utils/validation";
+import {validateInputBlock, validateUIBlock} from "@/utils/validation";
 import {calculateConditionAction} from "@/utils/conditions";
 
 const showButtons = computed(() => {
@@ -347,7 +348,7 @@ function showNextBlock() {
 
   const isConversationBlock = isItConversationBlock(currentBlock);
 
-  if(isConversationBlock) {
+  if (isConversationBlock) {
     setTimeout(() => {
       showNextBlock()
     }, 0);
@@ -481,6 +482,37 @@ function handleMessage(message) {
   showNextBlock()
 }
 
+function validateNextBlock(block) {
+  debugger;
+  const validationResult = validateUIBlock(block)
+
+  if (validationResult.error) {
+    const conversationBotBlock = {
+      id: uuidv4(),
+      shouldGoNextBlock: false,
+      type: BlockType.ConversationBot,
+      details: {
+        value: validationResult.error
+      },
+    }
+    let lastIndex = 0
+
+    if(showUntilAndWait) {
+      lastIndex = addBlockAfterCurrent(conversationBotBlock, showUntilAndWait)
+    } else {
+      lastIndex = addBlockAfterCurrent(conversationBotBlock)
+    }
+
+    showUntilAndWait = lastIndex
+    scrollToBottom()
+    // showNextBlock()
+    return;
+  } else {
+    showUntilAndWait = null;
+    showNextBlock()
+  }
+}
+
 function handleChatInput(inputValue) {
   const nowBlock = props.page.blocks[currentVisibleBlock.value]
 
@@ -493,9 +525,16 @@ function handleChatInput(inputValue) {
         value: 'Please use the interface to talk with me and click on the Next button...'
       },
     }
-    const lastIndex = addBlockAfterCurrent(conversationBotBlock)
-    // showUntilAndWait = lastIndex + 1
+    let lastIndex = 0
+
+    if(showUntilAndWait) {
+      lastIndex = addBlockAfterCurrent(conversationBotBlock, showUntilAndWait)
+    } else {
+      lastIndex = addBlockAfterCurrent(conversationBotBlock)
+    }
+    showUntilAndWait = lastIndex
     // showNextBlock()
+    scrollToBottom()
     return;
   }
 
@@ -514,7 +553,7 @@ function handleChatInput(inputValue) {
     inputBlock = props.page.blocks[lastInputBlock.value]
   }
 
-  const validationResult = validateBlock(inputValue, inputBlock)
+  const validationResult = validateInputBlock(inputValue, inputBlock)
 
   if (validationResult.error) {
     const conversationBotBlock = {

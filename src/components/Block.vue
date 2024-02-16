@@ -129,6 +129,7 @@ const emit = defineEmits([
   'addBlock',
   'openEmoji',
   'nextBlock',
+  'validateBlock',
   'typingCompleted',
   'showMessage'
 ])
@@ -138,7 +139,7 @@ function openEmoji() {
 }
 
 function goNextBlock() {
-  emit('nextBlock')
+  emit('validateBlock', props.block)
 }
 
 function typingHasCompleted() {
