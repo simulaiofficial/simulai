@@ -90,7 +90,7 @@ export function validateUIBlock(block: BlockAnswer | null) {
 
     if(block.isRequired) {
         debugger;
-        const emptyMessage = 'Please provide value to my question and click on the next button'
+        const emptyMessage = 'Please provide answer to my last message and click on the next button'
 
         if(block.items) {
             const foundItem = block.items.find(i => i.isChecked === true)

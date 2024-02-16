@@ -5,6 +5,11 @@
        }" v-if="props.page" ref="editor"
        @keydown.ctrl.cmd.space.prevent="openEmojiPicker">
     <div v-if="showButtons" class="buttons-container fixed top-0 right-0 mt-4 mr-4" style="z-index:9999;">
+      <button @click="setAvatar"
+              :disabled="isAvatarUploading"
+              class="avatar-button bg-gray-700 hover:bg-gray-800 text-white font-bold py-2 px-4 mr-2 rounded cursor-pointer">
+        {{ isAvatarUploading ? 'Uploading...' : 'Set Avatar' }}
+      </button>
       <button @click="previewPage"
               class="preview-button bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 mr-2 rounded cursor-pointer">
         Preview
@@ -39,14 +44,16 @@
           <div v-if="props.page.isChat && isBotVisibleBlock(block, i)"
                class="flex align-items-start rounded-md mt-1"
                :class="{ 'opacity-50 pointer-events-none': false }">
-            <span class="text-xl mr-2">🤖</span><span class="text-sm font-bold">simulai</span>
+            <span v-if="props.page.avatarUrl === null" class="w-7 h-7 text-xl mr-2">🤖</span>
+            <span v-if="props.page.avatarUrl !== null" class="w-7 h-7 mr-2"><img :src="props.page.avatarUrl" class="w-7 h-7 rounded-full" /></span>
+            <span class="text-sm font-bold">simulai</span>
           </div>
           <div v-if="props.page.isChat && isYouVisibleBlock(block, i)"
                class="flex align-items-start rounded-md mt-1"
                :class="{ 'opacity-50 pointer-events-none': false }">
             <span class="text-xl mr-2">👀</span><span class="text-sm font-bold">You</span>
           </div>
-          <div :class="{ 'pl-7': props.page.isChat }">
+          <div :class="{ 'pl-9': props.page.isChat }">
             <BlockComponent :block="block" :id="'block-'+block.id"
                             :blockTypes="props.blockTypes"
                             :blockNumber="i+1"
@@ -164,7 +171,7 @@ const showButtons = computed(() => {
 const props = defineProps({
   page: {
     type: Object as PropType<{
-      name: string, isChat: boolean, isPreview: boolean, workspaceBots: WorkspaceBot[], blocks: Block[], saveUrl: string, uploadUrl: string, uploadUrl: string
+      name: string, isChat: boolean, isPreview: boolean, workspaceBots: WorkspaceBot[], blocks: Block[], saveUrl: string, uploadUrl: string, avatarUrl: string
     }>,
     required: true,
   },
@@ -219,6 +226,8 @@ const publishUrlInput = ref(null); // Reference to the input element
 const isDataSaved = ref(false); // This will track the save status
 
 const errorMessage = ref('');
+const isAvatarUploading = ref(false)
+const avatarUrl = ref(null);
 
 // Function to save data
 async function saveData() {
@@ -235,6 +244,7 @@ async function saveData() {
       body: JSON.stringify({
         'name': props.page.name,
         'blocks': props.page.blocks,
+        'avatarUrl': avatarUrl.value
       }),
     });
 
@@ -274,6 +284,51 @@ async function publishPage() {
   } catch (error) {
     console.error('Error during publish:', error);
   }
+}
+
+async function setAvatar() {
+  const fileInput = document.createElement('input');
+  fileInput.type = 'file';
+  // fileInput.accept = 'image/*'; // You can adjust the file type as needed
+
+  fileInput.addEventListener('change', async (event) => {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      try {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('filename', file.name); // Append the filename
+
+        isAvatarUploading.value = true;
+
+        const response = await fetch(props.page.uploadUrl, {
+          method: 'POST',
+          body: formData,
+        });
+
+        isAvatarUploading.value = false;
+
+        if (!response.ok) {
+          const errorMessage = (await response.json()).detail
+          showErrorMessage(errorMessage)
+        } else {
+          const responseData = await response.json();
+          avatarUrl.value = responseData.url
+          // emit('nextBlock', responseData.url)
+          // textInput.value = ''
+          // inputPlaceholder.value = 'Your message...'
+          // isUploading.value = false;
+        }
+      } catch (error) {
+        // inputPlaceholder.value = 'Your message...'
+        // emit('gotMessage', 'Oops, something went wrong, maybe try again...')
+        // isUploading.value = false;
+        console.error('Error uploading file:', error);
+      }
+    }
+  });
+
+  fileInput.click();
 }
 
 async function previewPage() {
@@ -497,7 +552,7 @@ function validateNextBlock(block) {
     }
     let lastIndex = 0
 
-    if(showUntilAndWait) {
+    if (showUntilAndWait) {
       lastIndex = addBlockAfterCurrent(conversationBotBlock, showUntilAndWait)
     } else {
       lastIndex = addBlockAfterCurrent(conversationBotBlock)
@@ -527,7 +582,7 @@ function handleChatInput(inputValue) {
     }
     let lastIndex = 0
 
-    if(showUntilAndWait) {
+    if (showUntilAndWait) {
       lastIndex = addBlockAfterCurrent(conversationBotBlock, showUntilAndWait)
     } else {
       lastIndex = addBlockAfterCurrent(conversationBotBlock)
@@ -1020,6 +1075,7 @@ watch(() => props.page.blocks, blocks => {
 onMounted(() => {
   // Add the initial state to the history after mount
   addStateToHistory(props.page.blocks);
+  avatarUrl.value = props.page.avatarUrl
   currentHistoryIndex = null
   showNextBlock()
 });

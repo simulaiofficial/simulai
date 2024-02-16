@@ -109,7 +109,8 @@ def get_sample_page():
         ],
         workspaceBots=[],
         saveUrl='http://127.0.0.1:5678/save?dst=http%3A//127.0.0.1%3A5678/dst',
-        uploadUrl='http://127.0.0.1:5678/upload'
+        uploadUrl='http://127.0.0.1:5678/upload',
+        avatarUrl=None
     )
 
     return sample_page
