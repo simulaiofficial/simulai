@@ -1,7 +1,7 @@
 <template>
   <div ref="dropdownContainer" class="relative">
     <div
-      class="p-2 w-full bg-gray-700 placeholder-gray-200 text-gray-300 border border-gray-500 focus:outline-none rounded-md cursor-pointer"
+      class="p-1 w-full bg-gray-700 placeholder-gray-200 text-gray-300 border border-gray-500 focus:outline-none rounded-md cursor-pointer"
       @click="toggleDropdown"
     >
       {{ selectedOption ? selectedOption[optionLabel] : placeholder }}

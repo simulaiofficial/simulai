@@ -5,11 +5,6 @@
        }" v-if="props.page" ref="editor"
        @keydown.ctrl.cmd.space.prevent="openEmojiPicker">
     <div v-if="showButtons" class="buttons-container fixed top-0 right-0 mt-4 mr-4" style="z-index:9999;">
-      <button @click="setAvatar"
-              :disabled="isAvatarUploading"
-              class="avatar-button bg-gray-700 hover:bg-gray-800 text-white font-bold py-2 px-4 mr-2 rounded cursor-pointer">
-        {{ isAvatarUploading ? 'Uploading...' : 'Set Avatar' }}
-      </button>
       <button @click="previewPage"
               class="preview-button bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 mr-2 rounded cursor-pointer">
         Preview
@@ -22,6 +17,16 @@
               class="publish-button bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded cursor-pointer">
         Publish
       </button>
+    </div>
+    <div v-if="showButtons" class="buttons-container fixed top-0 left-0 mt-4 ml-4" style="z-index:9999;">
+      <Dropdown
+          v-model="actionDropdownValue"
+          :options="actionDropdownOptions"
+          optionLabel="name"
+          optionValue="value"
+          placeholder="Settings"
+          class="w-24 md:w-24 mr-2"
+      />
     </div>
 
     <h1 id="title" ref="title" :contenteditable="!props.page.isChat" spellcheck="false" data-ph="Untitled"
@@ -137,6 +142,15 @@
       </div>
     </div>
   </div>
+  <div v-if="showInfo" class="modal fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center font-sans">
+    <div class="modal-content p-4 rounded shadow-lg border border-solid border-gray-600"
+         :style="{ backgroundColor: props.bgColor }">
+      <h2 class="text-gray-200 text-lg mb-2 mt-0">Info</h2>
+      <div>
+        {{ infoMessage }}
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -150,7 +164,7 @@ import {
   isConversationBlock,
   BlockComponents,
   getBlockOptions,
-  shouldWaitForValueFromInput, isVisibleBlock, WorkspaceBot
+  shouldWaitForValueFromInput, isVisibleBlock, WorkspaceBot, ComparisonsAction
 } from '@/utils/types'
 import {htmlToMarkdown} from '@/utils/utils'
 import BlockComponent from './Block.vue'
@@ -162,6 +176,7 @@ import {computed, watch} from 'vue'
 import Joi from 'joi'
 import {validateInputBlock, validateUIBlock} from "@/utils/validation";
 import {calculateConditionAction} from "@/utils/conditions";
+import Dropdown from './elements/Dropdown.vue';
 
 const showButtons = computed(() => {
   // console.log(props.page.isChat)
@@ -201,6 +216,13 @@ const props = defineProps({
   },
 })
 
+const actionDropdownOptions = ref([
+  {value: "Avatar", name: 'Upload Avatar'},
+  {value: "BotName", name: 'Set Bot Name'},
+]);
+
+const actionDropdownValue = ref(null)
+
 const editor = ref<HTMLDivElement | null>(null)
 const blocks = ref<HTMLDivElement | null>(null)
 
@@ -219,14 +241,16 @@ const isConversationFinished = ref(false);
 let showUntilAndWait = null
 
 const showError = ref(false); // Controls visibility of the modal
-const showModal = ref(false); // Controls visibility of the modal
+const showInfo = ref(false);
+const showModal = ref(false);
 const publishUrl = ref(''); // Stores the publish URL
 const publishUrlInput = ref(null); // Reference to the input element
 
 const isDataSaved = ref(false); // This will track the save status
 
 const errorMessage = ref('');
-const isAvatarUploading = ref(false)
+const infoMessage = ref('');
+
 const avatarUrl = ref(null);
 
 // Function to save data
@@ -299,14 +323,16 @@ async function setAvatar() {
         formData.append('file', file);
         formData.append('filename', file.name); // Append the filename
 
-        isAvatarUploading.value = true;
+        showInfoMessage('Uploading...')
 
         const response = await fetch(props.page.uploadUrl, {
           method: 'POST',
           body: formData,
         });
 
-        isAvatarUploading.value = false;
+        actionDropdownValue.value = null;
+
+        showInfo.value = false;
 
         if (!response.ok) {
           const errorMessage = (await response.json()).detail
@@ -323,6 +349,8 @@ async function setAvatar() {
         // inputPlaceholder.value = 'Your message...'
         // emit('gotMessage', 'Oops, something went wrong, maybe try again...')
         // isUploading.value = false;
+        actionDropdownValue.value = null;
+        showInfo.value = false;
         console.error('Error uploading file:', error);
       }
     }
@@ -357,6 +385,13 @@ function showErrorMessage(message) {
 
   errorMessage.value = message;
   showError.value = true;
+}
+
+function showInfoMessage(message) {
+  console.log('Show message:', message);
+
+  infoMessage.value = message;
+  showInfo.value = true;
 }
 
 // Function to copy publishUrl to clipboard
@@ -1071,6 +1106,12 @@ watch(() => props.page.blocks, blocks => {
     }
   }
 }, {deep: true})
+
+watch([actionDropdownValue], () => {
+  if(actionDropdownValue.value === 'Avatar') {
+    setAvatar()
+  }
+})
 
 onMounted(() => {
   // Add the initial state to the history after mount
