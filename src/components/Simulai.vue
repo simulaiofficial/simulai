@@ -421,10 +421,13 @@ function copyPublishUrl() {
 }
 
 function typingHasCompleted() {
-  debugger;
-  const currentBlock = props.page.blocks[currentVisibleBlock.value]
-  if(!getBlockOptions(currentBlock).isInput && !getBlockOptions(currentBlock).isNextButton) {
+  if (!props.page.isChat) {
     goNextBlock()
+  } else {
+    const currentBlock = props.page.blocks[currentVisibleBlock.value]
+    if (!getBlockOptions(currentBlock).isInput && !getBlockOptions(currentBlock).isNextButton) {
+      goNextBlock()
+    }
   }
 }
 
