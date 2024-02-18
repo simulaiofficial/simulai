@@ -172,7 +172,7 @@
               <div
                   v-if="isDisplayBlock(option.blockType)"
                   class="px-2 py-1 rounded flex items-center gap-2"
-                  :class="[active === (i + options.filter(option => option.type !== 'Turn into').length) ? 'bg-slate-600' : '']"
+                  :class="[active === (i + options.filter(option => option.type !== 'Turn into').length) || option.blockType === props.block.type ? 'bg-slate-600' : '']"
                   @click.stop="setBlockType(option.blockType);"
                   @mouseup.stop="() => {}"
                   @mouseover="active = (i + options.filter(option => option.type !== 'Turn into').length)">
@@ -186,7 +186,21 @@
               <div
                   v-if="isCollectBlock(option.blockType)"
                   class="px-2 py-1 rounded flex items-center gap-2"
-                  :class="[active === (i + options.filter(option => option.type !== 'Turn into').length) ? 'bg-slate-600' : '']"
+                  :class="[active === (i + options.filter(option => option.type !== 'Turn into').length) || option.blockType === props.block.type ? 'bg-slate-600' : '']"
+                  @click.stop="setBlockType(option.blockType);"
+                  @mouseup.stop="() => {}"
+                  @mouseover="active = (i + options.filter(option => option.type !== 'Turn into').length)">
+                <v-icon v-if="option.icon"
+                        :name="option.icon" class="w-5 h-5"/>
+                <span class="truncate">{{ option.label }}</span>
+              </div>
+            </div>
+            <div class="mt-3 px-2 pb-2 pt-2 text-xs text-neutral-400 text-center border-t border-solid border-gray-600">Conditions</div>
+            <div v-for="option, i in options">
+              <div
+                  v-if="isConditionBlock(option.blockType)"
+                  class="px-2 py-1 rounded flex items-center gap-2"
+                  :class="[active === (i + options.filter(option => option.type !== 'Turn into').length) || option.blockType === props.block.type ? 'bg-slate-600' : '']"
                   @click.stop="setBlockType(option.blockType);"
                   @mouseup.stop="() => {}"
                   @mouseover="active = (i + options.filter(option => option.type !== 'Turn into').length)">
@@ -205,7 +219,7 @@
 <script setup lang="ts">
 import {computed, PropType, ref, watch} from 'vue'
 import Fuse from 'fuse.js'
-import {Block, BlockComponents, BlockType, isDisplayBlock, isCollectBlock} from '@/utils/types'
+import {Block, BlockComponents, BlockType, isDisplayBlock, isCollectBlock, isConditionBlock} from '@/utils/types'
 import Tooltip from './elements/Tooltip.vue'
 
 const props = defineProps({

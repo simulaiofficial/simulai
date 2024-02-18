@@ -107,6 +107,8 @@ export const collectBlockMap = [BlockType.Options, BlockType.Radio, BlockType.In
     BlockType.CalendarAnswer, BlockType.TimeAnswer, BlockType.PhoneAnswer, BlockType.CountryAnswer, BlockType.DropdownAnswer,
     BlockType.DropdownAnswer, BlockType.RatingAnswer]
 
+export const conditionBlockMap = [BlockType.Condition]
+
 
 export interface BlockText extends Block {
 }
@@ -1030,6 +1032,10 @@ export const isDisplayBlock = (type: string) => {
 
 export const isCollectBlock = (type: string) => {
     return collectBlockMap.some(blockType => blockType === type)
+}
+
+export const isConditionBlock = (type: string) => {
+    return conditionBlockMap.some(blockType => blockType === type)
 }
 
 export const isVisibleBlock = (block: Block) => {
