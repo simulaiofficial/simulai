@@ -452,7 +452,9 @@ function showNextBlock() {
     return
   } else {
     currentVisibleBlock.value += 1
-    scrollToBottom()
+    setTimeout(() => {
+      scrollToBottom()
+    }, 2000);
   }
 
   const currentBlock = props.page.blocks[currentVisibleBlock.value]
