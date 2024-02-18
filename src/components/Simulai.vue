@@ -29,6 +29,14 @@
       />
     </div>
 
+    <div v-if="!props.page.isChat"
+         class="flex justify-end w-full">
+      <Tooltip :style="{maxHeight: '10px', top: '40px'}"
+               value="<span class='text-neutral-400'><span class='text-white'>Click</span> to add emoji</span>">
+        <v-icon name="bi-emoji-smile" @mousedown.stop.prevent="openEmojiWithTimeout()"
+                class="w-5 h-5 text-neutral-400 p-0.5 rounded opacity-1"/>
+      </Tooltip>
+    </div>
     <h1 id="title" ref="title" :contenteditable="!props.page.isChat" spellcheck="false" data-ph="Untitled"
         @keydown.enter.prevent="splitTitle"
         @keydown.down="blockElements[0]?.moveToFirstLine(); scrollIntoView();"
@@ -37,6 +45,7 @@
         :class="props.page.name ? '' : 'empty'">
       {{ props.page.name || '' }}
     </h1>
+
     <draggable ref="blocks" id="blocks" tag="div" :list="props.page.blocks" handle=".handle"
                v-bind="dragOptions"
                :class="{
@@ -179,6 +188,7 @@ import Joi from 'joi'
 import {validateInputBlock, validateUIBlock} from "@/utils/validation";
 import {calculateConditionAction} from "@/utils/conditions";
 import Dropdown from './elements/Dropdown.vue';
+import Tooltip from './elements/Tooltip.vue'
 
 const showButtons = computed(() => {
   // console.log(props.page.isChat)
@@ -836,6 +846,12 @@ function onSelectEmoji(emoji) {
         u: "1f61a" // without tone
     }
     */
+}
+
+function openEmojiWithTimeout() {
+  setTimeout(() => {
+    openEmoji()
+  }, 200);
 }
 
 function openEmoji() {
