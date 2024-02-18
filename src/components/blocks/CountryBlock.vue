@@ -68,7 +68,7 @@ watch([selectedCountry], () => {
 
 onMounted(() => {
   // Set initial values if not already set
-  onSet();
+  // onSet();
 })
 
 defineExpose({

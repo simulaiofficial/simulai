@@ -89,7 +89,6 @@ export function validateUIBlock(block: BlockAnswer | null) {
     const validationResult = {}
 
     if(block.isRequired) {
-        debugger;
         const emptyMessage = 'Please provide answer to my last message and click on the next button'
 
         if(block.items) {

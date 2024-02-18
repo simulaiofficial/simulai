@@ -90,10 +90,10 @@
           </div>
         </div>
         <div
-            v-if="page.isChat && block.isRequired === false && i === currentVisibleBlock">
+            v-if="checkIfBlockShouldShowSkipButton(i, block)">
           <button
               @click="showNextBlock()"
-              class="mt-2 mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 transition duration-300 cursor-pointer">
+              class="mt-0 mb-4 ml-9 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 transition duration-300 cursor-pointer">
             Skip
           </button>
         </div>
@@ -314,6 +314,11 @@ async function publishPage() {
   }
 }
 
+function checkIfBlockShouldShowSkipButton(i, block) {
+  debugger;
+  return props.page.isChat && block.isRequired === false && i === currentVisibleBlock.value
+}
+
 function setBotName() {
   const name = botName.value === null ? "Potter" : botName.value
   let botNameString = prompt("Please enter bot name", name);
@@ -416,7 +421,11 @@ function copyPublishUrl() {
 }
 
 function typingHasCompleted() {
-  goNextBlock()
+  debugger;
+  const currentBlock = props.page.blocks[currentVisibleBlock.value]
+  if(!getBlockOptions(currentBlock).isInput && !getBlockOptions(currentBlock).isNextButton) {
+    goNextBlock()
+  }
 }
 
 function showNextBlock() {
@@ -553,6 +562,7 @@ function isYouVisibleBlock(block: Block, i: number) {
 }
 
 function goNextBlock() {
+  debugger;
   showNextBlock()
   const currentBlock = props.page.blocks[currentVisibleBlock.value]
   if (chatInput.value && shouldWaitForValueFromInput(currentBlock)) {
@@ -586,7 +596,6 @@ function handleMessage(message) {
 }
 
 function validateNextBlock(block) {
-  debugger;
   const validationResult = validateUIBlock(block)
 
   if (validationResult.error) {
@@ -932,6 +941,10 @@ function duplicateBlock(blockIdx: number) {
 }
 
 async function setBlockType(blockIdx: number, type: BlockType) {
+  if(props.page.isChat === false) {
+    return;
+  }
+
   if (props.onUnsetAll) props.onUnsetAll(props.page.blocks[blockIdx])
   if (blockElements.value[blockIdx].content.onUnset) {
     blockElements.value[blockIdx].content.onUnset()
