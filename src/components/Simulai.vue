@@ -941,10 +941,6 @@ function duplicateBlock(blockIdx: number) {
 }
 
 async function setBlockType(blockIdx: number, type: BlockType) {
-  if(props.page.isChat === false) {
-    return;
-  }
-
   if (props.onUnsetAll) props.onUnsetAll(props.page.blocks[blockIdx])
   if (blockElements.value[blockIdx].content.onUnset) {
     blockElements.value[blockIdx].content.onUnset()
