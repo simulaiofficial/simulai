@@ -462,6 +462,10 @@ function showNextBlock() {
     return
   } else {
     currentVisibleBlock.value += 1
+    scrollToBottom()
+    setTimeout(() => {
+      scrollToBottom()
+    }, 1000);
     setTimeout(() => {
       scrollToBottom()
     }, 2000);
