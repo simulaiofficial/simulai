@@ -325,7 +325,6 @@ async function publishPage() {
 }
 
 function checkIfBlockShouldShowSkipButton(i, block) {
-  debugger;
   return props.page.isChat && block.isRequired === false && i === currentVisibleBlock.value
 }
 
@@ -442,7 +441,6 @@ function typingHasCompleted() {
 }
 
 function showNextBlock() {
-  debugger;
   if (props.page.blocks.length === 0) {
     setTimeout(() => showNextBlock(), 1000)
     return
@@ -454,13 +452,15 @@ function showNextBlock() {
     return
   }
 
+  const nowBlock = props.page.blocks[currentVisibleBlock.value]
+
   if (currentVisibleBlock.value === null) {
     currentVisibleBlock.value = 0
     scrollToBottom()
   } else if (showUntilAndWait && currentVisibleBlock.value === showUntilAndWait) {
     chatInput.value.focusInput()
     return
-  } else {
+  } else if (nowBlock.type !== BlockType.Condition) {
     currentVisibleBlock.value += 1
     scrollToBottom()
     setTimeout(() => {
@@ -509,6 +509,7 @@ function showNextBlock() {
       const hide = resultAction.hide
       const jump = resultAction.jump
       const go = resultAction.go
+      const url = resultAction.url
       if (hide.length > 0) {
         hide.forEach(hideId => {
           const foundItem = props.page.blocks.find(block => block.id === hideId)
@@ -516,9 +517,8 @@ function showNextBlock() {
             foundItem.isHidden = true
           }
         })
-      }
-
-      if (jump !== null) {
+        currentVisibleBlock.value  = currentVisibleBlock.value + 1
+      } else if (jump !== null) {
         // const foundItem = props.page.blocks.find(block => block.id === jump)
         let i = currentVisibleBlock.value + 1
         while (true) {
@@ -531,9 +531,7 @@ function showNextBlock() {
           }
           i++;
         }
-      }
-
-      if (go !== null) {
+      } else if (go !== null) {
         const foundBot = props.page.workspaceBots.find(bot => bot.id === go)
         const foundBotBlocks = foundBot.blocks
 
@@ -542,6 +540,16 @@ function showNextBlock() {
 
         // Insert foundBotBlocks after currentIndex
         props.page.blocks.splice(currentVisibleBlock.value + 1, 0, ...foundBotBlocks);
+        currentVisibleBlock.value  = currentVisibleBlock.value + 1
+      } else if (url !== null) {
+        if (window.self === window.top) {
+          window.location.href = url;
+        } else {
+          parent.window.location.href = url;
+        }
+        return;
+      } else {
+        currentVisibleBlock.value  = currentVisibleBlock.value + 1
       }
 
       setTimeout(() => {
@@ -581,7 +589,6 @@ function isYouVisibleBlock(block: Block, i: number) {
 }
 
 function goNextBlock() {
-  debugger;
   showNextBlock()
   const currentBlock = props.page.blocks[currentVisibleBlock.value]
   if (chatInput.value && shouldWaitForValueFromInput(currentBlock)) {

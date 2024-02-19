@@ -69,6 +69,7 @@ class ActionSelectedType(str, Enum):
     Jump = 'jump'
     Hide = 'hide'
     Go = 'go'
+    Url = 'url'
 
 
 class IsOperatorSelectedType(str, Enum):
@@ -85,10 +86,11 @@ class IsOperatorSelectedType(str, Enum):
 
 class BlockCondition(Block):
     whenBlockSelectedId: str
-    isOperatorSelectedId: IsOperatorSelectedType
-    isOperatorValue: Union[str, int]
+    isOperatorSelectedId: Optional[IsOperatorSelectedType] = None
+    isOperatorValue: Optional[Union[str, int]] = None
     actionSelectedId: ActionSelectedType
-    actionBlockSelectedId: str
+    actionBlockSelectedId: Optional[str] = None
+    actionUrl: Optional[str] = None
 
     @root_validator(pre=True)
     def check_type(cls, values):

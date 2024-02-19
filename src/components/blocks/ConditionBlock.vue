@@ -18,7 +18,7 @@
         </div>
       </div>
 
-      <div class="flex items-center w-full mt-2 md:mt-2 ">
+      <div  v-if="props.block.whenBlockSelectedId !== ALWAYS_CONDITION" class="flex items-center w-full mt-2 md:mt-2 ">
         <label class="text-gray-300 mr-2">Is:</label>
         <div class="flex items-center h-full"> <!-- Set the parent container's height to 100% -->
           <div class="relative">
@@ -88,6 +88,7 @@
           <div class="relative h-full">
             <div class="relative">
               <Dropdown
+                  v-if="props.block.actionSelectedId !== ComparisonsAction.Url"
                   v-model="props.block.actionBlockSelectedId"
                   :options="allNextBlockOptions"
                   optionLabel="name"
@@ -95,6 +96,13 @@
                   :placeholder="props.block.actionSelectedId === ComparisonsAction.Go ? 'Select bot' : 'Select block'"
                   class="w-32 md:w-64 h-full ml-1"
                   :key="blocksHistoryKey"
+              />
+              <input
+                v-if="props.block.actionSelectedId === ComparisonsAction.Url"
+                v-model="props.block.actionUrl"
+                type="text"
+                class="w-full h-full bg-gray-700 placeholder-gray-200 text-gray-300 focus:outline-none p-2 rounded-md ml-1"
+                placeholder=""
               />
             </div>
           </div>
@@ -114,7 +122,7 @@ import {
   ComparisonType,
   getBlockFuncs,
   getBlockOptions,
-  isFlowBlock
+  isFlowBlock, WorkspaceBot
 } from '@/utils/types'
 import {
   setUpInitialValuesForBlock,
@@ -124,6 +132,7 @@ import {
 import Dropdown from '../elements/Dropdown.vue';
 import DatePicker from "vue3-datepicker";
 import Calendar from 'primevue/calendar';
+import {ALWAYS_CONDITION} from "@/utils/conditions";
 
 const previousInputBlockOptions = ref([])
 const allNextBlockOptions = ref([])
@@ -146,6 +155,7 @@ const actionOptions = ref([
   {value: ComparisonsAction.Jump, name: 'Jump to block'},
   {value: ComparisonsAction.Hide, name: 'Hide block'},
   {value: ComparisonsAction.Go, name: 'Go to bot'},
+  {value: ComparisonsAction.Url, name: 'Go to URL'},
 ]);
 
 const props = defineProps({
@@ -214,6 +224,8 @@ function updatePreviousInputBlocksDropdowns() {
     const optionTitle = `[${index + 1}] ${title} ...`; // Adding 1 to the index to start from 1 instead of 0
     return {'value': block.id, 'name': optionTitle};
   });
+
+  previousInputBlockOptions.value.push({'value': ALWAYS_CONDITION, 'name': ALWAYS_CONDITION})
 }
 
 function updateAllNextBlocksDropdowns() {

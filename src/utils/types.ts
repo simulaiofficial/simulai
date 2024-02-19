@@ -41,7 +41,8 @@ export interface BlockCondition extends Block {
     isOperatorSelectedId: string,
     isOperatorValue: string,
     actionSelectedId: string,
-    actionBlockSelectedId: string
+    actionBlockSelectedId?: string
+    actionUrl?: string
 }
 
 export enum ComparisonType {
@@ -67,7 +68,8 @@ export enum ComparisonsValue {
 export enum ComparisonsAction {
     Hide = 'hide',
     Jump = 'jump',
-    Go = 'go'
+    Go = 'go',
+    Url = 'url'
 }
 
 export enum BlockType {
