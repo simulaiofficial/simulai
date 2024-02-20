@@ -1,6 +1,6 @@
 <template>
   <div :class="{
-         'simulai max-w-screen-md mx-auto my-12 font-sans text-base p-5 pb-8': !props.page.isChat,
+         'simulai max-w-screen-md mx-auto my-12 font-sans text-base p-5 pb-64': !props.page.isChat,
          'simulai max-w-screen-md mx-auto font-sans text-base p-5 pb-32 h-screen flex flex-col justify-between': props.page.isChat
        }" v-if="props.page" ref="editor"
        @keydown.ctrl.cmd.space.prevent="openEmojiPicker">
