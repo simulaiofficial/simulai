@@ -6,17 +6,20 @@
   <a href="https://www.simulai.co" target="_blank">Try demo</a>
 </p>
 
-[//]: # (<p align="center">)
+<p align="center">
 
-[//]: # (  <img src="https://github.com/simulaiofficial/simulai/blob/main/assets/simulai.png" style="border-radius: 10px;" />)
+<video playsinline="" autoplay="" muted="" loop="" width="100%"
+style="background-color: black;border: 1px solid #232824">
+<source src="https://github.com/simulaiofficial/simulai/blob/main/assets/demo.mp4" type="video/mp4"/>
+</video>
 
-[//]: # (</p>)
+</p>
 
 ## Features
 
 - [x] Block-based chatbot editor
 - [x] Drag to reorder blocks
-- [x] Basic Markdown-parsing including bold, italic, headings and divider
+- [x] Basic Markdown-parsing including bold, italic, URLs, headings and divider
 - [x] Type '/' for command menu and shortcuts
 
 ## Contributing
