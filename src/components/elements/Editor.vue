@@ -45,6 +45,7 @@ const emit = defineEmits(['update:modelValue', 'typingCompleted'])
 
 const value = computed({
   get() {
+    debugger;
     const mdValue = props.modelValue
     if (mdValue) {
       return markdownToHtml(mdValue)
@@ -53,11 +54,11 @@ const value = computed({
     }
   },
   set(newValue) {
-    emit('update:modelValue', newValue)
+    emit('update:modelValue', htmlToMarkdown(newValue))
   },
 })
 
-const extensions = [
+let extensions = [
   Document,
   Paragraph,
   Text,
@@ -71,6 +72,10 @@ const extensions = [
     nested: true,
   }),
 ]
+
+// if(props.typing) {
+//   extensions.push(Link)
+// }
 
 if(props.showPlaceholder) {
   extensions.push(Placeholder.configure({
@@ -99,13 +104,14 @@ watch(() => props.modelValue, value => {
 
 
 // Typing effect function for HTML as text
-function typeHtml(markdown, index = 0) {
-  if (index < markdown.length) {
-    editor.value?.commands.insertContent(markdown.charAt(index), { updateSelection: false });
-    setTimeout(() => typeHtml(markdown, index + 1), 20); // Adjust delay for typing speed
+function typeHtml(html, index = 0) {
+  debugger;
+  if (index < html.length) {
+    editor.value?.commands.insertContent(html.charAt(index), { updateSelection: false });
+    setTimeout(() => typeHtml(html, index + 1), 20); // Adjust delay for typing speed
   } else {
     // After typing out the entire string, replace it with actual HTML
-    editor.value?.commands.setContent(markdownToHtml(markdown), false);
+    editor.value?.commands.setContent(html, false);
     emit('typingCompleted')
   }
 }
@@ -113,9 +119,14 @@ function typeHtml(markdown, index = 0) {
 // Trigger the typing effect on component mount or based on a specific condition
 onMounted(() => {
   if(props.typing) {
-    typeHtml(htmlToMarkdown(value.value));
+    debugger;
+    // typeHtml(htmlToMarkdown(value.value));
+    const htmlValue = value.value
+    typeHtml(htmlValue);
+    // typeHtml(value.value);
   } else {
-    editor.value?.commands.setContent(value.value, false);
+    const htmlValue = value.value
+    editor.value?.commands.setContent(htmlValue, false);
   }
 });
 </script>

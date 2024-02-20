@@ -115,8 +115,6 @@ export function calculateConditionAction(
         url: null,
     }
 
-    debugger;
-
     if (isConditionSatisifed) {
         if (condition.actionSelectedId === ComparisonsAction.Hide) {
             resultAction.hide = [condition.actionBlockSelectedId]
