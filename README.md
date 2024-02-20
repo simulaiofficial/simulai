@@ -8,10 +8,11 @@
 
 <p align="center">
 
-<video playsinline="" autoplay="" muted="" loop="" width="100%"
-style="background-color: black;border: 1px solid #232824">
-<source src="https://github.com/simulaiofficial/simulai/blob/main/assets/demo.mp4" type="video/mp4"/>
-</video>
+
+https://github.com/simulaiofficial/simulai/assets/149245098/3ee8fcdb-41e8-48ef-8eba-3c68c9cee33f
+
+
+
 
 </p>
 
