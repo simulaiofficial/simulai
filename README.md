@@ -3,7 +3,7 @@
   simulai is a Notion-inspired open-source chatbot builder.
 </p>
 <p align="center">
-  <a href="https://www.simulai.co" target="_blank">Try demo</a>
+  <a href="https://www.simulai.co" target="_blank">Try Simulai online</a>
 </p>
 
 <p align="center">
