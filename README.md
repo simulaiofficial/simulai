@@ -1,6 +1,6 @@
 <h1 align="center"><b>🤖 simulai</b></h1>
 <p align="center">
-  simulai is a Notion-inspired open-source chatbot builder.
+  simulai is a Notion-inspired open-source conversational survey bots builder.
 </p>
 <p align="center">
   Build your survey bot like a text document. Effortlessly design your custom chatbot with our user-friendly, drag-and-drop interface. Ideal for gathering insights and engaging users in interactive surveys, our tool is inspired by the simplicity of Notion and is completely free and open-source.
