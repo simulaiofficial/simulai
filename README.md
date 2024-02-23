@@ -1,6 +1,6 @@
 <h1 align="center"><b>🤖 simulai</b></h1>
 <p align="center">
-  simulai is a Notion-inspired open-source conversational forms builder.
+  simulai is a Notion-inspired open-source conversational surveys builder.
 </p>
 <p align="center">
   Effortlessly design your interactive forms that mimic natural conversations. Ideal for gathering insights and engaging users in interactive surveys, our tool is inspired by the simplicity of Notion and is completely free and open-source.
