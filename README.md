@@ -3,7 +3,7 @@
   simulai is a Notion-inspired open-source conversational forms builder.
 </p>
 <p align="center">
-  Build your survey bot/form like a text document. Effortlessly design your custom conversational form with our user-friendly, drag-and-drop interface. Ideal for gathering insights and engaging users in interactive surveys, our tool is inspired by the simplicity of Notion and is completely free and open-source.
+  Effortlessly design your interactive forms that mimic natural conversations. Ideal for gathering insights and engaging users in interactive surveys, our tool is inspired by the simplicity of Notion and is completely free and open-source.
 </p>
 <p align="center">
   <a href="https://www.simulai.co" target="_blank">Try Simulai online for free</a>
