@@ -6,6 +6,9 @@ test('isTextBlock should work for text blocks', () => {
   const knownTextBlocks = [
     BlockType.Text,
     BlockType.Quote,
+    BlockType.H1, 
+    BlockType.H2,
+    BlockType.H3
   ] as any[]
   Object.values(BlockType).forEach(type => {
     if (knownTextBlocks.includes(type as BlockType)) expect(isTextBlock(type)).toBeTruthy()
