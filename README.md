@@ -1,18 +1,17 @@
 <h1 align="center"><b>🤖 simulai</b></h1>
 <p align="center">
-  simulai is a Notion-inspired open-source chatbot builder.
+  simulai is a Notion-inspired open-source conversational surveys builder.
 </p>
 <p align="center">
-  <a href="https://www.simulai.co" target="_blank">Try demo</a>
+  Effortlessly design your interactive forms that mimic natural conversations. Ideal for gathering insights and engaging users in interactive surveys, our tool is inspired by the simplicity of Notion and is completely free and open-source.
+</p>
+<p align="center">
+  <a href="https://www.simulai.co" target="_blank">Try Simulai online for free</a>
 </p>
 
 <p align="center">
 
-
-https://github.com/simulaiofficial/simulai/assets/149245098/3ee8fcdb-41e8-48ef-8eba-3c68c9cee33f
-
-
-
+https://github.com/simulaiofficial/simulai/assets/149245098/6f319401-0f6d-4c33-a456-4ecd7cdf8458
 
 </p>
 
