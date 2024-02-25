@@ -100,7 +100,7 @@ export enum BlockType {
     RatingAnswer = 'RATING_ANSWER'
 }
 
-export const textBlockMap = [BlockType.Text, BlockType.Quote]
+export const textBlockMap = [BlockType.Text, BlockType.Quote, BlockType.H1, BlockType.H2, BlockType.H3]
 export const displayBlockMap = [BlockType.Text, BlockType.Image, BlockType.H1, BlockType.H2, BlockType.H3,
     BlockType.Divider, BlockType.Quote]
 
