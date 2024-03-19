@@ -33,6 +33,9 @@
         <v-icon name="bi-arrow-up" class="w-5 h-5"/>
       </button>
     </div>
+    <div class="text-xs text-center text-gray-500 relative" style="top: 20px;">
+      Powered By <a target="_blank" href="https://www.simulai.co" class="" style="color: #aaa;">Simulai</a>
+    </div>
   </div>
 </template>
 

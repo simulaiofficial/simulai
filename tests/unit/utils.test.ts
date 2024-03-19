@@ -6,7 +6,7 @@ test('isTextBlock should work for text blocks', () => {
   const knownTextBlocks = [
     BlockType.Text,
     BlockType.Quote,
-    BlockType.H1, 
+    BlockType.H1,
     BlockType.H2,
     BlockType.H3
   ] as any[]
