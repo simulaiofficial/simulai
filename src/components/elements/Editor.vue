@@ -45,7 +45,6 @@ const emit = defineEmits(['update:modelValue', 'typingCompleted'])
 
 const value = computed({
   get() {
-    debugger;
     const mdValue = props.modelValue
     if (mdValue) {
       return markdownToHtml(mdValue)
@@ -105,7 +104,6 @@ watch(() => props.modelValue, value => {
 
 // Typing effect function for HTML as text
 function typeHtml(html, index = 0) {
-  debugger;
   if (index < html.length) {
     editor.value?.commands.insertContent(html.charAt(index), { updateSelection: false });
     setTimeout(() => typeHtml(html, index + 1), 20); // Adjust delay for typing speed
@@ -119,7 +117,6 @@ function typeHtml(html, index = 0) {
 // Trigger the typing effect on component mount or based on a specific condition
 onMounted(() => {
   if(props.typing) {
-    debugger;
     // typeHtml(htmlToMarkdown(value.value));
     const htmlValue = value.value
     typeHtml(htmlValue);

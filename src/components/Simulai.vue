@@ -189,6 +189,7 @@ import {validateInputBlock, validateUIBlock} from "@/utils/validation";
 import {calculateConditionAction} from "@/utils/conditions";
 import Dropdown from './elements/Dropdown.vue';
 import Tooltip from './elements/Tooltip.vue'
+import nlp from 'compromise';
 
 const showButtons = computed(() => {
   // console.log(props.page.isChat)
@@ -198,7 +199,7 @@ const showButtons = computed(() => {
 const props = defineProps({
   page: {
     type: Object as PropType<{
-      name: string, isChat: boolean, isPreview: boolean, workspaceBots: WorkspaceBot[], blocks: Block[], saveUrl: string, uploadUrl: string, avatarUrl: string, botName: string
+      name: string, isChat: boolean, isPreview: boolean, workspaceBots: WorkspaceBot[], blocks: Block[], saveUrl: string, uploadUrl: string, avatarUrl: string, askUrl: string, botName: string
     }>,
     required: true,
   },
@@ -308,6 +309,39 @@ async function saveData() {
   } catch (error) {
     showErrorMessage('Cannot save! You may have an invalid configuration of your bot, please check it.')
     console.error('Error fetching data:', error);
+  }
+}
+
+async function askForAnswer(question: string) {
+  if (!props.page.askUrl) {
+    return null;
+  }
+  try {
+    const response = await fetch(props.page.askUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        // Add any other headers you need
+      },
+      body: JSON.stringify({
+        'question': question,
+        'blocks': props.page.blocks
+      }),
+    });
+
+    if (!response.ok) {
+      showErrorMessage((await response.json()).detail)
+      return
+      // throw new Error('Network response was not ok');
+    }
+
+    const data = await response.json();
+    console.log("Data saved", data);
+    return data.answer;
+  } catch (error) {
+    // showErrorMessage('Cannot save! You may have an invalid configuration of your bot, please check it.')
+    console.error('Error fetching data:', error);
+    return null;
   }
 }
 
@@ -517,7 +551,7 @@ function showNextBlock() {
             foundItem.isHidden = true
           }
         })
-        currentVisibleBlock.value  = currentVisibleBlock.value + 1
+        currentVisibleBlock.value = currentVisibleBlock.value + 1
       } else if (jump !== null) {
         // const foundItem = props.page.blocks.find(block => block.id === jump)
         let i = currentVisibleBlock.value + 1
@@ -540,7 +574,7 @@ function showNextBlock() {
 
         // Insert foundBotBlocks after currentIndex
         props.page.blocks.splice(currentVisibleBlock.value + 1, 0, ...foundBotBlocks);
-        currentVisibleBlock.value  = currentVisibleBlock.value + 1
+        currentVisibleBlock.value = currentVisibleBlock.value + 1
       } else if (url !== null) {
         if (window.self === window.top) {
           window.location.href = url;
@@ -549,7 +583,7 @@ function showNextBlock() {
         }
         return;
       } else {
-        currentVisibleBlock.value  = currentVisibleBlock.value + 1
+        currentVisibleBlock.value = currentVisibleBlock.value + 1
       }
 
       setTimeout(() => {
@@ -651,7 +685,7 @@ function validateNextBlock(block) {
   }
 }
 
-function handleChatInput(inputValue) {
+async function handleChatInput(inputValue) {
   const nowBlock = props.page.blocks[currentVisibleBlock.value]
 
   if (getBlockOptions(nowBlock).isNextButton) {
@@ -684,6 +718,29 @@ function handleChatInput(inputValue) {
     },
   }
   const putIndex = addBlockAfterCurrent(conversationBlock)
+  scrollToBottom()
+
+  var containsQuestion = nlp(inputValue).questions().data().length >= 1;
+
+  if (containsQuestion) {
+    const answer = await askForAnswer(inputValue);
+
+    if (answer) {
+      const conversationBotBlock = {
+        id: uuidv4(),
+        type: BlockType.ConversationBot,
+        details: {
+          value: answer
+        },
+      }
+      const lastBotIndex = addBlockAfterCurrent(conversationBotBlock, putIndex)
+      showUntilAndWait = lastBotIndex
+      showNextBlock()
+      // showNextBlock()
+      scrollToBottom()
+      return;
+    }
+  }
 
   let inputBlock = null
 

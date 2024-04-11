@@ -30,6 +30,7 @@
     "@tiptap/extension-task-list": "^2.0.0-beta.195",
     "@tiptap/starter-kit": "^2.0.0-beta.191",
     "@tiptap/vue-3": "^2.0.0-beta.96",
+    "compromise": "^14.13.0",
     "fuse.js": "^6.6.2",
     "joi": "^17.11.0",
     "lodash": "^4.17.21",

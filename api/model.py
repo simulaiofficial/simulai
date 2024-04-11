@@ -354,6 +354,7 @@ class Page(BaseModel):
     saveUrl: str
     uploadUrl: Optional[str] = None
     avatarUrl: Optional[str] = None
+    askUrl: Optional[str] = None
     botName: Optional[str] = None
 
 
