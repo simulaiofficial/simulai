@@ -11,7 +11,11 @@
 
 <p align="center">
 
-https://github.com/simulaiofficial/simulai/assets/149245098/6f319401-0f6d-4c33-a456-4ecd7cdf8458
+
+
+https://github.com/simulaiofficial/simulai/assets/149245098/6ea9df0a-f52d-4e9e-8385-d099ac57fdf3
+
+
 
 </p>
 
