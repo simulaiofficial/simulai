@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-s
+
 https://github.com/simulaiofficial/simulai/assets/149245098/6f319401-0f6d-4c33-a456-4ecd7cdf8458
 
 </p>
