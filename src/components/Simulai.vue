@@ -760,7 +760,7 @@ async function handleChatInput(inputValue) {
   const putIndex = addBlockAfterCurrent(conversationBlock)
   scrollToBottom()
 
-  var containsQuestion = nlp(inputValue).questions().data().length >= 1;
+  var containsQuestion = nlp(inputValue).questions().data().length === 1;
 
   if (containsQuestion) {
     let answer = await askForAnswer(inputValue);
@@ -782,21 +782,21 @@ async function handleChatInput(inputValue) {
       // showNextBlock()
       scrollToBottom()
       return;
+    } else if (lastTextValue.value !== null) {
+      const conversationBotBlock = {
+        id: uuidv4(),
+        type: BlockType.ConversationBot,
+        details: {
+          value: lastTextValue.value
+        },
+      }
+      const lastBotIndex = addBlockAfterCurrent(conversationBotBlock, putIndex)
+      showUntilAndWait = lastBotIndex
+      showNextBlock()
+      // showNextBlock()
+      scrollToBottom()
+      return;
     }
-  } else if (lastTextValue.value !== null) {
-    const conversationBotBlock = {
-      id: uuidv4(),
-      type: BlockType.ConversationBot,
-      details: {
-        value: lastTextValue.value
-      },
-    }
-    const lastBotIndex = addBlockAfterCurrent(conversationBotBlock, putIndex)
-    showUntilAndWait = lastBotIndex
-    showNextBlock()
-    // showNextBlock()
-    scrollToBottom()
-    return;
   }
 
   let inputBlock = null
