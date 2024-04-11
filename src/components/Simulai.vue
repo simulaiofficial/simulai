@@ -767,7 +767,7 @@ async function handleChatInput(inputValue) {
 
     if (answer) {
       if (lastTextValue.value !== null) {
-        answer = answer + ' ➡️➡️ ' + lastTextValue.value;
+        answer = answer + ' ↩️➡️ ' + lastTextValue.value;
       }
       const conversationBotBlock = {
         id: uuidv4(),
