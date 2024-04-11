@@ -1,9 +1,9 @@
 <h1 align="center"><b>🤖 simulai</b></h1>
 <p align="center">
-  simulai is a Notion-inspired open-source conversational surveys builder.
+  simulai is a Notion-inspired open-source conversational surveys builder, powered by AI.
 </p>
 <p align="center">
-  Effortlessly design your interactive forms that mimic natural conversations. Ideal for gathering insights and engaging users in interactive surveys, our tool is inspired by the simplicity of Notion and is completely free and open-source.
+  Effortlessly design your interactive forms that mimic natural conversations, powered by AI. Ideal for gathering insights and engaging users in interactive surveys, our tool is inspired by the simplicity of Notion and is completely free and open-source.
 </p>
 <p align="center">
   <a href="https://www.simulai.co" target="_blank">Try Simulai online for free</a>
@@ -18,6 +18,7 @@ https://github.com/simulaiofficial/simulai/assets/149245098/6f319401-0f6d-4c33-a
 ## Features
 
 - [x] Block-based chatbot editor
+- [x] Conversations powered by AI (Let AI answer inquires regarding your questions/survey/form within form).
 - [x] Drag to reorder blocks
 - [x] Basic Markdown-parsing including bold, italic, URLs, headings and divider
 - [x] Type '/' for command menu and shortcuts
