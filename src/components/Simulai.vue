@@ -291,6 +291,8 @@ const infoMessage = ref('');
 const avatarUrl = ref(null);
 const botName = ref(null);
 
+const lastTextValue = ref(null);
+
 // Function to save data
 async function saveData() {
   if (props.page.isPreview) {
@@ -570,6 +572,10 @@ function showNextBlock() {
     visibleBlocksSeq.push(currentBlock)
   }
 
+  if (currentBlock.type === BlockType.Text) {
+    lastTextValue.value = currentBlock.details.value;
+  }
+
   if (currentBlock && !getBlockOptions(currentBlock).isInput) {
     // const timeout = getBlockOptions(currentBlock).isVirtualBlock ? 0 : 1000;
     if (currentBlock.type === BlockType.Condition) {
@@ -757,9 +763,12 @@ async function handleChatInput(inputValue) {
   var containsQuestion = nlp(inputValue).questions().data().length >= 1;
 
   if (containsQuestion) {
-    const answer = await askForAnswer(inputValue);
+    let answer = await askForAnswer(inputValue);
 
     if (answer) {
+      if (lastTextValue.value !== null) {
+        answer = answer + '<br><br>' + lastTextValue.value;
+      }
       const conversationBotBlock = {
         id: uuidv4(),
         type: BlockType.ConversationBot,
@@ -774,6 +783,20 @@ async function handleChatInput(inputValue) {
       scrollToBottom()
       return;
     }
+  } else if (lastTextValue.value !== null) {
+    const conversationBotBlock = {
+      id: uuidv4(),
+      type: BlockType.ConversationBot,
+      details: {
+        value: lastTextValue.value
+      },
+    }
+    const lastBotIndex = addBlockAfterCurrent(conversationBotBlock, putIndex)
+    showUntilAndWait = lastBotIndex
+    showNextBlock()
+    // showNextBlock()
+    scrollToBottom()
+    return;
   }
 
   let inputBlock = null
