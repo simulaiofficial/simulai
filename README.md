@@ -6,7 +6,7 @@
   Effortlessly design your interactive forms that mimic natural conversations, powered by AI. Let AI answer users inquires regarding your questions/survey/form within conversational forms. Ideal for gathering insights and engaging users in interactive surveys, our tool is inspired by the simplicity of Notion and is completely free and open-source.
 </p>
 <p align="center">
-  <a href="https://www.simulai.co" target="_blank">Try Simulai online for free</a>
+  <a href="https://www.simulai.co" target="_blank">Use Simulai for free</a>
 </p>
 
 <p align="center">
