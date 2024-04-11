@@ -18,7 +18,7 @@ https://github.com/simulaiofficial/simulai/assets/149245098/6f319401-0f6d-4c33-a
 ## Features
 
 - [x] Block-based chatbot editor
-- [x] Conversational forms powered by AI
+- [x] Conversational forms powered by AI (connect your API: OpenAI, Claude, Llama AI, ...)
 - [x] Provide data context for AI to answer users inquires in detail
 - [x] Drag to reorder blocks
 - [x] Basic Markdown-parsing including bold, italic, URLs, headings and divider
