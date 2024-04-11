@@ -138,6 +138,27 @@
       </button>
     </div>
   </div>
+  <div v-if="showAIContext"
+       class="modal fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center font-sans">
+    <div class="modal-content p-4 rounded shadow-lg border border-solid border-gray-600"
+         :style="{ backgroundColor: props.bgColor }"
+         style="width: 80%; max-width: 800px; height: 70%; max-height: 400px;">
+      <!-- Adjust width and height as needed -->
+      <h2 class="text-gray-200 text-lg mb-2 mt-0">Set Context For AI Bot</h2>
+      <textarea type="text" v-model="aiContext" class="w-full p-2 border-2 border-gray-300 rounded mb-2"
+                placeholder="Enter AI context here providing additional information about your survey to AI bot, so it can answer many questions for your users..."
+                ref="aiContextInput" style="height: 80%; max-height: 400px;"></textarea> <!-- Adjust textarea height -->
+      <button @click="saveData(); showAIContext = false;"
+              class="copy-button bg-blue-400 hover:bg-blue-500 text-white py-2 px-4 rounded cursor-pointer">
+        Save
+      </button>
+      <button @click="showAIContext = false;actionDropdownValue = null;"
+              class="close-button ml-2 bg-red-400 hover:bg-red-500 text-white py-2 px-4 rounded cursor-pointer">
+        Close
+      </button>
+    </div>
+  </div>
+
   <div v-if="showError" class="modal fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center font-sans">
     <div class="modal-content p-4 rounded shadow-lg border border-solid border-gray-600"
          :style="{ backgroundColor: props.bgColor }">
@@ -199,7 +220,7 @@ const showButtons = computed(() => {
 const props = defineProps({
   page: {
     type: Object as PropType<{
-      name: string, isChat: boolean, isPreview: boolean, workspaceBots: WorkspaceBot[], blocks: Block[], saveUrl: string, uploadUrl: string, avatarUrl: string, askUrl: string, botName: string
+      name: string, isChat: boolean, isPreview: boolean, workspaceBots: WorkspaceBot[], blocks: Block[], saveUrl: string, uploadUrl: string, avatarUrl: string, askUrl: string, context: string, botName: string
     }>,
     required: true,
   },
@@ -232,6 +253,7 @@ const props = defineProps({
 const actionDropdownOptions = ref([
   {value: "Avatar", name: 'Upload Avatar'},
   {value: "BotName", name: 'Set Bot Name'},
+  {value: "AIContext", name: 'Set AI Context'},
 ]);
 
 const actionDropdownValue = ref(null)
@@ -256,7 +278,9 @@ let showUntilAndWait = null
 const showError = ref(false); // Controls visibility of the modal
 const showInfo = ref(false);
 const showModal = ref(false);
+const showAIContext = ref(false);
 const publishUrl = ref(''); // Stores the publish URL
+const aiContext = ref(null);
 const publishUrlInput = ref(null); // Reference to the input element
 
 const isDataSaved = ref(false); // This will track the save status
@@ -272,7 +296,9 @@ async function saveData() {
   if (props.page.isPreview) {
     return
   }
+  actionDropdownValue.value = null;
   try {
+    debugger;
     const response = await fetch(props.page.saveUrl, {
       method: 'POST',
       headers: {
@@ -283,6 +309,7 @@ async function saveData() {
         'name': props.page.name,
         'blocks': props.page.blocks,
         'avatarUrl': avatarUrl.value,
+        'context': aiContext.value,
         'botName': botName.value
       }),
     });
@@ -369,6 +396,13 @@ function setBotName() {
     botName.value = botNameString
   }
   actionDropdownValue.value = null;
+}
+
+function setAIContext() {
+  showAIContext.value = true;
+  if (props.page.context) {
+    aiContext.value = props.page.context;
+  }
 }
 
 async function setAvatar() {
@@ -1219,10 +1253,13 @@ watch(() => props.page.blocks, blocks => {
 }, {deep: true})
 
 watch([actionDropdownValue], () => {
+  debugger;
   if (actionDropdownValue.value === 'Avatar') {
     setAvatar()
   } else if (actionDropdownValue.value === 'BotName') {
     setBotName()
+  } else if (actionDropdownValue.value === 'AIContext') {
+    setAIContext()
   }
 })
 
