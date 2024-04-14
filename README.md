@@ -7,6 +7,7 @@
 </p>
 <p align="center">
   <a href="https://www.simulai.co" target="_blank">Use Simulai for free</a>
+  <a href="https://www.youtube.com/@simulai" target="_blank">YouTube Channel</a>
 </p>
 
 <p align="center">
