@@ -527,7 +527,9 @@ function showNextBlock() {
 
   const nowBlock = props.page.blocks[currentVisibleBlock.value]
 
-  lastBlockId.value = nowBlock.id
+  if(nowBlock) {
+    lastBlockId.value = nowBlock.id
+  }
 
   if (currentVisibleBlock.value === null) {
     currentVisibleBlock.value = 0
