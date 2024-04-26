@@ -343,7 +343,7 @@ async function saveData() {
   }
 }
 
-async function askForAnswer(question: string) {
+async function askForAnswer(question: string, lastText: string) {
   if (!props.page.askUrl) {
     return null;
   }
@@ -357,7 +357,8 @@ async function askForAnswer(question: string) {
       body: JSON.stringify({
         'question': question,
         'blocks': props.page.blocks,
-        'lastBlockId': lastBlockId.value
+        'lastBlockId': lastBlockId.value,
+        'lastText': lastText
       }),
     });
 
@@ -770,12 +771,9 @@ async function handleChatInput(inputValue) {
   var containsQuestion = nlp(inputValue).questions().data().length === 1;
 
   if (containsQuestion) {
-    let answer = await askForAnswer(inputValue);
+    let answer = await askForAnswer(inputValue, lastTextValue.value);
 
     if (answer) {
-      if (lastTextValue.value !== null) {
-        answer = answer + ' ↩️➡️ ' + lastTextValue.value;
-      }
       const conversationBotBlock = {
         id: uuidv4(),
         type: BlockType.ConversationBot,
