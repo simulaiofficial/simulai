@@ -293,6 +293,8 @@ const botName = ref(null);
 
 const lastTextValue = ref(null);
 
+const lastBlockId = ref(null);
+
 // Function to save data
 async function saveData() {
   if (props.page.isPreview) {
@@ -354,7 +356,8 @@ async function askForAnswer(question: string) {
       },
       body: JSON.stringify({
         'question': question,
-        'blocks': props.page.blocks
+        'blocks': props.page.blocks,
+        'lastBlockId': lastBlockId.value
       }),
     });
 
@@ -523,6 +526,8 @@ function showNextBlock() {
   }
 
   const nowBlock = props.page.blocks[currentVisibleBlock.value]
+
+  lastBlockId.value = nowBlock.id
 
   if (currentVisibleBlock.value === null) {
     currentVisibleBlock.value = 0
